@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class='template_session_title'>
+    <span>Edición de la plantilla de sesiones</span>
+  </div>
+  <div id="container">
+    <div class='table-responsive-vertical shadow-z-1'>
+      <table class="table table-hover table-mc-light-blue">
+        <thead>
+          <tr>
+            <th>Día</th>
+            {% for h in hours %}
+              <th>{{ h }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+        {% for day_row in days %}
+          <tr>
+            <td class='session session_header'>{{ day_row.0 }}</td>
+            {% for day in day_row|slice:"1:" %}
+              <td class="session {% if not day.session %}not_session{% else %}session_closed{% endif %}" data-title='{{ day.hour_title }}'>
+                <form action="{% if day.session %}{% url 'session-template-delete' %}{% else %}{% url 'session-template-create' %}{% endif %}" method="post">
+                  <input type="hidden" id="session" name="session" value="{{ day.session }}">
+                  <input type="hidden" id="day" name="day" value="{{ day.day }}">
+                  <input type="hidden" id="hour" name="hour" value="{{ day.hour }}">
+                  <button class="reserva_submit" type="submit">
+                      <i class="fa {% if day.session %}fa-times{% else %}fa-plus{% endif %}"></i>
+                  </button>
+                </form>
+              </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content %}

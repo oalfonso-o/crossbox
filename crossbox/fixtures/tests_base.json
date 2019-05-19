@@ -1,0 +1,1781 @@
+[
+{
+    "model": "crossbox.hour",
+    "pk": 1,
+    "fields": {
+        "hour": "08:00:00"
+    }
+},
+{
+    "model": "crossbox.hour",
+    "pk": 2,
+    "fields": {
+        "hour": "09:00:00"
+    }
+},
+{
+    "model": "crossbox.hour",
+    "pk": 3,
+    "fields": {
+        "hour": "10:00:00"
+    }
+},
+{
+    "model": "crossbox.hour",
+    "pk": 4,
+    "fields": {
+        "hour": "11:00:00"
+    }
+},
+{
+    "model": "crossbox.hour",
+    "pk": 5,
+    "fields": {
+        "hour": "12:00:00"
+    }
+},
+{
+    "model": "crossbox.hour",
+    "pk": 6,
+    "fields": {
+        "hour": "13:00:00"
+    }
+},
+{
+    "model": "crossbox.hour",
+    "pk": 7,
+    "fields": {
+        "hour": "14:00:00"
+    }
+},
+{
+    "model": "crossbox.hour",
+    "pk": 8,
+    "fields": {
+        "hour": "15:00:00"
+    }
+},
+{
+    "model": "crossbox.hour",
+    "pk": 9,
+    "fields": {
+        "hour": "16:00:00"
+    }
+},
+{
+    "model": "crossbox.hour",
+    "pk": 10,
+    "fields": {
+        "hour": "17:00:00"
+    }
+},
+{
+    "model": "crossbox.hour",
+    "pk": 11,
+    "fields": {
+        "hour": "18:00:00"
+    }
+},
+{
+    "model": "crossbox.hour",
+    "pk": 12,
+    "fields": {
+        "hour": "19:00:00"
+    }
+},
+{
+    "model": "crossbox.hour",
+    "pk": 13,
+    "fields": {
+        "hour": "20:00:00"
+    }
+},
+{
+    "model": "crossbox.hour",
+    "pk": 14,
+    "fields": {
+        "hour": "21:00:00"
+    }
+},
+{
+    "model": "crossbox.reservation",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "session": 21,
+        "assisted": true
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 1,
+    "fields": {
+        "date": "2018-12-31",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 2,
+    "fields": {
+        "date": "2018-12-31",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 3,
+    "fields": {
+        "date": "2018-12-31",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 4,
+    "fields": {
+        "date": "2018-12-31",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 5,
+    "fields": {
+        "date": "2018-12-31",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 6,
+    "fields": {
+        "date": "2018-12-31",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 7,
+    "fields": {
+        "date": "2018-12-31",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 8,
+    "fields": {
+        "date": "2018-12-31",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 9,
+    "fields": {
+        "date": "2019-01-01",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 10,
+    "fields": {
+        "date": "2019-01-01",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 11,
+    "fields": {
+        "date": "2019-01-01",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 12,
+    "fields": {
+        "date": "2019-01-01",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 13,
+    "fields": {
+        "date": "2019-01-01",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 14,
+    "fields": {
+        "date": "2019-01-01",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 15,
+    "fields": {
+        "date": "2019-01-01",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 16,
+    "fields": {
+        "date": "2019-01-01",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 17,
+    "fields": {
+        "date": "2019-01-02",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 18,
+    "fields": {
+        "date": "2019-01-02",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 19,
+    "fields": {
+        "date": "2019-01-02",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 20,
+    "fields": {
+        "date": "2019-01-02",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 21,
+    "fields": {
+        "date": "2019-01-02",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 22,
+    "fields": {
+        "date": "2019-01-02",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 23,
+    "fields": {
+        "date": "2019-01-02",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 24,
+    "fields": {
+        "date": "2019-01-02",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 25,
+    "fields": {
+        "date": "2019-01-03",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 26,
+    "fields": {
+        "date": "2019-01-03",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 27,
+    "fields": {
+        "date": "2019-01-03",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 28,
+    "fields": {
+        "date": "2019-01-03",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 29,
+    "fields": {
+        "date": "2019-01-03",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 30,
+    "fields": {
+        "date": "2019-01-03",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 31,
+    "fields": {
+        "date": "2019-01-03",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 32,
+    "fields": {
+        "date": "2019-01-03",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 33,
+    "fields": {
+        "date": "2019-01-04",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 34,
+    "fields": {
+        "date": "2019-01-04",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 35,
+    "fields": {
+        "date": "2019-01-04",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 36,
+    "fields": {
+        "date": "2019-01-04",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 37,
+    "fields": {
+        "date": "2019-01-04",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 38,
+    "fields": {
+        "date": "2019-01-04",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 39,
+    "fields": {
+        "date": "2019-01-04",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 40,
+    "fields": {
+        "date": "2019-01-04",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 41,
+    "fields": {
+        "date": "2019-04-01",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 42,
+    "fields": {
+        "date": "2019-04-01",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 43,
+    "fields": {
+        "date": "2019-04-01",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 44,
+    "fields": {
+        "date": "2019-04-01",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 45,
+    "fields": {
+        "date": "2019-04-01",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 46,
+    "fields": {
+        "date": "2019-04-01",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 47,
+    "fields": {
+        "date": "2019-04-01",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 48,
+    "fields": {
+        "date": "2019-04-01",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 49,
+    "fields": {
+        "date": "2019-04-02",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 50,
+    "fields": {
+        "date": "2019-04-02",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 51,
+    "fields": {
+        "date": "2019-04-02",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 52,
+    "fields": {
+        "date": "2019-04-02",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 53,
+    "fields": {
+        "date": "2019-04-02",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 54,
+    "fields": {
+        "date": "2019-04-02",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 55,
+    "fields": {
+        "date": "2019-04-02",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 56,
+    "fields": {
+        "date": "2019-04-02",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 57,
+    "fields": {
+        "date": "2019-04-03",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 58,
+    "fields": {
+        "date": "2019-04-03",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 59,
+    "fields": {
+        "date": "2019-04-03",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 60,
+    "fields": {
+        "date": "2019-04-03",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 61,
+    "fields": {
+        "date": "2019-04-03",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 62,
+    "fields": {
+        "date": "2019-04-03",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 63,
+    "fields": {
+        "date": "2019-04-03",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 64,
+    "fields": {
+        "date": "2019-04-03",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 65,
+    "fields": {
+        "date": "2019-04-04",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 66,
+    "fields": {
+        "date": "2019-04-04",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 67,
+    "fields": {
+        "date": "2019-04-04",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 68,
+    "fields": {
+        "date": "2019-04-04",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 69,
+    "fields": {
+        "date": "2019-04-04",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 70,
+    "fields": {
+        "date": "2019-04-04",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 71,
+    "fields": {
+        "date": "2019-04-04",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 72,
+    "fields": {
+        "date": "2019-04-04",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 73,
+    "fields": {
+        "date": "2019-04-05",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 74,
+    "fields": {
+        "date": "2019-04-05",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 75,
+    "fields": {
+        "date": "2019-04-05",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 76,
+    "fields": {
+        "date": "2019-04-05",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 77,
+    "fields": {
+        "date": "2019-04-05",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 78,
+    "fields": {
+        "date": "2019-04-05",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 79,
+    "fields": {
+        "date": "2019-04-05",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 80,
+    "fields": {
+        "date": "2019-04-05",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 81,
+    "fields": {
+        "date": "2019-04-06",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 82,
+    "fields": {
+        "date": "2019-04-06",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 83,
+    "fields": {
+        "date": "2019-04-08",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 84,
+    "fields": {
+        "date": "2019-04-08",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 85,
+    "fields": {
+        "date": "2019-04-08",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 86,
+    "fields": {
+        "date": "2019-04-08",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 87,
+    "fields": {
+        "date": "2019-04-08",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 88,
+    "fields": {
+        "date": "2019-04-08",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 89,
+    "fields": {
+        "date": "2019-04-08",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 90,
+    "fields": {
+        "date": "2019-04-08",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 91,
+    "fields": {
+        "date": "2019-04-09",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 92,
+    "fields": {
+        "date": "2019-04-09",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 93,
+    "fields": {
+        "date": "2019-04-09",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 94,
+    "fields": {
+        "date": "2019-04-09",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 95,
+    "fields": {
+        "date": "2019-04-09",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 96,
+    "fields": {
+        "date": "2019-04-09",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 97,
+    "fields": {
+        "date": "2019-04-09",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 98,
+    "fields": {
+        "date": "2019-04-09",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 99,
+    "fields": {
+        "date": "2019-04-10",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 100,
+    "fields": {
+        "date": "2019-04-10",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 101,
+    "fields": {
+        "date": "2019-04-10",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 102,
+    "fields": {
+        "date": "2019-04-10",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 103,
+    "fields": {
+        "date": "2019-04-10",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 104,
+    "fields": {
+        "date": "2019-04-10",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 105,
+    "fields": {
+        "date": "2019-04-10",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 106,
+    "fields": {
+        "date": "2019-04-10",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 107,
+    "fields": {
+        "date": "2019-04-11",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 108,
+    "fields": {
+        "date": "2019-04-11",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 109,
+    "fields": {
+        "date": "2019-04-11",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 110,
+    "fields": {
+        "date": "2019-04-11",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 111,
+    "fields": {
+        "date": "2019-04-11",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 112,
+    "fields": {
+        "date": "2019-04-11",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 113,
+    "fields": {
+        "date": "2019-04-11",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 114,
+    "fields": {
+        "date": "2019-04-11",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 115,
+    "fields": {
+        "date": "2019-04-12",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 116,
+    "fields": {
+        "date": "2019-04-12",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 117,
+    "fields": {
+        "date": "2019-04-12",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 118,
+    "fields": {
+        "date": "2019-04-12",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 119,
+    "fields": {
+        "date": "2019-04-12",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 120,
+    "fields": {
+        "date": "2019-04-12",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 121,
+    "fields": {
+        "date": "2019-04-12",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 122,
+    "fields": {
+        "date": "2019-04-12",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 123,
+    "fields": {
+        "date": "2019-05-13",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 124,
+    "fields": {
+        "date": "2019-05-13",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 125,
+    "fields": {
+        "date": "2019-05-13",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 126,
+    "fields": {
+        "date": "2019-05-13",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 127,
+    "fields": {
+        "date": "2019-05-13",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 128,
+    "fields": {
+        "date": "2019-05-13",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 129,
+    "fields": {
+        "date": "2019-05-13",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 130,
+    "fields": {
+        "date": "2019-05-13",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 131,
+    "fields": {
+        "date": "2019-05-14",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 132,
+    "fields": {
+        "date": "2019-05-14",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 133,
+    "fields": {
+        "date": "2019-05-14",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 134,
+    "fields": {
+        "date": "2019-05-14",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 135,
+    "fields": {
+        "date": "2019-05-14",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 136,
+    "fields": {
+        "date": "2019-05-14",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 137,
+    "fields": {
+        "date": "2019-05-14",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 138,
+    "fields": {
+        "date": "2019-05-14",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 139,
+    "fields": {
+        "date": "2019-05-15",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 140,
+    "fields": {
+        "date": "2019-05-15",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 141,
+    "fields": {
+        "date": "2019-05-15",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 142,
+    "fields": {
+        "date": "2019-05-15",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 143,
+    "fields": {
+        "date": "2019-05-15",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 144,
+    "fields": {
+        "date": "2019-05-15",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 145,
+    "fields": {
+        "date": "2019-05-15",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 146,
+    "fields": {
+        "date": "2019-05-15",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 147,
+    "fields": {
+        "date": "2019-05-16",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 148,
+    "fields": {
+        "date": "2019-05-16",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 149,
+    "fields": {
+        "date": "2019-05-16",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 150,
+    "fields": {
+        "date": "2019-05-16",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 151,
+    "fields": {
+        "date": "2019-05-16",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 152,
+    "fields": {
+        "date": "2019-05-16",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 153,
+    "fields": {
+        "date": "2019-05-16",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 154,
+    "fields": {
+        "date": "2019-05-16",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 155,
+    "fields": {
+        "date": "2019-05-17",
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 156,
+    "fields": {
+        "date": "2019-05-17",
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 157,
+    "fields": {
+        "date": "2019-05-17",
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 158,
+    "fields": {
+        "date": "2019-05-17",
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 159,
+    "fields": {
+        "date": "2019-05-17",
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 160,
+    "fields": {
+        "date": "2019-05-17",
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 161,
+    "fields": {
+        "date": "2019-05-17",
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.session",
+    "pk": 162,
+    "fields": {
+        "date": "2019-05-17",
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.day",
+    "pk": 1,
+    "fields": {
+        "name": "Lunes",
+        "weekday": 0
+    }
+},
+{
+    "model": "crossbox.day",
+    "pk": 2,
+    "fields": {
+        "name": "Martes",
+        "weekday": 1
+    }
+},
+{
+    "model": "crossbox.day",
+    "pk": 3,
+    "fields": {
+        "name": "Mi\u00e9rcoles",
+        "weekday": 2
+    }
+},
+{
+    "model": "crossbox.day",
+    "pk": 4,
+    "fields": {
+        "name": "Jueves",
+        "weekday": 3
+    }
+},
+{
+    "model": "crossbox.day",
+    "pk": 5,
+    "fields": {
+        "name": "Viernes",
+        "weekday": 4
+    }
+},
+{
+    "model": "crossbox.day",
+    "pk": 6,
+    "fields": {
+        "name": "S\u00e1bado",
+        "weekday": 5
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 1,
+    "fields": {
+        "day": 1,
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 2,
+    "fields": {
+        "day": 1,
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 3,
+    "fields": {
+        "day": 1,
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 4,
+    "fields": {
+        "day": 1,
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 5,
+    "fields": {
+        "day": 1,
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 6,
+    "fields": {
+        "day": 1,
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 7,
+    "fields": {
+        "day": 1,
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 8,
+    "fields": {
+        "day": 1,
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 9,
+    "fields": {
+        "day": 2,
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 10,
+    "fields": {
+        "day": 2,
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 11,
+    "fields": {
+        "day": 2,
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 12,
+    "fields": {
+        "day": 2,
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 13,
+    "fields": {
+        "day": 2,
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 14,
+    "fields": {
+        "day": 2,
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 15,
+    "fields": {
+        "day": 2,
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 16,
+    "fields": {
+        "day": 2,
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 17,
+    "fields": {
+        "day": 3,
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 18,
+    "fields": {
+        "day": 3,
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 19,
+    "fields": {
+        "day": 3,
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 20,
+    "fields": {
+        "day": 3,
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 21,
+    "fields": {
+        "day": 3,
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 22,
+    "fields": {
+        "day": 3,
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 23,
+    "fields": {
+        "day": 3,
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 24,
+    "fields": {
+        "day": 3,
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 25,
+    "fields": {
+        "day": 4,
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 26,
+    "fields": {
+        "day": 4,
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 27,
+    "fields": {
+        "day": 4,
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 28,
+    "fields": {
+        "day": 4,
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 29,
+    "fields": {
+        "day": 4,
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 30,
+    "fields": {
+        "day": 4,
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 31,
+    "fields": {
+        "day": 4,
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 32,
+    "fields": {
+        "day": 4,
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 33,
+    "fields": {
+        "day": 5,
+        "hour": 3
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 34,
+    "fields": {
+        "day": 5,
+        "hour": 4
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 35,
+    "fields": {
+        "day": 5,
+        "hour": 5
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 36,
+    "fields": {
+        "day": 5,
+        "hour": 6
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 37,
+    "fields": {
+        "day": 5,
+        "hour": 10
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 38,
+    "fields": {
+        "day": 5,
+        "hour": 11
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 39,
+    "fields": {
+        "day": 5,
+        "hour": 12
+    }
+},
+{
+    "model": "crossbox.sessiontemplate",
+    "pk": 40,
+    "fields": {
+        "day": 5,
+        "hour": 13
+    }
+},
+{
+    "model": "crossbox.subscriber",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "wods": 12
+    }
+}
+]

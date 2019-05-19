@@ -1,0 +1,48 @@
+{% load staticfiles i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <link rel='stylesheet' href='{% static "css/style.css" %}'>
+    <link rel='stylesheet' href='{% static "css/table.css" %}'>
+    <link rel='stylesheet' href='{% static "css/checkbox.css" %}'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel='shortcut icon' type='image/png' href='{% static "favicon.ico" %}' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/buefy"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{% static 'js/table.js' %}"></script>
+    <title>CrossBox Palau - Reservas</title>
+  </head>
+  <body>
+    <div class='header'>
+      <div class='logo'>
+        <img height='110' src='{% static "images/logo.png" %}'>
+      </div>
+      <div class='profile'>
+        <span class='u-margin-left'>{{ user.username }} (<a href='{% url "logout" %}'>Logout</a>)</span>
+      </div>
+      <div class='profile'>
+        <span class='u-margin-left'><a href='{% url "reservation" %}'>Inicio</a></span>
+      </div>
+      {% if user.is_staff %}
+        <div class='profile'>
+          <span class='u-margin-left'><a href='{% url "admin:index" %}'>Administración</a></span>
+        </div>
+        <div class='profile'>
+          <span class='u-margin-left'><a href='{% url "session-template" %}'>Plantilla de Sesiones</a></span>
+        </div>
+        <div class='profile'>
+          <span class='u-margin-left'><a href="{% url 'generate-sessions' %}?page={{ page }}">Generar sesiones</a></span>
+        </div>
+      {% endif %}
+    </div>
+    <div class='body'>
+      {% block content %}
+      {% endblock content %}
+    </div>
+  </body> 
+</html>

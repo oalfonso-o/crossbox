@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang='es'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width,initial-scale=1,user-scalable=0'>
+  <meta name='theme-color' content='#fff'/>
+  <link rel='shortcut icon' type='image/png' href='{% static "favicon.ico" %}' />
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+  <link rel='stylesheet' href='{% static "css/style.css" %}'>
+  <title>CrossBox Palau</title>
+
+  <style>
+    :root {
+      --spacing: 15px;
+      --primary-color: #3A64B8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      color: #9b9b9b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100%;
+      padding: 0;
+      margin: 0;
+      background-image: url('{% static "images/bg.png" %}');
+    }
+
+    .c-login {
+      width: min-content;
+      max-width: 295px;
+      padding: 20px;
+      border-radius: 2px;
+      border: 2px solid #e5e5e5;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .c-login__logo {
+      width: 120px;
+      display: inline-block;
+    }
+
+    .c-login__form {
+      align-items: center;
+      text-align: center;
+      box-sizing: unset;
+    }
+    .c-login__form > .errorlist {
+      display: none;
+    }
+
+    .c-login__input {
+      font-size: 1em;
+      border: 1px solid #e2e2e2;
+      padding: var(--spacing);
+      margin: 0;
+      border-radius: 0;
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    .c-login__input:focus,
+    .c-login__input:visited {
+      outline: none;
+      box-shadow: inset 0 -5px 3px #f4f4f4;
+    }
+
+    .c-login__button {
+      height: 50px;
+      border-radius: 2px;
+      color: #fff;
+      text-transform: uppercase;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      background-color: black;
+      padding: 0 30px;
+      font-size: 1.2em;
+    }
+
+    .c-errors {
+      background-color: #D0021B;
+      border-radius: var(--border-radius);
+      color: #fff;
+      margin-top: 10px;
+      font-size: 1em;
+      padding: 10px;
+      list-style: none;
+    }
+
+    .c-copy {
+      position: absolute;
+      bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 20px;
+      font-size: 0.8em;
+    }
+  </style>
+</head>
+<body>
+  <div class='c-login'>
+    {% block user_form %}
+    {% endblock user_form %}
+  </div>
+  <!-- <div class='c-copy'>
+    <span>© CrossBox - Palau {% now 'Y' %}</span>
+  </div> -->
+</body>
+</html>

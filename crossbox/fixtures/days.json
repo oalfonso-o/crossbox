@@ -1,0 +1,42 @@
+[
+    {
+        "model": "crossbox.day",
+        "pk": 1,
+        "fields": {
+            "name": "Lunes",
+            "weekday": 0
+        }
+    },
+    {
+        "model": "crossbox.day",
+        "pk": 2,
+        "fields": {
+            "name": "Martes",
+            "weekday": 1
+        }
+    },
+    {
+        "model": "crossbox.day",
+        "pk": 3,
+        "fields": {
+            "name": "Miércoles",
+            "weekday": 2
+        }
+    },
+    {
+        "model": "crossbox.day",
+        "pk": 4,
+        "fields": {
+            "name": "Jueves",
+            "weekday": 3
+        }
+    },
+    {
+        "model": "crossbox.day",
+        "pk": 5,
+        "fields": {
+            "name": "Viernes",
+            "weekday": 4
+        }
+    }
+]

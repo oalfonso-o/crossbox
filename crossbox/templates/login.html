@@ -1,0 +1,45 @@
+{% extends 'login_base.html' %}
+{% load static %}
+{% block user_form %}
+  <form class='c-login__form' method='post' action='{% url "login" %}' autocomplete='off'>
+    {% csrf_token %}
+    <div class='c-login__logo'><img height='55' src='{% static "images/logo.png" %}'></div>
+    <p>
+      <input
+        class='c-login__input'
+        type='text'
+        placeholder='Usuario'
+        autocorrect='off'
+        autocapitalize='off'
+        name='username'
+        id='username'
+        required
+        autofocus>
+    </p>
+    <p>
+      <input
+        class='c-login__input'
+        placeholder='Contraseña'
+        autocomplete='new-password'
+        autocorrect='off'
+        autocapitalize='off'
+        type='password'
+        name='password'
+        id='password'
+        required>
+    </p>
+    <button class='c-login__button' type='submit'>Login</button>
+  </form>
+  <div>
+    {% if form.non_field_errors %}
+      <ul class='c-errors'>
+        {% for error in form.non_field_errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+  <div class="register_or_login">
+    <a href="{% url 'user-create' %}"><span>Registrarse</span></a>
+  </div>
+{% endblock user_form %}

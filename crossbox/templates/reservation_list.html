@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <div id="container">
+    <div class="wods_container">
+      <wods :prop_wods="{{ wods }}">
+    </div>
+    <div class="next_prev">
+      <div class="prev">
+        <a href="{% url 'reservation' %}?page={{ page|add:"-1" }}">
+          <i class="fas fa-arrow-left arrow"></i>
+        </a>
+      </div>
+      <div class='week_title'>
+        <span>{{ from_date|date:"d F" }} - {{ to_date|date:"d F" }} - {{ to_date|date:"Y" }}</span>
+      </div>
+      <div class="next">
+        <a href="{% url 'reservation' %}?page={{ page|add:"1" }}">
+          <i class="fas fa-arrow-right arrow"></i>
+        </a>
+      </div>
+    </div>
+    <div class='table-responsive-vertical shadow-z-1'>
+      <table class="table table-hover table-mc-light-blue">
+        <thead>
+          <tr>
+            <th>Día</th>
+            {% for h in hours %}
+              <th>{{ h }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+        {% for day_row in days %}
+          <tr>
+            <td class='session session_header'>{{ day_row.0|date:'l d' }}</td>
+            {% for day in day_row|slice:"1:" %}
+              <td class="session {% if not day.session %}not_session{% elif day.session and day.session_closed %}session_closed{% elif day.reservations|length > 3 %}session_open{% endif %}" data-title='{{ day.hour }}'>
+                <ul>
+                <session
+                  :prop_reservations="{{ day.reservations }}"
+                  :prop_reservated={% if day.user_reservated %}true{% else %}false{% endif %}
+                  :session="{{ day.session }}"
+                  :session_closed={% if day.session_closed %}true{% else %}false{% endif %}
+                  :url_reservation_delete="{% url 'reservation-delete' %}"
+                  :url_reservation_create="{% url 'reservation-create' %}"
+                  :url_get_is_too_late="{% url 'get-is-too-late' %}"
+                  :page="{{ page }}"
+                >
+                </session>
+                </ul>
+              </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="{% static 'js/components/wods.js' %}"></script>
+  <script src="{% static 'js/components/session.js' %}"></script>
+  <script src="{% static 'js/components/vue_app.js' %}"></script>
+{% endblock content %}

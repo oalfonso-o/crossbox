@@ -1,0 +1,7 @@
+Django
+django-jet
+pytz
+python-dotenv
+django-filter
+djangorestframework
+bcrypt

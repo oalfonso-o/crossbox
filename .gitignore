@@ -1,0 +1,6 @@
+crossbox/settings/.env
+crossbox/__pycache__/*
+crossbox/*/__pycache__/*
+.env
+venv
+.vscode

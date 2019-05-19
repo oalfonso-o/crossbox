@@ -1,0 +1,100 @@
+[
+    {
+        "model": "crossbox.hour",
+        "pk": 1,
+        "fields": {
+            "hour": "08:00"
+        }
+    },
+    {
+        "model": "crossbox.hour",
+        "pk": 2,
+        "fields": {
+            "hour": "09:00"
+        }
+    },
+    {
+        "model": "crossbox.hour",
+        "pk": 3,
+        "fields": {
+            "hour": "10:00"
+        }
+    },
+    {
+        "model": "crossbox.hour",
+        "pk": 4,
+        "fields": {
+            "hour": "11:00"
+        }
+    },
+    {
+        "model": "crossbox.hour",
+        "pk": 5,
+        "fields": {
+            "hour": "12:00"
+        }
+    },
+    {
+        "model": "crossbox.hour",
+        "pk": 6,
+        "fields": {
+            "hour": "13:00"
+        }
+    },
+    {
+        "model": "crossbox.hour",
+        "pk": 7,
+        "fields": {
+            "hour": "14:00"
+        }
+    },
+    {
+        "model": "crossbox.hour",
+        "pk": 8,
+        "fields": {
+            "hour": "15:00"
+        }
+    },
+    {
+        "model": "crossbox.hour",
+        "pk": 9,
+        "fields": {
+            "hour": "16:00"
+        }
+    },
+    {
+        "model": "crossbox.hour",
+        "pk": 10,
+        "fields": {
+            "hour": "17:00"
+        }
+    },
+    {
+        "model": "crossbox.hour",
+        "pk": 11,
+        "fields": {
+            "hour": "18:00"
+        }
+    },
+    {
+        "model": "crossbox.hour",
+        "pk": 12,
+        "fields": {
+            "hour": "19:00"
+        }
+    },
+    {
+        "model": "crossbox.hour",
+        "pk": 13,
+        "fields": {
+            "hour": "20:00"
+        }
+    },
+    {
+        "model": "crossbox.hour",
+        "pk": 14,
+        "fields": {
+            "hour": "21:00"
+        }
+    }
+]

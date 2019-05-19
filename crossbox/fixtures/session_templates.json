@@ -1,0 +1,322 @@
+[
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 1,
+        "fields": {
+            "day": 1,
+            "hour": 3
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 2,
+        "fields": {
+            "day": 1,
+            "hour": 4
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 3,
+        "fields": {
+            "day": 1,
+            "hour": 5
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 4,
+        "fields": {
+            "day": 1,
+            "hour": 6
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 5,
+        "fields": {
+            "day": 1,
+            "hour": 10
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 6,
+        "fields": {
+            "day": 1,
+            "hour": 11
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 7,
+        "fields": {
+            "day": 1,
+            "hour": 12
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 8,
+        "fields": {
+            "day": 1,
+            "hour": 13
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 9,
+        "fields": {
+            "day": 2,
+            "hour": 3
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 10,
+        "fields": {
+            "day": 2,
+            "hour": 4
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 11,
+        "fields": {
+            "day": 2,
+            "hour": 5
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 12,
+        "fields": {
+            "day": 2,
+            "hour": 6
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 13,
+        "fields": {
+            "day": 2,
+            "hour": 10
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 14,
+        "fields": {
+            "day": 2,
+            "hour": 11
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 15,
+        "fields": {
+            "day": 2,
+            "hour": 12
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 16,
+        "fields": {
+            "day": 2,
+            "hour": 13
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 17,
+        "fields": {
+            "day": 3,
+            "hour": 3
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 18,
+        "fields": {
+            "day": 3,
+            "hour": 4
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 19,
+        "fields": {
+            "day": 3,
+            "hour": 5
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 20,
+        "fields": {
+            "day": 3,
+            "hour": 6
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 21,
+        "fields": {
+            "day": 3,
+            "hour": 10
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 22,
+        "fields": {
+            "day": 3,
+            "hour": 11
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 23,
+        "fields": {
+            "day": 3,
+            "hour": 12
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 24,
+        "fields": {
+            "day": 3,
+            "hour": 13
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 25,
+        "fields": {
+            "day": 4,
+            "hour": 3
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 26,
+        "fields": {
+            "day": 4,
+            "hour": 4
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 27,
+        "fields": {
+            "day": 4,
+            "hour": 5
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 28,
+        "fields": {
+            "day": 4,
+            "hour": 6
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 29,
+        "fields": {
+            "day": 4,
+            "hour": 10
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 30,
+        "fields": {
+            "day": 4,
+            "hour": 11
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 31,
+        "fields": {
+            "day": 4,
+            "hour": 12
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 32,
+        "fields": {
+            "day": 4,
+            "hour": 13
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 33,
+        "fields": {
+            "day": 5,
+            "hour": 3
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 34,
+        "fields": {
+            "day": 5,
+            "hour": 4
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 35,
+        "fields": {
+            "day": 5,
+            "hour": 5
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 36,
+        "fields": {
+            "day": 5,
+            "hour": 6
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 37,
+        "fields": {
+            "day": 5,
+            "hour": 10
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 38,
+        "fields": {
+            "day": 5,
+            "hour": 11
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 39,
+        "fields": {
+            "day": 5,
+            "hour": 12
+        }
+    },
+    {
+        "model": "crossbox.sessiontemplate",
+        "pk": 40,
+        "fields": {
+            "day": 5,
+            "hour": 13
+        }
+    }
+]
