@@ -91,6 +91,7 @@ def _error_response(request, msg, code):
 
 def reservation_delete(request):
     data = json.loads(request.body)
+    # TODO: check if session exists, now is returning is_too_late if not found
     if is_too_late(data['session']):
         return _error_response(request, 'is_too_late', HTTPStatus.FORBIDDEN)
     wods = getattr(request.user.subscriber, 'wods')
@@ -109,4 +110,6 @@ def reservation_delete(request):
         return JsonResponse({
             'result': 'deleted', 'username': request.user.username,
             'wods': request.user.subscriber.wods})
+    else:
+        return _error_response(request, 'is_too_late', HTTPStatus.FORBIDDEN)
     return _error_response(request, 'unhandled', HTTPStatus.BAD_REQUEST)

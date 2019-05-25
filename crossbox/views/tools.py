@@ -21,5 +21,8 @@ def get_monday_from_page(page_number):
 
 
 def is_too_late(session_id):
-    session = Session.objects.get(pk=session_id)
-    return bool(session.datetime() - datetime.now() < timedelta(hours=2))
+    try:
+        session = Session.objects.get(pk=session_id)
+        return bool(session.datetime() - datetime.now() < timedelta(hours=2))
+    except Session.DoesNotExist:
+        return True  # TODO: it's a lie

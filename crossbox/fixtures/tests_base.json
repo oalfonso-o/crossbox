@@ -101,7 +101,7 @@
     "model": "crossbox.reservation",
     "pk": 1,
     "fields": {
-        "user": 1,
+        "user": 13,
         "session": 21,
         "assisted": true
     }

@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.test import Client
 from django.contrib.auth.models import User
 
-from .data import EXPECTED_RESERVATION_DAYS
+from .constants import EXPECTED_RESERVATION_DAYS
 
 
 class ReservationsCase(TestCase):
@@ -45,8 +45,6 @@ class ReservationsCase(TestCase):
 
     def test_reservation_create_no_wods(self):
         """
-        given:
-        - a request to create a reservation arrives
         when:
         - that user's subscriber has no wods left
         then:
@@ -67,8 +65,6 @@ class ReservationsCase(TestCase):
 
     def test_reservation_create_already_reserved(self):
         """
-        given:
-        - a request to create a reservation arrives
         when:
         - that user's subscriber has already reserved in that session
         then:
@@ -89,6 +85,25 @@ class ReservationsCase(TestCase):
             result_expected='already_reserved',
         )
 
+    def test_reservation_max_reservations(self):
+        """
+        when:
+        - there are already 10 reservations
+        then:
+        - returns a FORBIDDEN response with 'max_reservations' result
+        """
+        pass  # TODO
+
+    def test_reservation_is_too_late(self):
+        """
+        when:
+        - now is after the begining of the session
+        then:
+        - returns a FORBIDDEN response with 'is_too_late' result
+        """
+        pass  # TODO
+
+    # helper function
     def reservation_create_test(
             self, session_id, status_code_expected, result_expected):
         response = self.client.post(
@@ -98,3 +113,88 @@ class ReservationsCase(TestCase):
         )
         self.assertEquals(response.status_code, status_code_expected)
         self.assertEquals(response.json()['result'], result_expected)
+        # TODO: check now has 1 wod less
+
+    @freeze_time('2018-12-31 10:00:00')
+    def test_reservation_delete_is_too_late(self):
+        """
+        given:
+        - a request to delete a reservation arrives
+        when:
+        - time left from now to session is less than 2 hours
+        then:
+        - returns a FORBIDDEN response with 'is_too_late' result
+        """
+        # session 2 -> day: 2018-12-31, hour: 11:00:00
+        response = self.client.post(
+            path=reverse('reservation-delete'),
+            data={'session': 2},
+            content_type='application/json',
+        )
+        self.assertEquals(response.status_code, HTTPStatus.FORBIDDEN)
+
+    @freeze_time('2018-12-31 8:00:00')
+    def test_reservation_delete_no_subscriber(self):
+        """
+        given:
+        - a request to delete a reservation arrives
+        when:
+        - user has no subscriber, so can't refund the wod
+        then:
+        - returns a FORBIDDEN response with 'no_subscriber' result
+        """
+        pass  # TODO
+
+    @freeze_time('2018-12-31 8:00:00')
+    def test_reservation_delete_not_found(self):
+        """
+        given:
+        - a request to delete a reservation arrives
+        when:
+        - there is no reservation for the given session or no session
+        then:
+        - returns a NOT_FOUND response with 'no_reservation' result
+        """
+        response = self.client.post(
+            path=reverse('reservation-delete'),
+            data={'session': 2},
+            content_type='application/json',
+        )
+        self.assertEquals(response.status_code, HTTPStatus.NOT_FOUND)
+        response = self.client.post(
+            path=reverse('reservation-delete'),
+            data={'session': 12345},
+            content_type='application/json',
+        )
+        self.assertEquals(response.status_code, HTTPStatus.FORBIDDEN)
+
+    def test_reservation_delete_unhandled_error(self):
+        """
+        given:
+        - a request to delete a reservation arrives
+        when:
+        - any other kind of error happened
+        then:
+        - returns a FORBIDDEN response with 'unhandled' result
+        """
+        pass  # TODO
+
+    @freeze_time('2019-01-02 10:00:00')
+    def test_reservation_delete_ok(self):
+        """
+        given:
+        - a request to delete a reservation arrives
+        when:
+        - reservation existed and can be deleted
+        then:
+        - returns a OK response with 'deleted' result and wods count
+        """
+        # session 21 -> day: 2019-01-02, hour: 17:00:00
+        self.assertEquals(self.user.subscriber.wods, 1)
+        response = self.client.post(
+            path=reverse('reservation-delete'),
+            data={'session': 21},
+            content_type='application/json',
+        )
+        self.assertEquals(response.status_code, HTTPStatus.OK)
+        # self.assertEquals(self.user.subscriber.wods, 2)  # TODO
