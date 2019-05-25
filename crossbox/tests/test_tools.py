@@ -19,15 +19,15 @@ class ToolsCase(TestCase):
 
     @freeze_time('2019-05-17')
     def test_get_monday_from_page_on_friday(self):
-        monday0 = get_monday_from_page(0)
-        self.assertEquals(monday0, datetime.date(year=2019, month=5, day=13))
+        monday = get_monday_from_page(0)
+        self.assertEquals(monday, datetime.date(year=2019, month=5, day=13))
 
     @freeze_time('2019-05-18')
     def test_get_monday_from_page_on_saturday(self):
-        monday0 = get_monday_from_page(0)
-        self.assertEquals(monday0, datetime.date(year=2019, month=5, day=13))
+        monday = get_monday_from_page(0)
+        self.assertEquals(monday, datetime.date(year=2019, month=5, day=13))
 
     @freeze_time('2019-05-19')
     def test_get_monday_from_page_on_sunday(self):
-        monday0 = get_monday_from_page(0)
-        self.assertEquals(monday0, datetime.date(year=2019, month=5, day=20))
+        monday = get_monday_from_page(0)
+        self.assertEquals(monday, datetime.date(year=2019, month=5, day=20))
