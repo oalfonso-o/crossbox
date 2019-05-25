@@ -101,7 +101,7 @@ def reservation_delete(request):
             session=data['session'], user=request.user)
     except Reservation.DoesNotExist:
         return _error_response(
-            request, 'no_reservation', HTTPStatus.BAD_REQUEST)
+            request, 'no_reservation', HTTPStatus.NOT_FOUND)
     if not reservation.session.is_closed():
         reservation.delete()
         request.user.subscriber.wods += 1
