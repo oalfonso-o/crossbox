@@ -23,7 +23,6 @@ pip install oalfonso-crossbox
 
 ### Pre-deployment
 
-- Copy crossbox/settings/.env.example to crossbox/settings/.env
-- Uncomment the #DJANGO_SECRET_KEY='GENERATE' line
+- Copy .env.example to .env
 - Generate a new **DJANGO_SECRET_KEY**
-- Replace add the new key to the uncommented line above.
+- Fill needed vars
