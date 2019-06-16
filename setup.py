@@ -18,6 +18,7 @@ install_requires = [
     'Pygments',
     'djangorestframework',
     'bcrypt',
+    'psycopg2-binary',
 ]
 
 tests_require = [
