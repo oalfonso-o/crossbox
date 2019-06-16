@@ -82,18 +82,18 @@ LOGGING = {
     'formatters': {
         'syslog': {
             'format':
-                '[Django] %(process)d - %(levelname)s:%(name)s:%(message)s',
+                'logstash-django-crossbox %(process)d '
+                '- %(levelname)s:%(name)s:%(message)s',
         },
         'debug': {
             'format':
                 '%(asctime)s.%(msecs)03d %(levelname)s '
                 '[%(name)s:%(funcName)s #%(lineno)s] %(message)s',
             'datefmt': '%H:%M:%S',
-        },
+         },
     },
     'handlers': {
         'syslog': {
-            'level': 'NOTSET',
             'class': 'logging.handlers.SysLogHandler',
             'formatter': 'syslog',
             'address': '/dev/log',
@@ -103,21 +103,15 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'stream': sys.stdout,
         },
-        'null': {
-            'formatter': 'syslog',
-            'class': 'logging.NullHandler',
-        }
     },
     'loggers': {
-        '': {
-            'handlers': ['syslog'],
+        'django': {
+            'handlers': ['syslog', 'stdout'],
             'level': 'INFO',
         },
         'crossbox': {
-            'handlers': ['null'],
-            'level': 'INFO',
-            'propagate': True,
-            'qualname': 'crossbox',
+            'handlers': ['syslog', 'stdout'],
+            'level': 'DEBUG',
         },
     }
 }
