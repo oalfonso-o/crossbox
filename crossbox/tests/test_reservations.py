@@ -43,7 +43,7 @@ class ReservationsCase(TestCase):
         self.assertEquals(context['wods'], 1)
         self.assertEquals(context['page'], 0)
 
-    def test_reservation_create_no_wods(self):
+    def test_reservation_create_ok_and_no_wods(self):
         """
         when:
         - that user's subscriber has no wods left
@@ -51,11 +51,14 @@ class ReservationsCase(TestCase):
         - returns a FORBIDDEN response with 'no_wods' result
         """
         # New users have always 1 initial free wod, let's spend it
+        self.assertEquals(self.user.subscriber.wods, 1)
         self.reservation_create_test(
             session_id=2,
             status_code_expected=HTTPStatus.OK,
             result_expected='created',
         )
+        self.user.subscriber.refresh_from_db()
+        self.assertEquals(self.user.subscriber.wods, 0)
         # Now test no_wod functionality
         self.reservation_create_test(
             session_id=3,
