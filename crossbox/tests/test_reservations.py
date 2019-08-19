@@ -103,7 +103,6 @@ class ReservationsCase(TestCase):
         """
         pass  # TODO
 
-    # helper function
     def reservation_create_test(
             self, session_id, status_code_expected, result_expected):
         response = self.client.post(
@@ -145,7 +144,7 @@ class ReservationsCase(TestCase):
         """
         pass  # TODO
 
-    @freeze_time('2018-12-31 8:00:00')
+    @freeze_time('2018-12-30 10:00:00')
     def test_reservation_delete_not_found(self):
         """
         given:
@@ -179,7 +178,7 @@ class ReservationsCase(TestCase):
         """
         pass  # TODO
 
-    @freeze_time('2019-01-02 10:00:00')
+    @freeze_time('2019-01-01 17:00:00')
     def test_reservation_delete_ok(self):
         """
         given:
