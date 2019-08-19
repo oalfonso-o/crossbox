@@ -114,13 +114,13 @@ class ReservationsCase(TestCase):
         self.assertEquals(response.json()['result'], result_expected)
         # TODO: check now has 1 wod less
 
-    @freeze_time('2018-12-31 10:00:00')
+    @freeze_time('2018-12-30 11:01:00')
     def test_reservation_delete_is_too_late(self):
         """
         given:
         - a request to delete a reservation arrives
         when:
-        - time left from now to session is less than 2 hours
+        - time left from now to session is less than 1 day
         then:
         - returns a FORBIDDEN response with 'is_too_late' result
         """
@@ -128,6 +128,22 @@ class ReservationsCase(TestCase):
         response = self.client.post(
             path=reverse('reservation-delete'),
             data={'session': 2},
+            content_type='application/json',
+        )
+        self.assertEquals(response.status_code, HTTPStatus.FORBIDDEN)
+
+    def test_reservation_delete_is_too_late_no_session(self):
+        """
+        given:
+        - a request to delete a reservation arrives
+        when:
+        - if session does not exist
+        then:
+        - returns a FORBIDDEN response with 'is_too_late' result
+        """
+        response = self.client.post(
+            path=reverse('reservation-delete'),
+            data={'session': 12345},
             content_type='application/json',
         )
         self.assertEquals(response.status_code, HTTPStatus.FORBIDDEN)
@@ -160,12 +176,6 @@ class ReservationsCase(TestCase):
             content_type='application/json',
         )
         self.assertEquals(response.status_code, HTTPStatus.NOT_FOUND)
-        response = self.client.post(
-            path=reverse('reservation-delete'),
-            data={'session': 12345},
-            content_type='application/json',
-        )
-        self.assertEquals(response.status_code, HTTPStatus.FORBIDDEN)
 
     def test_reservation_delete_unhandled_error(self):
         """
