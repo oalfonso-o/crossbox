@@ -43,7 +43,7 @@ class ReservationsCase(TestCase):
         self.assertEquals(context['wods'], 1)
         self.assertEquals(context['page'], 0)
 
-    def test_reservation_create_ok_and_no_wods(self):
+    def test_reservation_create_no_wods(self):
         """
         when:
         - that user's subscriber has no wods left
@@ -51,16 +51,15 @@ class ReservationsCase(TestCase):
         - returns a FORBIDDEN response with 'no_wods' result
         """
         # New users have always 1 initial free wod, let's spend it
-        self.assertEquals(self.user.subscriber.wods, 1)
-        self.reservation_create_test(
+        self.reservation_view_test(
+            mode='create',
             session_id=2,
             status_code_expected=HTTPStatus.OK,
             result_expected='created',
         )
-        self.user.subscriber.refresh_from_db()
-        self.assertEquals(self.user.subscriber.wods, 0)
         # Now test no_wod functionality
-        self.reservation_create_test(
+        self.reservation_view_test(
+            mode='create',
             session_id=3,
             status_code_expected=HTTPStatus.FORBIDDEN,
             result_expected='no_wods',
@@ -74,7 +73,8 @@ class ReservationsCase(TestCase):
         - returns a FORBIDDEN response with 'already_reserved' result
         """
         # Reservate first time
-        self.reservation_create_test(
+        self.reservation_view_test(
+            mode='create',
             session_id=2,
             status_code_expected=HTTPStatus.OK,
             result_expected='created',
@@ -82,7 +82,8 @@ class ReservationsCase(TestCase):
         # Now test reservate second time on same session
         self.user.subscriber.wods += 1
         self.user.subscriber.save()
-        self.reservation_create_test(
+        self.reservation_view_test(
+            mode='create',
             session_id=2,
             status_code_expected=HTTPStatus.FORBIDDEN,
             result_expected='already_reserved',
@@ -106,16 +107,32 @@ class ReservationsCase(TestCase):
         """
         pass  # TODO
 
-    def reservation_create_test(
-            self, session_id, status_code_expected, result_expected):
+    def test_reservation_create_ok(self):
+        """
+        when:
+        - a user's subscriber has at least one wod
+        then:
+        - returns a 200 response with 'created' result
+        """
+        self.assertEquals(self.user.subscriber.wods, 1)
+        self.reservation_view_test(
+            mode='create',
+            session_id=2,
+            status_code_expected=HTTPStatus.OK,
+            result_expected='created',
+        )
+        self.user.subscriber.refresh_from_db()
+        self.assertEquals(self.user.subscriber.wods, 0)
+
+    def reservation_view_test(
+            self, mode, session_id, status_code_expected, result_expected):
         response = self.client.post(
-            path=reverse('reservation-create'),
+            path=reverse(f'reservation-{mode}'),
             data={'session': session_id},
             content_type='application/json',
         )
         self.assertEquals(response.status_code, status_code_expected)
         self.assertEquals(response.json()['result'], result_expected)
-        # TODO: check now has 1 wod less
 
     @freeze_time('2018-12-30 11:01:00')
     def test_reservation_delete_is_too_late(self):
@@ -128,12 +145,12 @@ class ReservationsCase(TestCase):
         - returns a FORBIDDEN response with 'is_too_late' result
         """
         # session 2 -> day: 2018-12-31, hour: 11:00:00
-        response = self.client.post(
-            path=reverse('reservation-delete'),
-            data={'session': 2},
-            content_type='application/json',
+        self.reservation_view_test(
+            mode='delete',
+            session_id=2,
+            status_code_expected=HTTPStatus.FORBIDDEN,
+            result_expected='is_too_late',
         )
-        self.assertEquals(response.status_code, HTTPStatus.FORBIDDEN)
 
     def test_reservation_delete_is_too_late_no_session(self):
         """
@@ -144,12 +161,12 @@ class ReservationsCase(TestCase):
         then:
         - returns a FORBIDDEN response with 'is_too_late' result
         """
-        response = self.client.post(
-            path=reverse('reservation-delete'),
-            data={'session': 12345},
-            content_type='application/json',
+        self.reservation_view_test(
+            mode='delete',
+            session_id=12345,
+            status_code_expected=HTTPStatus.FORBIDDEN,
+            result_expected='is_too_late',
         )
-        self.assertEquals(response.status_code, HTTPStatus.FORBIDDEN)
 
     @freeze_time('2018-12-31 8:00:00')
     def test_reservation_delete_no_subscriber(self):
@@ -173,12 +190,12 @@ class ReservationsCase(TestCase):
         then:
         - returns a NOT_FOUND response with 'no_reservation' result
         """
-        response = self.client.post(
-            path=reverse('reservation-delete'),
-            data={'session': 2},
-            content_type='application/json',
+        self.reservation_view_test(
+            mode='delete',
+            session_id=2,
+            status_code_expected=HTTPStatus.NOT_FOUND,
+            result_expected='no_reservation',
         )
-        self.assertEquals(response.status_code, HTTPStatus.NOT_FOUND)
 
     def test_reservation_delete_unhandled_error(self):
         """
@@ -203,11 +220,11 @@ class ReservationsCase(TestCase):
         """
         # session 21 -> day: 2019-01-02, hour: 17:00:00
         self.assertEquals(self.user.subscriber.wods, 1)
-        response = self.client.post(
-            path=reverse('reservation-delete'),
-            data={'session': 21},
-            content_type='application/json',
+        self.reservation_view_test(
+            mode='delete',
+            session_id=21,
+            status_code_expected=HTTPStatus.OK,
+            result_expected='deleted',
         )
-        self.assertEquals(response.status_code, HTTPStatus.OK)
         self.user.subscriber.refresh_from_db()
         self.assertEquals(self.user.subscriber.wods, 2)
