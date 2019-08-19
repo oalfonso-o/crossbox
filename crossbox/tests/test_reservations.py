@@ -206,4 +206,5 @@ class ReservationsCase(TestCase):
             content_type='application/json',
         )
         self.assertEquals(response.status_code, HTTPStatus.OK)
-        # self.assertEquals(self.user.subscriber.wods, 2)  # TODO
+        self.user.subscriber.refresh_from_db()
+        self.assertEquals(self.user.subscriber.wods, 2)
