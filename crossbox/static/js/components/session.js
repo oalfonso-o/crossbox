@@ -14,10 +14,10 @@ Vue.component('session', {
   },
   template: `
     <div v-if="session !== undefined">
-      <div v-if="reservations.length < 3" class="num_reservations num_reservations_low">
+      <div v-if="reservations.length < 5" class="num_reservations num_reservations_low">
         {{ reservations.length }} / 15
       </div>
-      <div v-else-if="reservations.length > 2 && reservations.length < 15" class="num_reservations num_reservations_open">
+      <div v-else-if="reservations.length >= 5 && reservations.length < 15" class="num_reservations num_reservations_open">
         {{ reservations.length }} / 15
       </div>
       <div v-else class="num_reservations num_reservations_closed">
