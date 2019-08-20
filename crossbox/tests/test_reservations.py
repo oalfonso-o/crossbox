@@ -8,6 +8,7 @@ from django.test import Client
 from django.contrib.auth.models import User
 
 from .constants import EXPECTED_RESERVATION_DAYS
+from crossbox.models import Session, Reservation
 
 
 class ReservationsCase(TestCase):
@@ -89,16 +90,30 @@ class ReservationsCase(TestCase):
             result_expected='already_reserved',
         )
 
-    def test_reservation_max_reservations(self):
+    def test_reservation_create_max_reservations(self):
         """
         when:
         - there are already 10 reservations
         then:
         - returns a FORBIDDEN response with 'max_reservations' result
         """
-        pass  # TODO
+        session = Session.objects.get(pk=2)
+        users = User.objects.bulk_create([
+            User(username=f'user_{i}')
+            for i in range(10)
+        ])
+        Reservation.objects.bulk_create([
+            Reservation(session=session, user=users[i])
+            for i in range(10)
+        ])
+        self.reservation_view_test(
+            mode='create',
+            session_id=2,
+            status_code_expected=HTTPStatus.FORBIDDEN,
+            result_expected='max_reservations',
+        )
 
-    def test_reservation_is_too_late(self):
+    def test_reservation_create_is_too_late(self):
         """
         when:
         - now is after the begining of the session

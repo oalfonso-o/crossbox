@@ -49,7 +49,7 @@ class ReservationView(ListView):
         return data
 
     def username_reservations(self, session):
-        return [r.user.username for r in session.reservation_set.all()]
+        return [r.user.username for r in session.reservations.all()]
 
     def user_has_reservated(self, session):
         return (
@@ -64,9 +64,13 @@ def reservation_create(request):
     if wods is None or wods < 1:
         return _error_response(request, 'no_wods', HTTPStatus.FORBIDDEN)
     data = json.loads(request.body)
+    session = Session.objects.get(pk=data['session'])
+    if session.reservations.count() >= 10:
+        return _error_response(
+            request, 'max_reservations', HTTPStatus.FORBIDDEN)
     reservation = Reservation()
     reservation.user = request.user
-    reservation.session = Session.objects.get(pk=data['session'])
+    reservation.session = session
     try:
         reservation.save()
         request.user.subscriber.wods -= 1

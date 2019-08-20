@@ -11,9 +11,10 @@ class Reservation(models.Model):
         verbose_name = 'Reserva'
         unique_together = ('user', 'session')
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='reservations')
     session = models.ForeignKey(
-        'Session', on_delete=models.CASCADE, null=False)
+        'Session', on_delete=models.CASCADE, related_name='reservations')
     assisted = models.BooleanField('Asistencia', default=True)
 
     def user_info(self):
@@ -32,7 +33,7 @@ class Reservation(models.Model):
         )
 
     def save(self, *args, **kwargs):
-        if self.session.reservation_set.count() < MAX_RESERVATION_PLACES:
+        if self.session.reservations.count() < MAX_RESERVATION_PLACES:
             super(Reservation, self).save(*args, **kwargs)
         else:
             raise IntegrityError
