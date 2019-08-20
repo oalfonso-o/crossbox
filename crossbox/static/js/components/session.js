@@ -73,12 +73,16 @@ Vue.component('session', {
       return this.reservated ? this.url_reservation_create : this.url_reservation_delete
     },
     checkbox_disabled: function () {
-      return !this.reservated && this.reservations.length == 15 || this.session_closed || this.is_too_late && this.reservated
+      return (
+        (!this.reservated && this.reservations.length == 15)
+        || this.session_closed
+        || (this.is_too_late && this.reservated && this.reservations.length >= 5)
+      )
     }
   },
   methods:{
     toggle: function (value) {
-      if (!(this.is_too_late && !this.reservated)) {
+      if (!this.checkbox_disabled) {
         axios.post(this.form_url, { session: this.session, page: this.page })
         .then(response => {
           username_index = this.reservations.indexOf(response.data.username)
