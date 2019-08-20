@@ -8,7 +8,7 @@ from django.urls import reverse
 
 from crossbox.models import Session, Hour, SessionTemplate, Day
 from .tools import active_page_number, get_monday_from_page, is_too_late
-from .constants import SATURDAY_WEEK_DAY
+from crossbox.constants import SATURDAY_WEEK_DAY
 
 
 class SessionTemplateView(ListView):

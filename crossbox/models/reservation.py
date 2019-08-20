@@ -1,8 +1,8 @@
 from django.db import models
-from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.utils.html import format_html
 
+from crossbox.exceptions import LimitExceeed
 from crossbox.constants import MAX_RESERVATION_PLACES
 
 
@@ -36,4 +36,4 @@ class Reservation(models.Model):
         if self.session.reservations.count() < MAX_RESERVATION_PLACES:
             super(Reservation, self).save(*args, **kwargs)
         else:
-            raise IntegrityError
+            raise LimitExceeed('Maximum reservations for this session')

@@ -7,9 +7,14 @@ from django.views.generic.list import ListView
 from django.http import JsonResponse
 from django.db import IntegrityError
 
+from crossbox.exceptions import LimitExceeed
 from crossbox.models import Reservation, Session, Hour
+from crossbox.constants import (
+    MIDWEEK_DAYS,
+    SATURDAY_WEEK_DAY,
+    MAX_RESERVATION_PLACES,
+)
 from .tools import active_page_number, get_monday_from_page, is_too_late
-from .constants import MIDWEEK_DAYS, SATURDAY_WEEK_DAY
 
 
 class ReservationView(ListView):
@@ -65,9 +70,6 @@ def reservation_create(request):
         return _error_response(request, 'no_wods', HTTPStatus.FORBIDDEN)
     data = json.loads(request.body)
     session = Session.objects.get(pk=data['session'])
-    if session.reservations.count() >= 10:
-        return _error_response(
-            request, 'max_reservations', HTTPStatus.FORBIDDEN)
     reservation = Reservation()
     reservation.user = request.user
     reservation.session = session
@@ -78,6 +80,9 @@ def reservation_create(request):
     except IntegrityError:
         return _error_response(
             request, 'already_reserved', HTTPStatus.FORBIDDEN)
+    except LimitExceeed:
+        return _error_response(
+            request, 'max_reservations', HTTPStatus.FORBIDDEN)
     return JsonResponse(
         {
             'result': 'created', 'username': request.user.username,
