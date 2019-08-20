@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 
 from .constants import EXPECTED_RESERVATION_DAYS
 from crossbox.models import Session, Reservation
+from crossbox.constants import MAX_RESERVATION_PLACES
 
 
 class ReservationsCase(TestCase):
@@ -100,12 +101,10 @@ class ReservationsCase(TestCase):
         session = Session.objects.get(pk=2)
         users = User.objects.bulk_create([
             User(username=f'user_{i}')
-            for i in range(15)
+            for i in range(MAX_RESERVATION_PLACES)
         ])
-        Reservation.objects.bulk_create([
-            Reservation(session=session, user=users[i])
-            for i in range(15)
-        ])
+        for i in range(MAX_RESERVATION_PLACES):
+            Reservation.objects.create(session=session, user=users[i])
         self.reservation_view_test(
             mode='create',
             session_id=2,

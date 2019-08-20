@@ -9,7 +9,11 @@ from django.db import IntegrityError
 
 from crossbox.models import Reservation, Session, Hour
 from .tools import active_page_number, get_monday_from_page, is_too_late
-from .constants import MIDWEEK_DAYS, SATURDAY_WEEK_DAY
+from crossbox.constants import (
+    MIDWEEK_DAYS,
+    SATURDAY_WEEK_DAY,
+    MAX_RESERVATION_PLACES,
+)
 
 
 class ReservationView(ListView):
@@ -65,7 +69,7 @@ def reservation_create(request):
         return _error_response(request, 'no_wods', HTTPStatus.FORBIDDEN)
     data = json.loads(request.body)
     session = Session.objects.get(pk=data['session'])
-    if session.reservations.count() >= 10:
+    if session.reservations.count() >= MAX_RESERVATION_PLACES:
         return _error_response(
             request, 'max_reservations', HTTPStatus.FORBIDDEN)
     reservation = Reservation()

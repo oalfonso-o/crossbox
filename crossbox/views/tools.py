@@ -1,7 +1,7 @@
 from datetime import date, datetime, timedelta
 
 from crossbox.models import Session
-from .constants import WEEK_DAYS, SATURDAY_WEEK_DAY
+from crossbox.constants import WEEK_DAYS, SATURDAY_WEEK_DAY
 
 
 def active_page_number(request):
