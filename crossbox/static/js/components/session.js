@@ -125,7 +125,9 @@ Vue.component('session', {
   methods:{
     confirm: function (event) {
       event.preventDefault()
-      this.showModal = true
+      if (!this.checkbox_disabled) {
+        this.showModal = true
+      }
     },
     toggle: function (value) {
       if (!this.checkbox_disabled) {
