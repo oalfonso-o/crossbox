@@ -30,14 +30,12 @@ Vue.component('session', {
                 </div>
 
                 <div class="modal-footer">
-                  <button class="modal-default-button" @click="$emit('confirm')">
+                  <b-button class="modal-close" @click="$emit('close')">Cancelar</b-button>
+                  <b-button class="modal-confirm" @click="$emit('confirm')">
                     <slot name="confirm_text">
                       Confirmar
                     </slot>
-                  </button>
-                  <button class="modal-default-button" @click="$emit('close')">
-                    Cancelar
-                  </button>
+                  </b-button>
                 </div>
               </div>
             </div>
