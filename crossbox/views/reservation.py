@@ -48,7 +48,12 @@ class ReservationView(ListView):
                 'session_closed': session.is_closed() if session else None,
                 'hour': h.hour_simple(),
                 'reservations': (
-                    self.username_reservations(session) if session else [])}
+                    self.username_reservations(session) if session else []),
+                'date': 'El día {} a las {}'.format(
+                    session.date.strftime('%d-%m-%Y'),
+                    session.hour.hour_simple(),
+                ) if session else '',
+            }
             data.append(record)
         return data
 

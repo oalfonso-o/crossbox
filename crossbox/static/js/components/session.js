@@ -11,9 +11,49 @@ Vue.component('session', {
     url_reservation_create: RegExp,
     url_get_is_too_late: RegExp,
     page: Number,
+    date: String,
   },
   template: `
     <div v-if="session !== undefined">
+      <script type="text/x-template" id="modal-template">
+        <transition name="modal">
+          <div class="modal-mask">
+            <div class="modal-wrapper">
+              <div class="modal-container">
+
+                <div class="modal-header">
+                  <slot name="header">default header</slot>
+                </div>
+
+                <div class="modal-body">
+                  <slot name="body">default body</slot>
+                </div>
+
+                <div class="modal-footer">
+                  <b-button class="modal-close" @click="$emit('close')">Cancelar</b-button>
+                  <b-button class="modal-confirm" @click="$emit('confirm')">
+                    <slot name="confirm_text">
+                      Confirmar
+                    </slot>
+                  </b-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition>
+      </script>
+      <modal v-if="showModal" @close="showModal = false" @confirm="reservated = !reservated; showModal = false">
+        <h3 slot="header" v-if="reservated">Vas a anular:</h3>
+        <h3 slot="header" v-if="!reservated">Vas a reservar:</h3>
+        <h3 slot="body">{{ date }}</h3>
+        <span slot="confirm_text" v-if="reservated">
+          Anular reserva
+        </span>
+        <span slot="confirm_text" v-if="!reservated">
+          Reservar
+        </span>
+      </modal>
+
       <div v-if="reservations.length < 5" class="num_reservations num_reservations_low">
         {{ reservations.length }} / 15
       </div>
@@ -25,7 +65,7 @@ Vue.component('session', {
       </div>
       <div class="outer_toggle">
         <div class="inner_toggle">
-          <b-checkbox v-model="reservated" type="is-success" :disabled="checkbox_disabled"></b-checkbox>
+          <b-checkbox v-model="reservated" type="is-success" :disabled="checkbox_disabled" @click.native="confirm($event)"></b-checkbox>
         </div>
       </div>
       <b-notification auto-close :active.sync="notification_active">
@@ -42,7 +82,8 @@ Vue.component('session', {
           </li>
         </div>
       </div>
-    </div>`,
+    </div>
+  `,
   data: function () {
     return {
       show_reservation: false,
@@ -51,6 +92,7 @@ Vue.component('session', {
       notification_active: false,
       notification_text: '',
       is_too_late: false,
+      showModal: false,
     }
   },
   created: function() {
@@ -81,6 +123,12 @@ Vue.component('session', {
     }
   },
   methods:{
+    confirm: function (event) {
+      event.preventDefault()
+      if (!this.checkbox_disabled) {
+        this.showModal = true
+      }
+    },
     toggle: function (value) {
       if (!this.checkbox_disabled) {
         axios.post(this.form_url, { session: this.session, page: this.page })

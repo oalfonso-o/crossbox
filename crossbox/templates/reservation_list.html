@@ -38,6 +38,7 @@
               <td class="session {% if not day.session %}not_session{% elif day.session and day.session_closed %}session_closed{% elif day.reservations|length >= 5 %}session_open{% endif %}" data-title='{{ day.hour }}'>
                 <ul>
                 <session
+                  :date="'{{ day.date }}'"
                   :prop_reservations="{{ day.reservations }}"
                   :prop_reservated={% if day.user_reservated %}true{% else %}false{% endif %}
                   :session="{{ day.session }}"
