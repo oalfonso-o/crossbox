@@ -85,12 +85,12 @@
     font-size: 4.5rem;
     height: 450px;
   }
-  .modal-body { padding-bottom: 40px; padding-top: 25px; }
   .modal-header { margin-top: 15px;}
+  .modal-body { padding-bottom: 40px; padding-top: 25px; }
   .modal-footer { margin-top: 35px;}
   .modal-button {
-    margin: 0px 50px;
-    font-size: 6rem;
+    margin: 0px 30px;
+    font-size: 5rem;
     font-weight: bold;
   }
 }
