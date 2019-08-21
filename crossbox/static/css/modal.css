@@ -71,3 +71,21 @@
   color: #42b983;
   cursor: pointer;
 }
+
+@media screen and (max-width: 1024px) {
+  .modal-container {
+    width: 500px;
+    margin: 0px auto;
+    padding: 40px 30px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 2.6rem;
+    height: 350px;
+  }
+  .modal-body {
+    padding: 40px 0px;
+  }
+}
