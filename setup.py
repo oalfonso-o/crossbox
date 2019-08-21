@@ -40,8 +40,8 @@ setup(
     package_data={
         'crossbox': [
             'templates/*.html', 'static/*', 'static/images/*', 'static/css/*',
-            'static/js/*', 'static/js/components/*', 'static/fonts/*',
-            'fixtures/*',
+            'static/js/*', 'static/js/lib/*', 'static/js/components/*',
+            'static/fonts/*', 'static/webfonts/*', 'fixtures/*',
         ],
     },
     tests_require=tests_require,
