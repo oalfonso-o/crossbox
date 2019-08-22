@@ -12,7 +12,6 @@ from crossbox.models import Reservation, Session, Hour
 from crossbox.constants import (
     MIDWEEK_DAYS,
     SATURDAY_WEEK_DAY,
-    MAX_RESERVATION_PLACES,
 )
 from .tools import active_page_number, get_monday_from_page, is_too_late
 
@@ -66,6 +65,7 @@ class ReservationView(ListView):
 
 def reservation_create(request):
     wods = getattr(request.user.subscriber, 'wods')
+    # TODO: Prevent creating when there are MAX_RESERVATION_PLACES reservations
     if wods is None or wods < 1:
         return _error_response(request, 'no_wods', HTTPStatus.FORBIDDEN)
     data = json.loads(request.body)
@@ -100,8 +100,12 @@ def _error_response(request, msg, code):
 
 def reservation_delete(request):
     data = json.loads(request.body)
-    # TODO: check if session exists, now is returning is_too_late if not found
-    if is_too_late(data['session']):
+    try:
+        session = Session.objects.get(pk=data['session'])
+    except Session.DoesNotExist:
+        return _error_response(
+            request, 'session_not_found', HTTPStatus.NOT_FOUND)
+    if is_too_late(data['session']) and session.reservations.count() >= 5:
         return _error_response(request, 'is_too_late', HTTPStatus.FORBIDDEN)
     wods = getattr(request.user.subscriber, 'wods')
     if wods is None:
