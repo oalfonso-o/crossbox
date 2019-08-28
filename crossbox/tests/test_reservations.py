@@ -5,9 +5,9 @@ from unittest.mock import patch
 
 from django.test import TestCase
 from django.urls import reverse
-from django.test import Client
 from django.contrib.auth.models import User
 
+from .tools import with_login
 from .constants import EXPECTED_RESERVATION_DAYS
 from crossbox.models import Session, Reservation
 from crossbox.constants import MAX_RESERVATION_PLACES
@@ -15,17 +15,9 @@ from crossbox.constants import MAX_RESERVATION_PLACES
 
 class ReservationsCase(TestCase):
 
-    fixtures = ['tests_auth', 'tests_base']
+    fixtures = ['tests_base']
 
-    def setUp(self):
-        self.client = Client()
-        self.client.login(username='admin', password='admin')
-        self.user_id = next(iter(self.client.session.items()))[1]
-        self.user = User.objects.get(id=self.user_id)
-
-    def test_login(self):
-        self.assertIn('_auth_user_id', self.client.session)
-
+    @with_login()
     @freeze_time('2019-05-14')
     def test_reservation_view(self):
         response = self.client.get(reverse('reservation'))
@@ -46,6 +38,7 @@ class ReservationsCase(TestCase):
         self.assertEquals(context['wods'], 1)
         self.assertEquals(context['page'], 0)
 
+    @with_login()
     def test_reservation_create_no_wods(self):
         # New users have always 1 initial free wod, let's spend it
         self.reservation_view_test(
@@ -62,6 +55,7 @@ class ReservationsCase(TestCase):
             result_expected='no_wods',
         )
 
+    @with_login()
     def test_reservation_create_already_reserved(self):
         # Reservate first time
         self.reservation_view_test(
@@ -80,6 +74,7 @@ class ReservationsCase(TestCase):
             result_expected='already_reserved',
         )
 
+    @with_login()
     def test_reservation_create_max_reservations(self):
         session = Session.objects.get(pk=2)
         users = User.objects.bulk_create([
@@ -95,6 +90,7 @@ class ReservationsCase(TestCase):
             result_expected='max_reservations',
         )
 
+    @with_login()
     def test_reservation_create_closed_session(self):
         """
         when:
@@ -104,6 +100,7 @@ class ReservationsCase(TestCase):
         """
         pass  # TODO
 
+    @with_login()
     def test_reservation_create_ok(self):
         self.assertEquals(self.user.subscriber.wods, 1)
         self.reservation_view_test(
@@ -115,6 +112,7 @@ class ReservationsCase(TestCase):
         self.user.subscriber.refresh_from_db()
         self.assertEquals(self.user.subscriber.wods, 0)
 
+    @with_login()
     def reservation_view_test(
             self, mode, session_id, status_code_expected, result_expected):
         response = self.client.post(
@@ -125,6 +123,7 @@ class ReservationsCase(TestCase):
         self.assertEquals(response.status_code, status_code_expected)
         self.assertEquals(response.json()['result'], result_expected)
 
+    @with_login()
     def test_reservation_delete_session_not_found(self):
         self.reservation_view_test(
             mode='delete',
@@ -133,6 +132,7 @@ class ReservationsCase(TestCase):
             result_expected='session_not_found',
         )
 
+    @with_login()
     @freeze_time('2018-12-31 8:00:00')
     def test_reservation_delete_no_subscriber(self):
         """
@@ -145,6 +145,7 @@ class ReservationsCase(TestCase):
         """
         pass  # TODO
 
+    @with_login()
     @freeze_time('2018-12-30 10:00:00')
     def test_reservation_delete_reservation_not_found(self):
         self.reservation_view_test(
@@ -154,6 +155,7 @@ class ReservationsCase(TestCase):
             result_expected='no_reservation',
         )
 
+    @with_login()
     def test_reservation_delete_unhandled_error(self):
         """
         given:
@@ -165,6 +167,7 @@ class ReservationsCase(TestCase):
         """
         pass  # TODO
 
+    @with_login()
     @freeze_time('2019-01-01 17:01:00')
     @patch('django.db.models.QuerySet.count')
     def test_reservation_delete_is_too_late(self, QuerySetCountMock):
@@ -177,6 +180,7 @@ class ReservationsCase(TestCase):
             result_expected='is_too_late',
         )
 
+    @with_login()
     @freeze_time('2019-01-01 17:01:00')
     @patch('django.db.models.QuerySet.count')
     def test_reservation_delete_ok_is_too_late_but_few_people(
@@ -192,6 +196,7 @@ class ReservationsCase(TestCase):
         self.user.subscriber.refresh_from_db()
         self.assertEquals(self.user.subscriber.wods, 2)
 
+    @with_login()
     @freeze_time('2019-01-01 17:00:00')
     @patch('django.db.models.QuerySet.count')
     def test_reservation_delete_ok(
