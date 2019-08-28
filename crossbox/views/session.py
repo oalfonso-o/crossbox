@@ -65,8 +65,3 @@ def generate_sessions(request):
         for st in SessionTemplate.objects.all())
     Session.objects.bulk_create(future_sessions)
     return HttpResponseRedirect('/reservation/?page={}'.format(page_number))
-
-
-def get_is_too_late(request):
-    data = json.loads(request.read().decode())
-    return JsonResponse({'is_too_late': is_too_late(data['session'])})

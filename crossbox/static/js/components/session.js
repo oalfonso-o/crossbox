@@ -5,13 +5,13 @@ Vue.component('session', {
   props: {
     prop_reservations: Array,
     prop_reservated: Boolean,
+    prop_is_too_late: String,
     session: Number,
     session_closed: Boolean,
     url_reservation_delete: RegExp,
     url_reservation_create: RegExp,
-    url_get_is_too_late: RegExp,
     page: Number,
-    date: String,
+    date: Boolean,
   },
   template: `
     <div v-if="session !== undefined">
@@ -91,18 +91,8 @@ Vue.component('session', {
       reservations: this.prop_reservations,
       notification_active: false,
       notification_text: '',
-      is_too_late: this.session_closed,
+      is_too_late: this.prop_is_too_late,
       showModal: false,
-    }
-  },
-  created: function() {
-    if (this.session && !this.session_closed) {
-      axios.post(this.url_get_is_too_late, { session: this.session })
-        .then(response => {
-          this.is_too_late = response.data.is_too_late
-        }).catch(error => {
-          console.log(error.response.data.result)
-        })
     }
   },
   watch: {

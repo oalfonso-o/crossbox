@@ -11,7 +11,6 @@ from crossbox.views import (
     session_template_delete,
     generate_sessions,
     user_create,
-    get_is_too_late,
 )
 
 
@@ -56,10 +55,5 @@ urlpatterns = [
         r'^generate_sessions/',
         generate_sessions,
         name='generate-sessions',
-    ),
-    url(
-        r'^get_is_too_late/',
-        get_is_too_late,
-        name='get-is-too-late',
     ),
 ]
