@@ -1,7 +1,7 @@
 import locale
 import json
 from http import HTTPStatus
-from datetime import timedelta
+from datetime import timedelta, date, datetime
 
 from django.views.generic.list import ListView
 from django.http import JsonResponse
@@ -70,11 +70,17 @@ class ReservationView(ListView):
 
 def reservation_create(request):
     wods = getattr(request.user.subscriber, 'wods')
-    # TODO: Prevent creating when there are MAX_RESERVATION_PLACES reservations
     if wods is None or wods < 1:
         return _error_response(request, 'no_wods', HTTPStatus.FORBIDDEN)
     data = json.loads(request.body)
-    session = Session.objects.get(pk=data['session'])
+    try:
+        session = Session.objects.get(pk=data['session'])
+    except Session.DoesNotExist:
+        return _error_response(
+            request, 'session_not_found', HTTPStatus.NOT_FOUND)
+    if datetime.now() > session.datetime():
+        return _error_response(
+            request, 'session_started', HTTPStatus.FORBIDDEN)
     reservation = Reservation()
     reservation.user = request.user
     reservation.session = session
