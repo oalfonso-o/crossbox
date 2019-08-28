@@ -1,7 +1,7 @@
 import locale
 import json
 from http import HTTPStatus
-from datetime import timedelta, date, datetime
+from datetime import timedelta, datetime
 
 from django.views.generic.list import ListView
 from django.http import JsonResponse
