@@ -1,5 +1,23 @@
 [
 {
+    "model": "auth.user",
+    "pk": 13,
+    "fields": {
+        "password": "bcrypt_sha256$$2b$12$KOEAq2WZburHcywy7SEXwOdzCaIi5dZlhFA97L0RiC52Key0.I9li",
+        "last_login": "2019-05-13T12:45:41.283Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@a.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2019-05-13T12:45:38.505Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
     "model": "crossbox.hour",
     "pk": 1,
     "fields": {
@@ -1768,14 +1786,6 @@
     "fields": {
         "day": 5,
         "hour": 13
-    }
-},
-{
-    "model": "crossbox.subscriber",
-    "pk": 1,
-    "fields": {
-        "user": 1,
-        "wods": 12
     }
 }
 ]

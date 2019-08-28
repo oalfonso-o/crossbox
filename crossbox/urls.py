@@ -18,6 +18,7 @@ from crossbox.views import (
 urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),
     url(r'^admin/', admin.site.urls),
+    path('auth/', include('django.contrib.auth.urls')),
     path('', LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     url(r'^user_create/', user_create, name='user-create'),
