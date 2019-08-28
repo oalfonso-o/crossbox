@@ -45,7 +45,7 @@
                   :session_closed={% if day.session_closed %}true{% else %}false{% endif %}
                   :url_reservation_delete="{% url 'reservation-delete' %}"
                   :url_reservation_create="{% url 'reservation-create' %}"
-                  :url_get_is_too_late="{% url 'get-is-too-late' %}"
+                  :prop_is_too_late={% if day.is_too_late %}true{% else %}false{% endif %}
                   :page="{{ page }}"
                 >
                 </session>

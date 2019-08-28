@@ -4,7 +4,6 @@ from .reservation import (
     reservation_delete,
 )
 from .session import (
-    get_is_too_late,
     SessionTemplateView,
     generate_sessions,
     session_template_create,
@@ -21,5 +20,4 @@ __all__ = [
     'session_template_delete',
     'generate_sessions',
     'user_create',
-    'get_is_too_late',
 ]
