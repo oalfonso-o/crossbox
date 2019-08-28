@@ -39,6 +39,7 @@ class ReservationsCase(TestCase):
         self.assertEquals(context['page'], 0)
 
     @with_login()
+    @freeze_time('2018-12-31')
     def test_reservation_create_no_wods(self):
         # New users have always 1 initial free wod, let's spend it
         self.reservation_view_test(
@@ -56,6 +57,7 @@ class ReservationsCase(TestCase):
         )
 
     @with_login()
+    @freeze_time('2018-12-31')
     def test_reservation_create_already_reserved(self):
         # Reservate first time
         self.reservation_view_test(
@@ -75,6 +77,7 @@ class ReservationsCase(TestCase):
         )
 
     @with_login()
+    @freeze_time('2018-12-31')
     def test_reservation_create_max_reservations(self):
         session = Session.objects.get(pk=2)
         users = User.objects.bulk_create([
@@ -91,16 +94,32 @@ class ReservationsCase(TestCase):
         )
 
     @with_login()
-    def test_reservation_create_closed_session(self):
+    def test_reservation_create_session_not_found(self):
+        self.reservation_view_test(
+            mode='create',
+            session_id=12345,
+            status_code_expected=HTTPStatus.NOT_FOUND,
+            result_expected='session_not_found',
+        )
+
+    @with_login()
+    @freeze_time('2019-12-31 11:00:01')
+    def test_reservation_create_session_started(self):
         """
         when:
         - now is after the begining of the session
         then:
-        - returns a FORBIDDEN response with 'closed_session' result
+        - returns a FORBIDDEN response with 'session_started' result
         """
-        pass  # TODO
+        self.reservation_view_test(
+            mode='create',
+            session_id=2,
+            status_code_expected=HTTPStatus.FORBIDDEN,
+            result_expected='session_started',
+        )
 
     @with_login()
+    @freeze_time('2018-12-31')
     def test_reservation_create_ok(self):
         self.assertEquals(self.user.subscriber.wods, 1)
         self.reservation_view_test(
