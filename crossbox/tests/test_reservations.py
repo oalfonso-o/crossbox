@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 
 from .tools import with_login
 from .constants import EXPECTED_RESERVATION_DAYS
-from crossbox.models import Session, Reservation
+from crossbox.models import Session, Hour, Reservation
 from crossbox.constants import MAX_RESERVATION_PLACES
 
 
@@ -187,20 +187,24 @@ class ReservationsCase(TestCase):
         pass  # TODO
 
     @with_login()
-    @freeze_time('2019-01-01 17:01:00')
+    @freeze_time('2019-01-01 00:00:00')
     @patch('django.db.models.QuerySet.count')
     def test_reservation_delete_is_too_late(self, QuerySetCountMock):
-        # session 21 -> day: 2019-01-02, hour: 17:00:00
+        hour = Hour(hour=datetime.time(23, 59))
+        hour.save()
+        day = datetime.date(year=2019, month=1, day=1)
+        session = Session(date=day, hour=hour)
+        session.save()
         QuerySetCountMock.return_value = 5
         self.reservation_view_test(
             mode='delete',
-            session_id=21,
+            session_id=session.id,
             status_code_expected=HTTPStatus.FORBIDDEN,
             result_expected='is_too_late',
         )
 
     @with_login()
-    @freeze_time('2019-01-01 17:01:00')
+    @freeze_time('2019-01-02 00:00:00')
     @patch('django.db.models.QuerySet.count')
     def test_reservation_delete_ok_is_too_late_but_few_people(
             self, QuerySetCountMock):
@@ -216,15 +220,21 @@ class ReservationsCase(TestCase):
         self.assertEquals(self.user.subscriber.wods, 2)
 
     @with_login()
-    @freeze_time('2019-01-01 17:00:00')
+    @freeze_time('2019-01-01 23:59:59')
     @patch('django.db.models.QuerySet.count')
-    def test_reservation_delete_ok(
-            self, QuerySetCountMock):
-        # session 21 -> day: 2019-01-02, hour: 17:00:00
-        QuerySetCountMock.return_value = 10
+    def test_reservation_delete_ok(self, QuerySetCountMock):
+        hour = Hour(hour=datetime.time(0, 0))
+        hour.save()
+        day = datetime.date(year=2019, month=1, day=2)
+        session = Session(date=day, hour=hour)
+        session.save()
+        reservation = Reservation(user=self.user, session=session)
+        QuerySetCountMock.return_value = 1
+        reservation.save()
+        QuerySetCountMock.return_value = 14
         self.reservation_view_test(
             mode='delete',
-            session_id=21,
+            session_id=session.id,
             status_code_expected=HTTPStatus.OK,
             result_expected='deleted',
         )

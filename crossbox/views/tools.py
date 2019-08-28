@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 
 from crossbox.models import Session
 from crossbox.constants import WEEK_DAYS, SATURDAY_WEEK_DAY
@@ -23,6 +23,6 @@ def get_monday_from_page(page_number):
 def is_too_late(session_id):
     try:
         session = Session.objects.get(pk=session_id)
-        return bool(session.datetime() - datetime.now() < timedelta(days=1))
+        return date.today() >= session.date
     except Session.DoesNotExist:
         return True  # TODO: it's a lie
