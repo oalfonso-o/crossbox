@@ -31,11 +31,13 @@ MIDDLEWARE = [
     'crossbox.middleware.LoginRequiredMiddleware',
 ]
 
-NOT_LOGIN_REQUIRED_PATHS = [
-    '',
-    'user_create/',
-    'auth/password_reset/',
-    'auth/password_reset/done/',
+NOT_LOGIN_REQUIRED_ROUTES = [
+    'login',
+    'user-create',
+    'password_reset',
+    'password_reset_done',
+    'password_reset_confirm',
+    'password_reset_complete',
 ]
 
 ROOT_URLCONF = 'crossbox.urls'
