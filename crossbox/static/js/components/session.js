@@ -91,12 +91,12 @@ Vue.component('session', {
       reservations: this.prop_reservations,
       notification_active: false,
       notification_text: '',
-      is_too_late: false,
+      is_too_late: this.session_closed,
       showModal: false,
     }
   },
   created: function() {
-    if (this.session) {
+    if (this.session && !this.session_closed) {
       axios.post(this.url_get_is_too_late, { session: this.session })
         .then(response => {
           this.is_too_late = response.data.is_too_late
