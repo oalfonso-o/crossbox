@@ -4,3 +4,4 @@ crossbox/*/__pycache__/*
 .env
 venv
 .vscode
+oalfonso_crossbox.egg-info
