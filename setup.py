@@ -39,9 +39,10 @@ setup(
     install_requires=install_requires,
     package_data={
         'crossbox': [
-            'templates/*.html', 'static/*', 'static/images/*', 'static/css/*',
-            'static/js/*', 'static/js/lib/*', 'static/js/components/*',
-            'static/fonts/*', 'static/webfonts/*', 'fixtures/*',
+            'templates/*.html', 'templates/registration/*.html', 'static/*',
+            'static/images/*', 'static/css/*', 'static/js/*',
+            'static/js/lib/*', 'static/js/components/*', 'static/fonts/*',
+            'static/webfonts/*', 'fixtures/*',
         ],
     },
     tests_require=tests_require,
