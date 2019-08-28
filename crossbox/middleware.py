@@ -17,7 +17,7 @@ class LoginRequiredMiddleware(MiddlewareMixin):
     def process_request(self, request):
         path = request.path_info.lstrip('/')
         if not request.user.is_authenticated:
-            if path != '' and path != 'user_create/':
+            if path not in settings.NOT_LOGIN_REQUIRED_PATHS:
                 return HttpResponseRedirect(settings.LOGIN_URL)
         elif path == '':
             return HttpResponseRedirect('/reservation')
