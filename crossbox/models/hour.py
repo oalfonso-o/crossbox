@@ -15,12 +15,13 @@ class Hour(models.Model):
         return self.hour_range()
 
     def hour_range(self):
+        next_hour_int = self.hour.hour + 1 if self.hour.hour < 23 else 0
         return '{} - {}'.format(
             self.hour.isoformat()[:SIMPLE_TIME_POS],
             time(
-                hour=self.hour.hour + 1,
-                minute=self.hour.minute).isoformat()[:SIMPLE_TIME_POS]
-            )
+                hour=next_hour_int, minute=self.hour.minute
+            ).isoformat()[:SIMPLE_TIME_POS]
+        )
     hour_range.short_description = 'Rango de horas'
 
     def hour_simple(self):
