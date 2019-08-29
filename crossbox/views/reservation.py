@@ -54,6 +54,8 @@ class ReservationView(ListView):
                     session.hour.hour_simple(),
                 ) if session else '',
                 'is_too_late': is_too_late(session.id) if session else False,
+                'type': (
+                    session.get_session_type_display() if session else None),
             }
             data.append(record)
         return data

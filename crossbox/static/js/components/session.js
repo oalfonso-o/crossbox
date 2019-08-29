@@ -13,6 +13,7 @@ Vue.component('session', {
     page: Number,
     date: Boolean,
     user_is_staff: Boolean,
+    type: String,
   },
   template: `
     <div v-if="session !== undefined">
@@ -72,7 +73,7 @@ Vue.component('session', {
       <b-notification auto-close :active.sync="notification_active">
         {{ notification_text }}
       </b-notification>
-      <div class="session_type">WOD<span v-if=user_is_staff>&nbsp;<i class="fa fa-pencil"></i></span></div>
+      <div class="session_type">{{ type }}<span v-if=user_is_staff>&nbsp;<i class="fa fa-pencil"></i></span></div>
       <div v-on:click="show_reservation = !show_reservation" class="session_component">
         <div class="show_hide_people">
           <span v-if="show_reservation">Ocultar asistentes</span>
