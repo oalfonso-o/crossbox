@@ -12,6 +12,7 @@ Vue.component('session', {
     url_reservation_create: RegExp,
     page: Number,
     date: Boolean,
+    user_is_staff: Boolean,
   },
   template: `
     <div v-if="session !== undefined">
@@ -71,15 +72,15 @@ Vue.component('session', {
       <b-notification auto-close :active.sync="notification_active">
         {{ notification_text }}
       </b-notification>
-      <div class="session_type">WOD <i class="fa fa-pencil"></i></div>
+      <div class="session_type">WOD<span v-if=user_is_staff>&nbsp;<i class="fa fa-pencil"></i></span></div>
       <div v-on:click="show_reservation = !show_reservation" class="session_component">
         <div class="show_hide_people">
           <span v-if="show_reservation">Ocultar asistentes</span>
           <span v-else>Mostrar asistentes</span>
         </div>
         <div v-if="show_reservation && reservations.length" class="people_list">
-          <li v-for="r in reservations" class="people_li">
-            {{ r }}
+          <li v-for="reservation in reservations" class="people_li">
+            {{ reservation }}
           </li>
         </div>
       </div>
