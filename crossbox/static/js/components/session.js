@@ -127,6 +127,8 @@ Vue.component('session', {
           if (response.data.result == 'created') {
             this.reservations.push(response.data.username)
             document.getElementById("wods").textContent = response.data.wods;
+            this.notification_text = 'Reserva realizada!'
+            this.notification_active = true
             if (response.data.wods == 1) {
               this.notification_text = 'Solo te queda 1 wod'
               this.notification_active = true
@@ -134,6 +136,8 @@ Vue.component('session', {
           } else if (response.data.result == 'deleted' && username_index != -1) {
             this.reservations.splice(username_index, 1)
             document.getElementById("wods").textContent = response.data.wods;
+            this.notification_text = 'Reserva cancelada!'
+            this.notification_active = true
           }
         }).catch(error => {
           if (error.response.data.result == 'no_wods') {
