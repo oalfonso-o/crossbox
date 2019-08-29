@@ -1,10 +1,9 @@
-import json
 from datetime import timedelta
 from http import HTTPStatus
 
 from django.views.decorators.http import require_http_methods
 from django.views.generic.list import ListView
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect
 from django.db import IntegrityError
 from django.urls import reverse
 
@@ -75,15 +74,10 @@ def generate_sessions(request):
 
 @require_http_methods(['PUT'])
 def change_session_type(request, session_id):
-    data = json.loads(request.body)
     try:
         session = Session.objects.get(pk=session_id)
     except Session.DoesNotExist:
         return error_response(
             request, 'session_not_found', HTTPStatus.NOT_FOUND)
-    if data['session_type'] not in dict(Session.SESSION_TYPES):
-        return error_response(
-            request, 'bad_session_type', HTTPStatus.BAD_REQUEST)
-    session.session_type = data['session_type']
-    session.save()
-    return HttpResponse()
+    session.set_next_session_type()
+    return JsonResponse({'session_type': session.get_session_type_display()})

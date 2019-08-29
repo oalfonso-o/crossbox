@@ -48,7 +48,7 @@
                   :prop_is_too_late={% if day.is_too_late %}true{% else %}false{% endif %}
                   :page="{{ page }}"
                   :user_is_staff={% if user.is_staff %}true{% else %}false{% endif %}
-                  :type="'{{ day.type }}'"
+                  :prop_type="'{{ day.type }}'"
                 >
                 </session>
                 </ul>

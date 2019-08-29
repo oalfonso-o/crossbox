@@ -1,3 +1,4 @@
+import itertools
 from datetime import datetime
 
 from django.db import models
@@ -35,3 +36,12 @@ class Session(models.Model):
 
     def is_closed(self):
         return bool(self.datetime() < datetime.now())
+
+    def set_next_session_type(self):
+        types_cycle = itertools.cycle(self.SESSION_TYPES)
+        for key, value in types_cycle:
+            if self.session_type == key:
+                next_type, _ = next(types_cycle)
+                self.session_type = next_type
+                self.save()
+                break

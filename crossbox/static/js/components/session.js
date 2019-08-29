@@ -13,7 +13,7 @@ Vue.component('session', {
     page: Number,
     date: Boolean,
     user_is_staff: Boolean,
-    type: String,
+    prop_type: String,
   },
   template: `
     <div v-if="session !== undefined">
@@ -96,6 +96,7 @@ Vue.component('session', {
       notification_text: '',
       is_too_late: this.prop_is_too_late,
       showModal: false,
+      type: this.prop_type,
     }
   },
   watch: {
@@ -117,10 +118,15 @@ Vue.component('session', {
   },
   methods:{
     change_session_type: function() {
-      axios.put(
-        '../change_session_type/' + this.session + '/',
-        { 'session_type': 'stre' }
-      )
+      axios.put('../change_session_type/' + this.session + '/')
+      .then(response => {
+        this.type = response.data.session_type
+      }).catch(error => {
+        if (error.response.data.result == 'session_not_found') {
+          this.notification_text = 'Ha habído un error, esa sesión ya no existe.'
+          this.notification_active = true
+        }
+      })
     },
     confirm: function (event) {
       event.preventDefault()
