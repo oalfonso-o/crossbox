@@ -1,13 +1,12 @@
-import json
 from datetime import timedelta
 
 from django.views.generic.list import ListView
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect
 from django.db import IntegrityError
 from django.urls import reverse
 
 from crossbox.models import Session, Hour, SessionTemplate, Day
-from .tools import active_page_number, get_monday_from_page, is_too_late
+from .tools import active_page_number, get_monday_from_page
 from crossbox.constants import SATURDAY_WEEK_DAY
 
 
