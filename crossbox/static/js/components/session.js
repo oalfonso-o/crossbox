@@ -71,6 +71,7 @@ Vue.component('session', {
       <b-notification auto-close :active.sync="notification_active">
         {{ notification_text }}
       </b-notification>
+      <div class="session_type">WOD <i class="fa fa-pencil"></i></div>
       <div v-on:click="show_reservation = !show_reservation" class="session_component">
         <div class="show_hide_people">
           <span v-if="show_reservation">Ocultar asistentes</span>
