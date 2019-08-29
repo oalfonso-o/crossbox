@@ -1,5 +1,7 @@
 from datetime import date, timedelta, datetime
 
+from django.http import JsonResponse
+
 from crossbox.models import Session
 from crossbox.constants import (
     WEEK_DAYS,
@@ -52,3 +54,10 @@ def is_too_late(session_id):
         return date.today() >= session.date
     except Session.DoesNotExist:
         return True  # TODO: it's a lie
+
+
+def error_response(request, msg, code):
+    return JsonResponse(
+        {'result': msg, 'username': request.user.username},
+        status=code,
+    )

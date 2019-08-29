@@ -13,7 +13,12 @@ from crossbox.constants import (
     MIDWEEK_DAYS,
     SATURDAY_WEEK_DAY,
 )
-from .tools import active_page_number, get_monday_from_page, is_too_late
+from .tools import (
+    active_page_number,
+    get_monday_from_page,
+    is_too_late,
+    error_response,
+)
 
 
 class ReservationView(ListView):
@@ -74,15 +79,15 @@ class ReservationView(ListView):
 def reservation_create(request):
     wods = getattr(request.user.subscriber, 'wods')
     if wods is None or wods < 1:
-        return _error_response(request, 'no_wods', HTTPStatus.FORBIDDEN)
+        return error_response(request, 'no_wods', HTTPStatus.FORBIDDEN)
     data = json.loads(request.body)
     try:
         session = Session.objects.get(pk=data['session'])
     except Session.DoesNotExist:
-        return _error_response(
+        return error_response(
             request, 'session_not_found', HTTPStatus.NOT_FOUND)
     if datetime.now() > session.datetime():
-        return _error_response(
+        return error_response(
             request, 'session_started', HTTPStatus.FORBIDDEN)
     reservation = Reservation()
     reservation.user = request.user
@@ -92,10 +97,10 @@ def reservation_create(request):
         request.user.subscriber.wods -= 1
         request.user.subscriber.save()
     except IntegrityError:
-        return _error_response(
+        return error_response(
             request, 'already_reserved', HTTPStatus.FORBIDDEN)
     except LimitExceeed:
-        return _error_response(
+        return error_response(
             request, 'max_reservations', HTTPStatus.FORBIDDEN)
     return JsonResponse(
         {
@@ -105,30 +110,23 @@ def reservation_create(request):
     )
 
 
-def _error_response(request, msg, code):
-    return JsonResponse(
-        {'result': msg, 'username': request.user.username},
-        status=code,
-    )
-
-
 def reservation_delete(request):
     data = json.loads(request.body)
     try:
         session = Session.objects.get(pk=data['session'])
     except Session.DoesNotExist:
-        return _error_response(
+        return error_response(
             request, 'session_not_found', HTTPStatus.NOT_FOUND)
     if is_too_late(data['session']) and session.reservations.count() >= 5:
-        return _error_response(request, 'is_too_late', HTTPStatus.FORBIDDEN)
+        return error_response(request, 'is_too_late', HTTPStatus.FORBIDDEN)
     wods = getattr(request.user.subscriber, 'wods')
     if wods is None:
-        return _error_response(request, 'no_subscriber', HTTPStatus.FORBIDDEN)
+        return error_response(request, 'no_subscriber', HTTPStatus.FORBIDDEN)
     try:
         reservation = Reservation.objects.get(
             session=data['session'], user=request.user)
     except Reservation.DoesNotExist:
-        return _error_response(
+        return error_response(
             request, 'no_reservation', HTTPStatus.NOT_FOUND)
     if not reservation.session.is_closed():
         reservation.delete()
@@ -138,5 +136,5 @@ def reservation_delete(request):
             'result': 'deleted', 'username': request.user.username,
             'wods': request.user.subscriber.wods})
     else:
-        return _error_response(request, 'is_too_late', HTTPStatus.FORBIDDEN)
-    return _error_response(request, 'unhandled', HTTPStatus.BAD_REQUEST)
+        return error_response(request, 'is_too_late', HTTPStatus.FORBIDDEN)
+    return error_response(request, 'unhandled', HTTPStatus.BAD_REQUEST)

@@ -8,6 +8,7 @@ from .session import (
     generate_sessions,
     session_template_create,
     session_template_delete,
+    change_session_type,
 )
 from .user import user_create
 
@@ -20,4 +21,5 @@ __all__ = [
     'session_template_delete',
     'generate_sessions',
     'user_create',
+    'change_session_type',
 ]
