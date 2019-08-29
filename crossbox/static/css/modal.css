@@ -83,10 +83,9 @@
     transition: all .3s ease;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 4.5rem;
-    height: 450px;
   }
-  .modal-header { margin-top: 15px;}
-  .modal-body { padding-bottom: 40px; padding-top: 25px; }
+  .modal-header { margin-top: 0px;}
+  .modal-body { padding-bottom: 25px; height: 100px; }
   .modal-footer { margin-top: 35px;}
   .modal-button {
     margin: 0px 30px;
