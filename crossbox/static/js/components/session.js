@@ -12,6 +12,8 @@ Vue.component('session', {
     url_reservation_create: RegExp,
     page: Number,
     date: Boolean,
+    user_is_staff: Boolean,
+    prop_type: String,
   },
   template: `
     <div v-if="session !== undefined">
@@ -71,14 +73,15 @@ Vue.component('session', {
       <b-notification auto-close :active.sync="notification_active">
         {{ notification_text }}
       </b-notification>
+      <div class="session_type">{{ type }}<span v-if=user_is_staff @click="change_session_type()">&nbsp;<i class="fa fa-pencil"></i></span></div>
       <div v-on:click="show_reservation = !show_reservation" class="session_component">
         <div class="show_hide_people">
           <span v-if="show_reservation">Ocultar asistentes</span>
           <span v-else>Mostrar asistentes</span>
         </div>
         <div v-if="show_reservation && reservations.length" class="people_list">
-          <li v-for="r in reservations" class="people_li">
-            {{ r }}
+          <li v-for="reservation in reservations" class="people_li">
+            {{ reservation }}
           </li>
         </div>
       </div>
@@ -93,6 +96,7 @@ Vue.component('session', {
       notification_text: '',
       is_too_late: this.prop_is_too_late,
       showModal: false,
+      type: this.prop_type,
     }
   },
   watch: {
@@ -113,6 +117,17 @@ Vue.component('session', {
     }
   },
   methods:{
+    change_session_type: function() {
+      axios.put('../change_session_type/' + this.session + '/')
+      .then(response => {
+        this.type = response.data.session_type
+      }).catch(error => {
+        if (error.response.data.result == 'session_not_found') {
+          this.notification_text = 'Ha habído un error, esa sesión ya no existe.'
+          this.notification_active = true
+        }
+      })
+    },
     confirm: function (event) {
       event.preventDefault()
       if (!this.checkbox_disabled) {
@@ -136,7 +151,7 @@ Vue.component('session', {
           } else if (response.data.result == 'deleted' && username_index != -1) {
             this.reservations.splice(username_index, 1)
             document.getElementById("wods").textContent = response.data.wods;
-            this.notification_text = 'Reserva cancelada!'
+            this.notification_text = 'Reserva anulada!'
             this.notification_active = true
           }
         }).catch(error => {

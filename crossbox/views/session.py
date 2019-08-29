@@ -1,13 +1,19 @@
 from datetime import timedelta
+from http import HTTPStatus
 
+from django.views.decorators.http import require_http_methods
 from django.views.generic.list import ListView
-from django.http import HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect
 from django.db import IntegrityError
 from django.urls import reverse
 
 from crossbox.models import Session, Hour, SessionTemplate, Day
-from .tools import active_page_number, get_monday_from_page
 from crossbox.constants import SATURDAY_WEEK_DAY
+from .tools import (
+    active_page_number,
+    get_monday_from_page,
+    error_response,
+)
 
 
 class SessionTemplateView(ListView):
@@ -64,3 +70,14 @@ def generate_sessions(request):
         for st in SessionTemplate.objects.all())
     Session.objects.bulk_create(future_sessions)
     return HttpResponseRedirect('/reservation/?page={}'.format(page_number))
+
+
+@require_http_methods(['PUT'])
+def change_session_type(request, session_id):
+    try:
+        session = Session.objects.get(pk=session_id)
+    except Session.DoesNotExist:
+        return error_response(
+            request, 'session_not_found', HTTPStatus.NOT_FOUND)
+    session.set_next_session_type()
+    return JsonResponse({'session_type': session.get_session_type_display()})

@@ -33,7 +33,7 @@ a:focus { outline: 0; }
 .profile a {color: #2f2f2f99;}
 
 .week_title {
-    margin-top: 45px;
+    margin-top: 30px;
     font-size: 45px;
 }
 .template_session_title {
@@ -55,14 +55,11 @@ ul {
 .fa-times {color: rgb(255, 63, 0);}
 .fa-plus {color: rgb(104, 243, 76);}
 .current_day {color: skyblue; font-weight: bold;}
-.next_prev {display: flex;}
+.next_prev {display: flex; height: 105px;}
 .next_prev div {display: inline;}
 .next_prev .next {flex: 1; text-align: right;}
 .next_prev .prev {flex: 1; margin-left: 10px}
-.wods_container {
-    text-align: center;
-    font-size: 40px;
-}
+.wods_container {text-align: center; font-size: 40px; height: 30px;}
 .arrow {
     font-size: 100px;
     margin-right: 10px;
@@ -100,6 +97,9 @@ ul {
     text-align: center;
     margin-top: 25px;
 }
+.session_type {
+    font-size: 13px;
+}
 @font-face {
     font-family: 'bebas';
     src: url('../fonts/bebas.eot?') format('eot'),
@@ -127,12 +127,7 @@ ul {
     .toggle label {
         padding-left: 30px;
     }
-    .outer_toggle {
-        padding-bottom: 20px;
-        margin-top: -30px;
-        width: 100%;
-        text-align: center;
-    }
+    .outer_toggle {height: 80px;}
     .inner_toggle {
         width: 75px;
         display: inline-block
@@ -140,11 +135,16 @@ ul {
     .show_hide_people {
         font-size: 25px;
     }
+    .session {text-align: center !important; padding-top: 25px !important;}
+    .session_type {
+        font-size: 25px;
+    }
     .reserva_submit {
         font-size: 50px;
     }
     .session_header {
         background-color: darkgray;
+        padding-top: 40px !important;
     }
     .table > thead > tr > th,
     .table > tbody > tr > th,
@@ -152,7 +152,9 @@ ul {
     .table > thead > tr > td,
     .table > tbody > tr > td,
     .table > tfoot > tr > td {
-        padding: 6.8rem !important;
+        padding-right: 6.8rem !important;
+        padding-bottom: 6.8rem !important;
+        padding-left: 6.8rem !important;
     }
     .b-checkbox.checkbox {
         outline: none;
@@ -162,7 +164,7 @@ ul {
         -webkit-box-align: center;
             -ms-flex-align: center;
                 align-items: center;
-        padding-left: 0;
+        padding-left: 0 !important;
         width: 75px;
     }
     .people_li {
@@ -177,7 +179,7 @@ ul {
         border-radius: 15px;
         color: white;
         z-index: 1;
-        padding-top: 15px;
+        padding-bottom: 35px;
     }
 }
 

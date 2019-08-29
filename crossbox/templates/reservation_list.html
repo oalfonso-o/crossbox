@@ -47,6 +47,8 @@
                   :url_reservation_create="{% url 'reservation-create' %}"
                   :prop_is_too_late={% if day.is_too_late %}true{% else %}false{% endif %}
                   :page="{{ page }}"
+                  :user_is_staff={% if user.is_staff %}true{% else %}false{% endif %}
+                  :prop_type="'{{ day.type }}'"
                 >
                 </session>
                 </ul>

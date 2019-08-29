@@ -11,6 +11,7 @@ from crossbox.views import (
     session_template_delete,
     generate_sessions,
     user_create,
+    change_session_type,
 )
 
 
@@ -55,5 +56,10 @@ urlpatterns = [
         r'^generate_sessions/',
         generate_sessions,
         name='generate-sessions',
+    ),
+    path(
+        'change_session_type/<int:session_id>/',
+        change_session_type,
+        name='change_session_type',
     ),
 ]
