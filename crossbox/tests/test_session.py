@@ -8,7 +8,7 @@ from .tools import with_login
 from crossbox.models import Hour, Session
 
 
-class ReservationsCase(TestCase):
+class SessionsCase(TestCase):
 
     fixtures = ['tests_base']
 
