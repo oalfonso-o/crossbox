@@ -31,6 +31,7 @@ body {
 	font-style: normal;
 	font-weight: 300;
 	font-size: 1.4rem;
+	line-height: 2rem;
 	letter-spacing: 0.01rem;
 	color: #212121;
 	-webkit-font-smoothing: antialiased;
@@ -187,7 +188,7 @@ body {
 	.table-responsive-vertical > .table > tbody > tr > td {
 		display: block;
 		text-align: right;
-		height: 170px;
+		height: 165px;
 	}
 
 	.table-responsive-vertical > .table > tbody > tr > td[data-title]:before {
