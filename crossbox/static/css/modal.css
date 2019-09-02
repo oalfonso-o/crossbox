@@ -85,7 +85,7 @@
     font-size: 4.5rem;
   }
   .modal-header { margin-top: 0px;}
-  .modal-body { padding-bottom: 25px; height: 100px; }
+  .modal-body { padding-bottom: 25px; height: 100px; margin-top: 105px; }
   .modal-footer { margin-top: 35px;}
   .modal-button {
     margin: 0px 30px;
