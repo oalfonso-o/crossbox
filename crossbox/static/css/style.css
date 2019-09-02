@@ -128,7 +128,6 @@ ul {
         padding-left: 30px;
     }
     .outer_toggle {
-        padding-bottom: 20px;
         margin-top: -30px;
         width: 100%;
         text-align: center;
@@ -146,6 +145,9 @@ ul {
     .session_header {
         background-color: darkgray;
     }
+    .session_type {
+        font-size: 30px;
+    }
     .table > thead > tr > th,
     .table > tbody > tr > th,
     .table > tfoot > tr > th,
@@ -162,7 +164,7 @@ ul {
         -webkit-box-align: center;
             -ms-flex-align: center;
                 align-items: center;
-        padding-left: 0;
+        padding-left: 0px !important;
         width: 75px;
     }
     .people_li {
