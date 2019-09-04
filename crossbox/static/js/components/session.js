@@ -112,7 +112,7 @@ Vue.component('session', {
       return (
         (!this.reservated && this.reservations.length == 15)
         || this.session_closed
-        || (this.is_too_late && this.reservated && this.reservations.length >= 5)
+        || (this.is_too_late && this.reservated && this.reservations.length >= 5 && this.prop_reservated)
       )
     }
   },
@@ -140,6 +140,7 @@ Vue.component('session', {
         .then(response => {
           username_index = this.reservations.indexOf(response.data.username)
           if (response.data.result == 'created') {
+            this.prop_reservated = true
             this.reservations.push(response.data.username)
             document.getElementById("wods").textContent = response.data.wods;
             this.notification_text = 'Reserva realizada!'
@@ -149,6 +150,7 @@ Vue.component('session', {
               this.notification_active = true
             }
           } else if (response.data.result == 'deleted' && username_index != -1) {
+            this.prop_reservated = false
             this.reservations.splice(username_index, 1)
             document.getElementById("wods").textContent = response.data.wods;
             this.notification_text = 'Reserva anulada!'
