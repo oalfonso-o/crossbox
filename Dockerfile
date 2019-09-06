@@ -13,4 +13,4 @@ WORKDIR /django
 COPY ./ /django
 RUN pip install -r requirements-dev.txt
 EXPOSE 8000
-ENTRYPOINT gunicorn crossbox.wsgi --bind 0.0.0.0:8000
+ENTRYPOINT python manage.py runserver 0.0.0.0:8000
