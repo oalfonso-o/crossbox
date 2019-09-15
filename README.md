@@ -21,7 +21,7 @@ pip install -e .
 pip install -r requirements-dev.txt
 ```
 
-## SetUp DataBase
+## SetUp Database (with containers runnings)
 ### Migrations
 - Docker
 ```bash
@@ -48,3 +48,14 @@ python manage.py createsuperuser
 pip wheel . --no-deps
 ```
 - Bring the wheel wherever you need it as a pypi repo for example
+
+
+### Tests and linting
+- Docker:
+```bash
+docker-compose exec django nox
+```
+- Local
+```bash
+nox
+```

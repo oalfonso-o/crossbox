@@ -1,4 +1,5 @@
 FROM python:3.7
+ENV PYTHONUNBUFFERED=1
 RUN apt-get -qq update && \
     apt-get -q -y upgrade && \
     apt-get install -y sudo curl wget locales

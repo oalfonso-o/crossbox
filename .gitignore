@@ -1,7 +1,6 @@
-crossbox/settings/.env
-crossbox/__pycache__/*
-crossbox/*/__pycache__/*
-.env
+**/.env
 venv
-.vscode
+**/__pycache__/*
 oalfonso_crossbox.egg-info
+.vscode
+.nox

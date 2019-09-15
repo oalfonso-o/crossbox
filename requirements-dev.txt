@@ -7,3 +7,5 @@ djangorestframework
 bcrypt
 gunicorn
 psycopg2-binary
+freezegun
+nox
