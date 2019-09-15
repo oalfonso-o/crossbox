@@ -110,7 +110,7 @@ Vue.component('session', {
     },
     checkbox_disabled: function () {
       return (
-        (!this.reservated && this.reservations.length == 15)
+        (!this.reservated && this.reservations.length == 15 && !this.prop_reservated)
         || this.session_closed
         || (this.is_too_late && this.reservated && this.reservations.length >= 5 && this.prop_reservated)
       )
