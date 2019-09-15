@@ -37,7 +37,7 @@ def _this_week_last_session_datetime(this_week_monday, next_week_monday):
     )
     try:
         this_week_last_session = Session.objects.filter(
-            date__gte=this_week_saturday, date__lte=next_week_monday,
+            date__gte=this_week_saturday, date__lt=next_week_monday,
         ).order_by('-date', '-hour__hour')[0]
         this_week_last_session_datetime = (
             this_week_last_session.datetime() + timedelta(hours=1))

@@ -61,6 +61,16 @@ class ToolsCase(TestCase):
         monday = get_monday_from_page(0)
         self.assertEquals(monday, datetime.date(year=2019, month=5, day=20))
 
+    @freeze_time('2019-05-18 10:00:00')
+    def test_get_monday_from_page_saturday_and_ignore_next_monday(self):
+        self._create_saturday_session()
+        hour = Hour(hour=datetime.time(11))
+        hour.save()
+        day = datetime.date(year=2019, month=5, day=20)
+        Session.objects.create(date=day, hour=hour)
+        monday = get_monday_from_page(0)
+        self.assertEquals(monday, datetime.date(year=2019, month=5, day=13))
+
     @staticmethod
     def _create_saturday_session():
         hour = Hour(hour=datetime.time(10))
