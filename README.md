@@ -13,7 +13,7 @@ And edit wherever you need
 docker-compose up
 ```
 - Or locally, for what you need:
-  - a local dbs
+  - a local db
   - a virtualenv with python>=3
   - install the project module in your environment as editable and also it's requirements
 ```bash
