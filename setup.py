@@ -8,18 +8,15 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-install_requires = [
-    'Django',
-    'django-jet',
-    'pytz',
-    'python-dotenv',
-    'django-filter',
-    'Markdown',
-    'Pygments',
-    'djangorestframework',
-    'bcrypt',
-    'psycopg2-binary',
-]
+
+def read_requirements(filename):
+    with open(filename) as f:
+        reqs = f.readlines()
+    return [r.strip() for r in reqs
+            if r[0] != '#' and r[:4] != 'git+' and r[:2] != '-r']
+
+
+install_requires = read_requirements('./requirements.txt')
 
 tests_require = [
     'freezegun',
