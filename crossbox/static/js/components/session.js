@@ -56,10 +56,10 @@ Vue.component('session', {
         </span>
       </modal>
 
-      <div v-if="reservations.length < 5" class="num_reservations num_reservations_low">
+      <div v-if="reservations.length < 3" class="num_reservations num_reservations_low">
         {{ reservations.length }} / 8
       </div>
-      <div v-else-if="reservations.length >= 5 && reservations.length < 8" class="num_reservations num_reservations_open">
+      <div v-else-if="reservations.length >= 3 && reservations.length < 8" class="num_reservations num_reservations_open">
         {{ reservations.length }} / 8
       </div>
       <div v-else class="num_reservations num_reservations_closed">
@@ -112,7 +112,7 @@ Vue.component('session', {
       return (
         (!this.reservated && this.reservations.length == 8 && !this.prop_reservated)
         || this.session_closed
-        || (this.is_too_late && this.reservated && this.reservations.length >= 5 && this.prop_reservated)
+        || (this.is_too_late && this.reservated && this.reservations.length >= 3 && this.prop_reservated)
       )
     }
   },

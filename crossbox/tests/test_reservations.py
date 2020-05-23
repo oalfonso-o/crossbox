@@ -209,7 +209,7 @@ class ReservationsCase(TestCase):
     def test_reservation_delete_ok_is_too_late_but_few_people(
             self, QuerySetCountMock):
         # session 21 -> day: 2019-01-02, hour: 17:00:00
-        QuerySetCountMock.return_value = 4
+        QuerySetCountMock.return_value = 2
         self.reservation_view_test(
             mode='delete',
             session_id=21,
