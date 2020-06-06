@@ -12,6 +12,7 @@ from crossbox.models import Reservation, Session, Hour
 from crossbox.constants import (
     MIDWEEK_DAYS,
     SATURDAY_WEEK_DAY,
+    MIN_RESERVATION_PLACES,
 )
 from .tools import (
     active_page_number,
@@ -117,7 +118,10 @@ def reservation_delete(request):
     except Session.DoesNotExist:
         return error_response(
             request, 'session_not_found', HTTPStatus.NOT_FOUND)
-    if is_too_late(data['session']) and session.reservations.count() >= 3:
+    if (
+        is_too_late(data['session'])
+        and session.reservations.count() >= MIN_RESERVATION_PLACES
+    ):
         return error_response(request, 'is_too_late', HTTPStatus.FORBIDDEN)
     wods = getattr(request.user.subscriber, 'wods')
     if wods is None:
