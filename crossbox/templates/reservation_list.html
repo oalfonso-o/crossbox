@@ -35,7 +35,7 @@
           <tr>
             <td class='session session_header'>{{ day_row.0|date:'l d' }}</td>
             {% for day in day_row|slice:"1:" %}
-              <td class="session {% if not day.session %}not_session{% elif day.session and day.session_closed %}session_closed{% elif day.reservations|length >= 3 %}session_open{% endif %}" data-title='{{ day.hour }}'>
+              <td class="session {% if not day.session %}not_session{% elif day.session and day.session_closed %}session_closed{% elif day.reservations|length >= 4 %}session_open{% endif %}" data-title='{{ day.hour }}'>
                 <ul>
                 <session
                   :date="'{{ day.date }}'"

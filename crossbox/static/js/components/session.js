@@ -56,14 +56,14 @@ Vue.component('session', {
         </span>
       </modal>
 
-      <div v-if="reservations.length < 3" class="num_reservations num_reservations_low">
-        {{ reservations.length }} / 8
+      <div v-if="reservations.length < 4" class="num_reservations num_reservations_low">
+        {{ reservations.length }} / 12
       </div>
-      <div v-else-if="reservations.length >= 3 && reservations.length < 8" class="num_reservations num_reservations_open">
-        {{ reservations.length }} / 8
+      <div v-else-if="reservations.length >= 4 && reservations.length < 12" class="num_reservations num_reservations_open">
+        {{ reservations.length }} / 12
       </div>
       <div v-else class="num_reservations num_reservations_closed">
-        {{ reservations.length }} / 8
+        {{ reservations.length }} / 12
       </div>
       <div class="outer_toggle">
         <div class="inner_toggle">
@@ -110,9 +110,9 @@ Vue.component('session', {
     },
     checkbox_disabled: function () {
       return (
-        (!this.reservated && this.reservations.length == 8 && !this.prop_reservated)
+        (!this.reservated && this.reservations.length == 12 && !this.prop_reservated)
         || this.session_closed
-        || (this.is_too_late && this.reservated && this.reservations.length >= 3 && this.prop_reservated)
+        || (this.is_too_late && this.reservated && this.reservations.length >= 4 && this.prop_reservated)
       )
     }
   },
