@@ -20,6 +20,10 @@ docker-compose up
 pip install -e .
 pip install -r requirements-dev.txt
 ```
+And run it
+```bash
+python manage.py runserver
+```
 
 ## SetUp Database (with containers runnings)
 ### Migrations
