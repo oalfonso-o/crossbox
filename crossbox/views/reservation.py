@@ -37,24 +37,24 @@ class ReservationView(ListView):
         days = [monday + timedelta(days=i) for i in range(SATURDAY_WEEK_DAY)]
         context['hours'] = Hour.objects.filter(
             pk__in=hour_pks).order_by('hour')
-        context['days'] = [self.row_object(d, context['hours']) for d in days]
+        context['days'] = [self._row_object(d, context['hours']) for d in days]
         context['from_date'] = monday
         context['to_date'] = saturday
         context['page'] = page_number
         context['wods'] = getattr(self.request.user.subscriber, 'wods')
         return context
 
-    def row_object(self, d, hours):
+    def _row_object(self, d, hours):
         data = [d]
         for h in hours:
             session = Session.objects.filter(date=d, hour=h).first()
             record = {
-                'user_reservated': self.user_has_reservated(session),
+                'user_reservated': self._user_has_reservated(session),
                 'session': session.id if session else None,
                 'session_closed': session.is_closed() if session else None,
                 'hour': h.hour_simple(),
                 'reservations': (
-                    self.username_reservations(session) if session else []),
+                    self._username_reservations(session) if session else []),
                 'date': 'El día {} a las {}'.format(
                     session.date.strftime('%d-%m-%Y'),
                     session.hour.hour_simple(),
@@ -66,10 +66,10 @@ class ReservationView(ListView):
             data.append(record)
         return data
 
-    def username_reservations(self, session):
+    def _username_reservations(self, session):
         return [r.user.username for r in session.reservations.all()]
 
-    def user_has_reservated(self, session):
+    def _user_has_reservated(self, session):
         return (
             bool(Reservation.objects.filter(
                 session=session.id, user=self.request.user).first())
