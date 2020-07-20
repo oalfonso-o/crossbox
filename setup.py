@@ -18,10 +18,6 @@ def read_requirements(filename):
 
 install_requires = read_requirements('./requirements.txt')
 
-tests_require = [
-    'freezegun',
-]
-
 setup(
     name='oalfonso-crossbox',
     version=__version__,
@@ -30,7 +26,7 @@ setup(
     license='MIT',
     description='Crossbox Palau',
     long_description=README,
-    url='https://bitbucket.org/oalfonso_o/',
+    url='https://github.com/oalfonso-o/',
     author='Oriol Alfonso',
     author_email='oriolalfonso91@gmail.com',
     install_requires=install_requires,
@@ -42,5 +38,4 @@ setup(
             'static/webfonts/*', 'fixtures/*',
         ],
     },
-    tests_require=tests_require,
 )
