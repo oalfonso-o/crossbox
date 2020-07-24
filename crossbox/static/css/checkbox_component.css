@@ -44,8 +44,8 @@
     padding-top: 15px;
     font-size: 40px;
 }
-.session_type {font-size: 40px;display: flex;}
-.outer_toggle {width: 116px; display: flex;padding-top: 25px;}
+.session_type {font-size: 40px;display: flex;padding-top: 20px;}
+.outer_toggle {display: flex;padding-top: 45px;}
 .row_center_container {display: flex;justify-content: flex-end;}
 .num_reservations_container {
     width: 200px;
@@ -53,4 +53,4 @@
     display: flex;
     flex-direction: column;
 }
-.checkbox_container {margin: 0px auto;}
+.checkbox_container {margin-right: 12%;}

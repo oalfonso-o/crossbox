@@ -82,14 +82,14 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
     transition: all .3s ease;
     font-family: Helvetica, Arial, sans-serif;
-    font-size: 4.5rem;
+    font-size: 3.5rem;
   }
   .modal-header { margin-top: 0px;}
-  .modal-body { padding-bottom: 25px; height: 100px; margin-top: 105px; }
-  .modal-footer { margin-top: 35px;}
+  .modal-body { padding-bottom: 25px; height: 100px; margin-top: 85px; }
+  .modal-footer { margin-top: 100px;}
   .modal-button {
     margin: 0px 30px;
-    font-size: 5rem;
+    font-size: 3rem;
     font-weight: bold;
   }
 }
