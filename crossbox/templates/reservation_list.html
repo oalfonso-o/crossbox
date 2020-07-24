@@ -1,66 +1,62 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-  <div id="container">
-    <div class="wods_container">
-      <wods :prop_wods="{{ wods }}">
+<div id="container">
+  <div class="wods_container">
+    <wods :prop_wods="{{ wods }}">
+  </div>
+  <div class="next_prev">
+    <div class="prev">
+      <a href="{% url 'reservation' %}?page={{ page|add:"-1" }}">
+        <i class="fas fa-arrow-left arrow"></i>
+      </a>
     </div>
-    <div class="next_prev">
-      <div class="prev">
-        <a href="{% url 'reservation' %}?page={{ page|add:"-1" }}">
-          <i class="fas fa-arrow-left arrow"></i>
-        </a>
-      </div>
-      <div class='week_title'>
-        <span>{{ from_date|date:"d F" }} - {{ to_date|date:"d F" }} - {{ to_date|date:"Y" }}</span>
-      </div>
-      <div class="next">
-        <a href="{% url 'reservation' %}?page={{ page|add:"1" }}">
-          <i class="fas fa-arrow-right arrow"></i>
-        </a>
-      </div>
+    <div class='week_title'>
+      <span>{{ from_date|date:"d F" }} - {{ to_date|date:"d F" }} - {{ to_date|date:"Y" }}</span>
     </div>
-    <div class='table-responsive-vertical shadow-z-1'>
-      <table class="table table-hover table-mc-light-blue">
-        <thead>
-          <tr>
-            <th>Día</th>
-            {% for h in hours %}
-              <th>{{ h }}</th>
-            {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
-        {% for day_row in days %}
-          <tr>
-            <td class='session session_header'>{{ day_row.0|date:'l d' }}</td>
-            {% for day in day_row|slice:"1:" %}
-              <td class="session {% if not day.session %}not_session{% elif day.session and day.session_closed %}session_closed{% elif day.reservations|length >= 4 %}session_open{% endif %}" data-title='{{ day.hour }}'>
-                <ul>
-                <session
-                  :date="'{{ day.date }}'"
-                  :prop_reservations="{{ day.reservations }}"
-                  :prop_reservated={% if day.user_reservated %}true{% else %}false{% endif %}
-                  :session="{{ day.session }}"
-                  :session_closed={% if day.session_closed %}true{% else %}false{% endif %}
-                  :url_reservation_delete="{% url 'reservation-delete' %}"
-                  :url_reservation_create="{% url 'reservation-create' %}"
-                  :prop_is_too_late={% if day.is_too_late %}true{% else %}false{% endif %}
-                  :page="{{ page }}"
-                  :user_is_staff={% if user.is_staff %}true{% else %}false{% endif %}
-                  :prop_type="'{{ day.type }}'"
-                >
-                </session>
-                </ul>
-              </td>
-            {% endfor %}
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+    <div class="next">
+      <a href="{% url 'reservation' %}?page={{ page|add:"1" }}">
+        <i class="fas fa-arrow-right arrow"></i>
+      </a>
     </div>
   </div>
-  <script src="{% static 'js/components/wods.js' %}"></script>
-  <script src="{% static 'js/components/session.js' %}"></script>
-  <script src="{% static 'js/components/vue_app.js' %}"></script>
+  <div id="table_container">
+    <table id="table_vertical">
+      <tbody>
+        {% for day_row in days %}
+          <tr class="table_session_row">
+            <td class='table_day_row' colspan="3">{{ day_row.0|date:'l d' }}</td>
+          </tr>
+          {% for day in day_row|slice:"1:" %}
+            <tr class="table_session_row session {% if not day.session %}not_session{% elif day.session and day.session_closed %}session_closed{% elif day.reservations|length >= 4 %}session_open{% endif %}" data-title='{{ day.hour }}'>
+              <td class="table_session_row_td_left">{{day.hour}}</td>
+              <td class="table_session_row_td_mid">
+                <ul>
+                  <session
+                    :date="'{{ day.date }}'"
+                    :prop_reservations="{{ day.reservations }}"
+                    :prop_reservated={% if day.user_reservated %}true{% else %}false{% endif %}
+                    :session="{{ day.session }}"
+                    :session_closed={% if day.session_closed %}true{% else %}false{% endif %}
+                    :url_reservation_delete="{% url 'reservation-delete' %}"
+                    :url_reservation_create="{% url 'reservation-create' %}"
+                    :prop_is_too_late={% if day.is_too_late %}true{% else %}false{% endif %}
+                    :page="{{ page }}"
+                    :user_is_staff={% if user.is_staff %}true{% else %}false{% endif %}
+                    :prop_type="'{{ day.type }}'"
+                  >
+                  </session>
+                </ul>
+              </td>
+              <td class="table_session_row_td_right"></td>
+            </tr>
+          {% endfor %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<script src="{% static 'js/components/wods.js' %}"></script>
+<script src="{% static 'js/components/session.js' %}"></script>
+<script src="{% static 'js/components/vue_app.js' %}"></script>
 {% endblock content %}

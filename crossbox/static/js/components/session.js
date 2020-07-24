@@ -74,7 +74,7 @@ Vue.component('session', {
         {{ notification_text }}
       </b-notification>
       <div class="session_type">{{ type }}<span v-if=user_is_staff @click="change_session_type()">&nbsp;<i class="fa fa-pencil"></i></span></div>
-      <div v-on:click="show_reservation = !show_reservation" class="session_component">
+      <div v-on:click="show_reservation = !show_reservation" class="pointer">
         <div class="show_hide_people">
           <span v-if="show_reservation">Ocultar asistentes</span>
           <span v-else>Mostrar asistentes</span>
