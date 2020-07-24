@@ -1,4 +1,4 @@
-from datetime import timedelta
+import datetime
 from http import HTTPStatus
 
 from django.views.decorators.http import require_http_methods
@@ -8,7 +8,11 @@ from django.db import IntegrityError
 from django.urls import reverse
 
 from crossbox.models import Session, Hour, SessionTemplate, Day
-from crossbox.constants import SATURDAY_WEEK_DAY
+from crossbox.constants import (
+    SATURDAY_WEEK_DAY,
+    NUM_WEEKS_IN_A_YEAR,
+    WEEK_DAYS,
+)
 from .tools import (
     active_page_number,
     get_monday_from_page,
@@ -25,10 +29,11 @@ class SessionTemplateView(ListView):
         hours = Hour.objects.order_by('hour').all()
         days = Day.objects.all()
         context['hours'] = hours
-        context['days'] = [self.row_object(d, hours) for d in days]
+        context['days'] = [self._row_object(d, hours) for d in days]
+        context['weeks'] = self._weeks()
         return context
 
-    def row_object(self, d, hours):
+    def _row_object(self, d, hours):
         data = [d]
         for h in hours:
             session = SessionTemplate.objects.filter(day=d, hour=h).first()
@@ -39,6 +44,22 @@ class SessionTemplateView(ListView):
                 'hour_title': h.hour_simple(),
             })
         return data
+
+    @staticmethod
+    def _weeks():
+        monday = get_monday_from_page(0)
+        weeks = [
+            (i, monday + datetime.timedelta(days=i * WEEK_DAYS))
+            for i in range(NUM_WEEKS_IN_A_YEAR)
+        ]
+        return {
+            num: (
+                f'Lunes {monday.day}/{monday.month}/{monday.year} - Semana '
+                f'{num + 1 if num else "1 (actual)"}'
+            )
+            for num, monday
+            in weeks
+        }
 
 
 def session_template_create(request):
@@ -61,12 +82,15 @@ def session_template_delete(request):
 def generate_sessions(request):
     page_number = active_page_number(request)
     monday = get_monday_from_page(page_number)
-    sunday = monday + timedelta(days=SATURDAY_WEEK_DAY)
+    sunday = monday + datetime.timedelta(days=SATURDAY_WEEK_DAY)
     sessions_to_delete = Session.objects.filter(
         date__gte=monday, date__lte=sunday)
     sessions_to_delete.delete()
     future_sessions = (
-        Session(date=monday + timedelta(days=st.day.weekday), hour=st.hour)
+        Session(
+            date=monday + datetime.timedelta(days=st.day.weekday),
+            hour=st.hour
+        )
         for st in SessionTemplate.objects.all())
     Session.objects.bulk_create(future_sessions)
     return HttpResponseRedirect('/reservation/?page={}'.format(page_number))

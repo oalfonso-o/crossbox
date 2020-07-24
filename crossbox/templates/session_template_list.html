@@ -35,5 +35,17 @@
         </tbody>
       </table>
     </div>
+    <div class="apply_sessions_to_week_container">
+      <span>Generar sesiones en la semana:</span>
+      <form action="{% url 'generate-sessions' %}" method="get">
+        <select id="page" name="page">
+          {% for page, week_label in weeks.items %}
+            <option value="{{ page }}">{{ week_label }}</option>
+          {% endfor %}
+        </select>
+        <br>
+        <input type="submit" value="Generar">
+      </form>
+    </div>
   </div>
 {% endblock content %}

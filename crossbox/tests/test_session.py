@@ -21,26 +21,35 @@ class SessionsCase(TestCase):
         day = datetime.date(year=2019, month=1, day=1)
         session = Session(date=day, hour=hour)
         session.save()
-        self.session_view_test(
+        self._session_view_test(
             session_id=session.id,
             status_code_expected=HTTPStatus.OK,
             result_expected='OPEN',
         )
-        self.session_view_test(
+        self._session_view_test(
             session_id=session.id,
             status_code_expected=HTTPStatus.OK,
             result_expected='ESTIRAMIENTOS',
         )
-        self.session_view_test(
+        self._session_view_test(
             session_id=session.id,
             status_code_expected=HTTPStatus.OK,
             result_expected='WOD',
         )
-        self.session_view_test(
+        self._session_view_test(
             session_id=session.id,
             status_code_expected=HTTPStatus.OK,
             result_expected='OPEN',
         )
+
+    @with_login()
+    @freeze_time('2020-01-1')
+    def test_session_template_context_data_weeks(self):
+        response = self.client.get(path=reverse('session-template'))
+        weeks = response.context_data['weeks']
+        self.assertEqual(len(weeks), 52)
+        self.assertEqual(weeks[0], 'Lunes 30/12/2019 - Semana 1 (actual)')
+        self.assertEqual(weeks[51], 'Lunes 21/12/2020 - Semana 52')
 
     @with_login()
     def test_change_session_type_no_session(self):
@@ -48,8 +57,7 @@ class SessionsCase(TestCase):
             path=reverse('change_session_type', args=[13371337]))
         self.assertEquals(response.status_code, HTTPStatus.NOT_FOUND)
 
-    @with_login()
-    def session_view_test(
+    def _session_view_test(
             self, session_id, status_code_expected, result_expected):
         response = self.client.put(
             path=reverse('change_session_type', args=[session_id]))
