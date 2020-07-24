@@ -31,20 +31,22 @@
             <tr class="table_session_row session {% if not day.session %}not_session{% elif day.session and day.session_closed %}session_closed{% elif day.reservations|length >= 4 %}session_open{% endif %}" data-title='{{ day.hour }}'>
               <td class="table_session_row_td_left">{{day.hour}}</td>
               <td>
-                <session
-                  :date="'{{ day.date }}'"
-                  :prop_reservations="{{ day.reservations }}"
-                  :prop_reservated={% if day.user_reservated %}true{% else %}false{% endif %}
-                  :session="{{ day.session }}"
-                  :session_closed={% if day.session_closed %}true{% else %}false{% endif %}
-                  :url_reservation_delete="{% url 'reservation-delete' %}"
-                  :url_reservation_create="{% url 'reservation-create' %}"
-                  :prop_is_too_late={% if day.is_too_late %}true{% else %}false{% endif %}
-                  :page="{{ page }}"
-                  :user_is_staff={% if user.is_staff %}true{% else %}false{% endif %}
-                  :prop_type="'{{ day.type }}'"
-                >
-                </session>
+                <ul>
+                  <session
+                    :date="'{{ day.date }}'"
+                    :prop_reservations="{{ day.reservations }}"
+                    :prop_reservated={% if day.user_reservated %}true{% else %}false{% endif %}
+                    :session="{{ day.session }}"
+                    :session_closed={% if day.session_closed %}true{% else %}false{% endif %}
+                    :url_reservation_delete="{% url 'reservation-delete' %}"
+                    :url_reservation_create="{% url 'reservation-create' %}"
+                    :prop_is_too_late={% if day.is_too_late %}true{% else %}false{% endif %}
+                    :page="{{ page }}"
+                    :user_is_staff={% if user.is_staff %}true{% else %}false{% endif %}
+                    :prop_type="'{{ day.type }}'"
+                  >
+                  </session>
+                </ul>
               </td>
             </tr>
           {% endfor %}

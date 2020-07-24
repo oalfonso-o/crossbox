@@ -10,7 +10,7 @@
     transform: translate(-50%,-50%);
     border-radius: 10px;
     padding-bottom: 25px;
-    width: 50%;
+    width: 70%;
     font-size: 5rem;
     padding-top: 30px;
     border-color: black;
@@ -34,7 +34,6 @@
 }
 .people_li {height: 70px; padding-top: 20px;}
 .people_list {
-    position: relative;
     background-color: #1e1e1e;
     margin-top: 15px;
     border: 1px solid;
@@ -43,6 +42,10 @@
     z-index: 1;
     padding-top: 15px;
     font-size: 40px;
+    position: fixed;
+    left: 25%;
+    top: 57%;
+    width: 50%;
 }
 .session_type {font-size: 40px;display: flex;padding-top: 20px;}
 .outer_toggle {display: flex;padding-top: 45px;}
@@ -54,3 +57,36 @@
     flex-direction: column;
 }
 .checkbox_container {margin-right: 12%;}
+
+.delete {
+    right: .5rem !important;
+    top: .5rem !important;
+    position: absolute;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-color: hsla(232.9, 100%, 49.4%, 0);
+    border: none;
+    border-radius: 290486px;
+    cursor: pointer;
+    pointer-events: auto;
+    display: inline-block;
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-size: 18px;
+    color:white;
+    height: 20px;
+    max-height: 20px;
+    max-width: 20px;
+    min-height: 20px;
+    min-width: 20px;
+    outline: none;
+    vertical-align: top;
+    width: 20px;
+}
+.delete:before {
+    content: "\f00d";
+    font-family: FontAwesome;
+    right: 2px;
+    position:absolute;
+    top:0;
+ }
