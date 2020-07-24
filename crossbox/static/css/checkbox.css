@@ -4,6 +4,7 @@
   display: inline-block;
   line-height: 1.25;
   position: relative;
+  font-size: 90px;
 }
 
 .checkbox input,
@@ -30,7 +31,6 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  padding-left: 8px;
 }
 
 .b-checkbox.checkbox + .checkbox {
@@ -46,7 +46,7 @@
   height: 1.25em;
   -ms-flex-negative: 0;
       flex-shrink: 0;
-  border-radius: 4px;
+  border-radius: 15px;
   border: 2px solid #7a7a7a;
   -webkit-transition: background 150ms ease-out;
   transition: background 150ms ease-out;

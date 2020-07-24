@@ -16,7 +16,7 @@ Vue.component('session', {
     prop_type: String,
   },
   template: `
-    <div v-if="session !== undefined">
+    <div v-if="session !== undefined" class="row_center_container">
       <script type="text/x-template" id="modal-template">
         <transition name="modal">
           <div class="modal-mask">
@@ -56,35 +56,40 @@ Vue.component('session', {
         </span>
       </modal>
 
-      <div v-if="reservations.length < 4" class="num_reservations num_reservations_low">
-        {{ reservations.length }} / 12
+      <div class="checkbox_container">
+        <div class="outer_toggle">
+          <div class="inner_toggle">
+            <b-checkbox v-model="reservated" type="is-success" :disabled="checkbox_disabled" @click.native="confirm($event)"></b-checkbox>
+          </div>
+          <div v-on:click="show_reservation = !show_reservation" class="show_hide_people_container">
+            <div class="show_hide_people">
+              <span v-if="show_reservation"><i class="fa fa-eye-slash"></i></span>
+              <span v-else><i class="fa fa-eye"></i></span>
+            </div>
+            <div v-if="show_reservation && reservations.length" class="people_list">
+              <li v-for="reservation in reservations" class="people_li">
+                {{ reservation }}
+              </li>
+            </div>
+          </div>
+        </div>
+        <div class="session_type">{{ type }}<span v-if=user_is_staff @click="change_session_type()">&nbsp;<i class="fa fa-pencil"></i></span></div>
       </div>
-      <div v-else-if="reservations.length >= 4 && reservations.length < 12" class="num_reservations num_reservations_open">
-        {{ reservations.length }} / 12
-      </div>
-      <div v-else class="num_reservations num_reservations_closed">
-        {{ reservations.length }} / 12
-      </div>
-      <div class="outer_toggle">
-        <div class="inner_toggle">
-          <b-checkbox v-model="reservated" type="is-success" :disabled="checkbox_disabled" @click.native="confirm($event)"></b-checkbox>
+      <div class="num_reservations_container">
+        <div v-if="reservations.length < 4" class="num_reservations num_reservations_low">
+          {{ reservations.length }} / 12
+        </div>
+        <div v-else-if="reservations.length >= 4 && reservations.length < 12" class="num_reservations num_reservations_open">
+          {{ reservations.length }} / 12
+        </div>
+        <div v-else class="num_reservations num_reservations_closed">
+          {{ reservations.length }} / 12
         </div>
       </div>
+
       <b-notification auto-close :active.sync="notification_active">
         {{ notification_text }}
       </b-notification>
-      <div class="session_type">{{ type }}<span v-if=user_is_staff @click="change_session_type()">&nbsp;<i class="fa fa-pencil"></i></span></div>
-      <div v-on:click="show_reservation = !show_reservation" class="pointer">
-        <div class="show_hide_people">
-          <span v-if="show_reservation">Ocultar asistentes</span>
-          <span v-else>Mostrar asistentes</span>
-        </div>
-        <div v-if="show_reservation && reservations.length" class="people_list">
-          <li v-for="reservation in reservations" class="people_li">
-            {{ reservation }}
-          </li>
-        </div>
-      </div>
     </div>
   `,
   data: function () {

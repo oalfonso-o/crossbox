@@ -12,14 +12,14 @@
 .table_day_row {
     margin-top: 10px;
     background-color: grey;
+    font-size: 100px;
 }
 .table_session_row {
     text-align: center;
-    height: 120px
+    height: 260px
 }
-.table_session_row_td_left {width: 10%;}
-.table_session_row_td_mid {width: 81.5%;}
-.table_session_row_td_right {width: 8.5%;}
-.table_session_row_checkbox {}
-.table_session_row_type {}
-.table_session_row_assistants {}
+.table_session_row_td_left {
+    width: 200px;
+    font-size: 90px;
+    vertical-align: middle;
+}

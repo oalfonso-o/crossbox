@@ -1,0 +1,32 @@
+.delete {
+    right: .5rem !important;
+    top: .5rem !important;
+    position: absolute;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-color: hsla(232.9, 100%, 49.4%, 0);
+    border: none;
+    border-radius: 290486px;
+    cursor: pointer;
+    pointer-events: auto;
+    display: inline-block;
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-size: 18px;
+    color:white;
+    height: 20px;
+    max-height: 20px;
+    max-width: 20px;
+    min-height: 20px;
+    min-width: 20px;
+    outline: none;
+    vertical-align: top;
+    width: 20px;
+}
+.delete:before {
+    content: "\f00d";
+    font-family: FontAwesome;
+    right: 2px;
+    position:absolute;
+    top:0;
+ }

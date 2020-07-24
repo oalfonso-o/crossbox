@@ -1,0 +1,56 @@
+.notification {
+    background-color: #167df0;
+    color: #fff;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    -ms-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    border-radius: 10px;
+    padding-bottom: 25px;
+    width: 50%;
+    font-size: 5rem;
+    padding-top: 30px;
+    border-color: black;
+    z-index: 2;
+}
+.num_reservations {font-size: 60px;}
+.num_reservations_low {font-weight: bolder; color: rgb(171, 120, 32);}
+.num_reservations_open {font-weight: bolder;}
+.num_reservations_closed {font-weight: bold;}
+.show_hide_people_container {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    padding-left: 20px;
+}
+.show_hide_people {
+    font-size: 80px;
+    color: #ff8f00;
+    font-weight: bolder;
+    display: flex;
+}
+.people_li {height: 70px; padding-top: 20px;}
+.people_list {
+    position: relative;
+    background-color: #1e1e1e;
+    margin-top: 15px;
+    border: 1px solid;
+    border-radius: 15px;
+    color: white;
+    z-index: 1;
+    padding-top: 15px;
+    font-size: 40px;
+}
+.session_type {font-size: 40px;display: flex;}
+.outer_toggle {width: 116px; display: flex;padding-top: 25px;}
+.row_center_container {display: flex;justify-content: flex-end;}
+.num_reservations_container {
+    width: 200px;
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: column;
+}
+.checkbox_container {margin: 0px auto;}
