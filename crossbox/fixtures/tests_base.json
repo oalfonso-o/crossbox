@@ -120,8 +120,7 @@
     "pk": 1,
     "fields": {
         "user": 13,
-        "session": 21,
-        "assisted": true
+        "session": 21
     }
 },
 {

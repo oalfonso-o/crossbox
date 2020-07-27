@@ -14,8 +14,7 @@ class Reservation(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='reservations')
     session = models.ForeignKey(
-        'Session', on_delete=models.CASCADE, related_name='reservations')
-    assisted = models.BooleanField('Asistencia', default=True)
+        'session', on_delete=models.CASCADE, related_name='reservations')
 
     def user_info(self):
         return format_html(
