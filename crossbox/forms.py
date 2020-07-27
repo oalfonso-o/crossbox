@@ -20,6 +20,9 @@ class UserForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
+            if visible.name == 'username':
+                visible.field.widget.attrs['autocomplete'] = 'off'
+                visible.field.widget.attrs['autocapitalize'] = 'off'
             visible.field.widget.attrs['class'] = 'c-login__input'
             visible.field.widget.attrs['placeholder'] = visible.label
             visible.label = False
