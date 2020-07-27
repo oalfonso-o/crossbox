@@ -1,0 +1,109 @@
+.notification {
+    background-color: #167df0;
+    color: #fff;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    -ms-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    border-radius: 10px;
+    padding-bottom: 25px;
+    width: 70%;
+    font-size: 5rem;
+    padding-top: 30px;
+    border-color: black;
+    z-index: 2;
+}
+.num_reservations {font-size: 60px;}
+.num_reservations_low {font-weight: bolder; color: rgb(171, 120, 32);}
+.num_reservations_open {font-weight: bolder;}
+.num_reservations_closed {font-weight: bold;}
+
+.show_hide_people {
+    font-size: 80px;
+    color: black;
+    font-weight: bolder;
+}
+.people_list {
+    background-color: #1e1e1e9e;
+    margin-top: 15px;
+    border: 1px solid;
+    border-radius: 15px;
+    color: white;
+    z-index: 1;
+    padding-top: 15px;
+    font-size: 40px;
+    position: fixed;
+    left: 25%;
+    top: 57%;
+    width: 50%;
+    display: inline-block;
+}
+.people_li {height: 70px; padding-top: 20px;}
+.eye-closed {color: orange}
+
+.row_center_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 1%;
+}
+.row_center_container::before {content: "";}
+.row_center_container::after {content: "";}
+.session_hour {
+    flex: 1;
+    margin: 0 1%;
+    font-size: 50px;
+}
+.session_type {
+    flex: 1;
+    margin: 0 1%;
+    font-size: 32px;
+}
+.session_checkbox {
+    flex: 1;
+    margin: 0 1%;
+}
+.session_people_list {
+    flex: 1;
+    margin: 0 1%;
+}
+.session_num_reservations {
+    flex: 1;
+    margin: 0 1%;
+}
+
+.delete {
+    right: .5rem !important;
+    top: .5rem !important;
+    position: absolute;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-color: hsla(232.9, 100%, 49.4%, 0);
+    border: none;
+    border-radius: 290486px;
+    cursor: pointer;
+    pointer-events: auto;
+    display: inline-block;
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-size: 18px;
+    color:white;
+    height: 20px;
+    max-height: 20px;
+    max-width: 20px;
+    min-height: 20px;
+    min-width: 20px;
+    outline: none;
+    vertical-align: top;
+    width: 20px;
+}
+.delete:before {
+    content: "\f00d";
+    font-family: FontAwesome;
+    right: 2px;
+    position:absolute;
+    top:0;
+}

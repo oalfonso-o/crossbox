@@ -1,0 +1,25 @@
+#table_container {
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+#table_vertical {
+    margin: 0 auto;
+    width: 100vw;
+    max-width: 1080px;
+    border-collapse: collapse;
+}
+.table_day_row {
+    margin-top: 10px;
+    background-color: grey;
+    font-size: 100px;
+}
+.table_session_row {
+    text-align: center;
+    height: 260px
+}
+.table_session_row_td_left {
+    width: 200px;
+    font-size: 90px;
+    vertical-align: middle;
+}
