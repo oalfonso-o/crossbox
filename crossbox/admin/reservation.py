@@ -6,11 +6,11 @@ from crossbox.models import Reservation, Session
 
 
 class ReservationAdmin(admin.ModelAdmin):
-    list_display = ('user_info', 'session', 'assisted')
-    list_editable = ('assisted',)
+    list_display = ('user_info', 'session', 'refund')
+    list_editable = ('refund',)
     search_fields = [
         'user__first_name', 'user__last_name', 'user__username']
-    ordering = ['user', 'assisted']
+    ordering = ['user', 'refund']
     list_per_page = 20
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
