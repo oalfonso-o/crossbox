@@ -12,6 +12,7 @@ Vue.component('session', {
     url_reservation_create: RegExp,
     page: Number,
     date: Boolean,
+    hour: String,
     user_is_staff: Boolean,
     prop_type: String,
   },
@@ -55,27 +56,29 @@ Vue.component('session', {
           Reservar
         </span>
       </modal>
+      <div class="session_hour">{{ hour }}</div>
 
-      <div class="checkbox_container">
-        <div class="outer_toggle">
-          <div class="inner_toggle">
-            <b-checkbox v-model="reservated" type="is-success" :disabled="checkbox_disabled" @click.native="confirm($event)"></b-checkbox>
-          </div>
-          <div v-on:click="show_reservation = !show_reservation" class="show_hide_people_container">
-            <div class="show_hide_people">
-              <span v-if="show_reservation"><i class="fa fa-eye-slash"></i></span>
-              <span v-else><i class="fa fa-eye"></i></span>
-            </div>
-            <div v-if="show_reservation && reservations.length" class="people_list">
-              <li v-for="reservation in reservations" class="people_li">
-                {{ reservation }}
-              </li>
-            </div>
-          </div>
+      <div class="session_type">{{ type }}<span v-if=user_is_staff @click="change_session_type()">&nbsp;<i class="fa fa-pencil"></i></span></div>
+
+      <div class="session_checkbox">
+        <div class="inner_toggle">
+          <b-checkbox v-model="reservated" type="is-success" :disabled="checkbox_disabled" @click.native="confirm($event)"></b-checkbox>
         </div>
-        <div class="session_type">{{ type }}<span v-if=user_is_staff @click="change_session_type()">&nbsp;<i class="fa fa-pencil"></i></span></div>
       </div>
-      <div class="num_reservations_container">
+
+      <div v-on:click="show_reservation = !show_reservation" class="session_people_list">
+        <div class="show_hide_people">
+          <span v-if="show_reservation"><i class="fa fa-eye-slash eye-closed"></i></span>
+          <span v-else><i class="fa fa-eye"></i></span>
+        </div>
+        <div v-if="show_reservation && reservations.length" class="people_list">
+          <li v-for="reservation in reservations" class="people_li">
+            {{ reservation }}
+          </li>
+        </div>
+      </div>
+
+      <div class="session_num_reservations">
         <div v-if="reservations.length < 4" class="num_reservations num_reservations_low">
           {{ reservations.length }} / 12
         </div>

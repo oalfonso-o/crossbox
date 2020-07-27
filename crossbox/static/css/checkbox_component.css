@@ -20,21 +20,14 @@
 .num_reservations_low {font-weight: bolder; color: rgb(171, 120, 32);}
 .num_reservations_open {font-weight: bolder;}
 .num_reservations_closed {font-weight: bold;}
-.show_hide_people_container {
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    padding-left: 20px;
-}
+
 .show_hide_people {
     font-size: 80px;
-    color: #ff8f00;
+    color: black;
     font-weight: bolder;
-    display: flex;
 }
-.people_li {height: 70px; padding-top: 20px;}
 .people_list {
-    background-color: #1e1e1e;
+    background-color: #1e1e1e9e;
     margin-top: 15px;
     border: 1px solid;
     border-radius: 15px;
@@ -46,17 +39,41 @@
     left: 25%;
     top: 57%;
     width: 50%;
+    display: inline-block;
 }
-.session_type {font-size: 40px;display: flex;padding-top: 20px;}
-.outer_toggle {display: flex;padding-top: 45px;}
-.row_center_container {display: flex;justify-content: flex-end;}
-.num_reservations_container {
-    width: 200px;
-    justify-content: space-evenly;
+.people_li {height: 70px; padding-top: 20px;}
+.eye-closed {color: orange}
+
+.row_center_container {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 1%;
 }
-.checkbox_container {margin-right: 12%;}
+.row_center_container::before {content: "";}
+.row_center_container::after {content: "";}
+.session_hour {
+    flex: 1;
+    margin: 0 1%;
+    font-size: 50px;
+}
+.session_type {
+    flex: 1;
+    margin: 0 1%;
+    font-size: 32px;
+}
+.session_checkbox {
+    flex: 1;
+    margin: 0 1%;
+}
+.session_people_list {
+    flex: 1;
+    margin: 0 1%;
+}
+.session_num_reservations {
+    flex: 1;
+    margin: 0 1%;
+}
 
 .delete {
     right: .5rem !important;

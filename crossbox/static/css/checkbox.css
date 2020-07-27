@@ -107,9 +107,9 @@
   border-color: #ff3860;
 }
 
-.b-checkbox.checkbox .control-label {
+/* .b-checkbox.checkbox .control-label {
   padding-left: 0.5em;
-}
+} */
 
 .b-checkbox.checkbox[disabled] {
   opacity: 0.5;
