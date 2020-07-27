@@ -50,7 +50,7 @@ ul {
     list-style: none;
 }
 .reserva_submit {border: solid 0px;}
-.not_session {background-color: rgb(239, 239, 239);}
+.not_session {background-color: rgb(239, 239, 239); font-size: 40px}
 .session_closed {background-color: blanchedalmond;}
 .session_open {background-color: #0bff171a;}
 .fa-times {color: rgb(255, 63, 0);}

@@ -17,82 +17,87 @@ Vue.component('session', {
     prop_type: String,
   },
   template: `
-    <div v-if="session !== undefined" class="row_center_container">
-      <script type="text/x-template" id="modal-template">
-        <transition name="modal">
-          <div class="modal-mask">
-            <div class="modal-wrapper">
-              <div class="modal-container">
+    <div>
+      <div v-if="session !== undefined" class="row_center_container">
+        <script type="text/x-template" id="modal-template">
+          <transition name="modal">
+            <div class="modal-mask">
+              <div class="modal-wrapper">
+                <div class="modal-container">
 
-                <div class="modal-header">
-                  <slot name="header">default header</slot>
-                </div>
+                  <div class="modal-header">
+                    <slot name="header">default header</slot>
+                  </div>
 
-                <div class="modal-body">
-                  <slot name="body">default body</slot>
-                </div>
+                  <div class="modal-body">
+                    <slot name="body">default body</slot>
+                  </div>
 
-                <div class="modal-footer">
-                  <b-button class="modal-button modal-close" @click="$emit('close')">Cancelar</b-button>
-                  <b-button class="modal-button modal-confirm" @click="$emit('confirm')">
-                    <slot name="confirm_text">
-                      Confirmar
-                    </slot>
-                  </b-button>
+                  <div class="modal-footer">
+                    <b-button class="modal-button modal-close" @click="$emit('close')">Cancelar</b-button>
+                    <b-button class="modal-button modal-confirm" @click="$emit('confirm')">
+                      <slot name="confirm_text">
+                        Confirmar
+                      </slot>
+                    </b-button>
+                  </div>
                 </div>
               </div>
             </div>
+          </transition>
+        </script>
+        <modal v-if="showModal" @close="showModal = false" @confirm="reservated = !reservated; showModal = false">
+          <h3 slot="header" v-if="reservated">Vas a anular:</h3>
+          <h3 slot="header" v-if="!reservated">Vas a reservar:</h3>
+          <h3 slot="body">{{ date }}</h3>
+          <span slot="confirm_text" v-if="reservated">
+            Anular reserva
+          </span>
+          <span slot="confirm_text" v-if="!reservated">
+            Reservar
+          </span>
+        </modal>
+        <div class="session_hour">{{ hour }}</div>
+
+        <div class="session_type">{{ type }}<span v-if=user_is_staff @click="change_session_type()">&nbsp;<i class="fa fa-pencil"></i></span></div>
+
+        <div class="session_checkbox">
+          <div class="inner_toggle">
+            <b-checkbox v-model="reservated" type="is-success" :disabled="checkbox_disabled" @click.native="confirm($event)"></b-checkbox>
           </div>
-        </transition>
-      </script>
-      <modal v-if="showModal" @close="showModal = false" @confirm="reservated = !reservated; showModal = false">
-        <h3 slot="header" v-if="reservated">Vas a anular:</h3>
-        <h3 slot="header" v-if="!reservated">Vas a reservar:</h3>
-        <h3 slot="body">{{ date }}</h3>
-        <span slot="confirm_text" v-if="reservated">
-          Anular reserva
-        </span>
-        <span slot="confirm_text" v-if="!reservated">
-          Reservar
-        </span>
-      </modal>
-      <div class="session_hour">{{ hour }}</div>
-
-      <div class="session_type">{{ type }}<span v-if=user_is_staff @click="change_session_type()">&nbsp;<i class="fa fa-pencil"></i></span></div>
-
-      <div class="session_checkbox">
-        <div class="inner_toggle">
-          <b-checkbox v-model="reservated" type="is-success" :disabled="checkbox_disabled" @click.native="confirm($event)"></b-checkbox>
         </div>
+
+        <div v-on:click="show_reservation = !show_reservation" class="session_people_list">
+          <div class="show_hide_people">
+            <span v-if="show_reservation"><i class="fa fa-eye-slash eye-closed"></i></span>
+            <span v-else><i class="fa fa-eye"></i></span>
+          </div>
+          <div v-if="show_reservation && reservations.length" class="people_list">
+            <li v-for="reservation in reservations" class="people_li">
+              {{ reservation }}
+            </li>
+          </div>
+        </div>
+
+        <div class="session_num_reservations">
+          <div v-if="reservations.length < 4" class="num_reservations num_reservations_low">
+            {{ reservations.length }} / 12
+          </div>
+          <div v-else-if="reservations.length >= 4 && reservations.length < 12" class="num_reservations num_reservations_open">
+            {{ reservations.length }} / 12
+          </div>
+          <div v-else class="num_reservations num_reservations_closed">
+            {{ reservations.length }} / 12
+          </div>
+        </div>
+
+        <b-notification auto-close :active.sync="notification_active">
+          {{ notification_text }}
+        </b-notification>
       </div>
-
-      <div v-on:click="show_reservation = !show_reservation" class="session_people_list">
-        <div class="show_hide_people">
-          <span v-if="show_reservation"><i class="fa fa-eye-slash eye-closed"></i></span>
-          <span v-else><i class="fa fa-eye"></i></span>
-        </div>
-        <div v-if="show_reservation && reservations.length" class="people_list">
-          <li v-for="reservation in reservations" class="people_li">
-            {{ reservation }}
-          </li>
-        </div>
+      <div v-if="!session">
+        {{ hour }}
       </div>
-
-      <div class="session_num_reservations">
-        <div v-if="reservations.length < 4" class="num_reservations num_reservations_low">
-          {{ reservations.length }} / 12
-        </div>
-        <div v-else-if="reservations.length >= 4 && reservations.length < 12" class="num_reservations num_reservations_open">
-          {{ reservations.length }} / 12
-        </div>
-        <div v-else class="num_reservations num_reservations_closed">
-          {{ reservations.length }} / 12
-        </div>
-      </div>
-
-      <b-notification auto-close :active.sync="notification_active">
-        {{ notification_text }}
-      </b-notification>
     </div>
   `,
   data: function () {
