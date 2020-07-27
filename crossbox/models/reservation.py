@@ -15,7 +15,6 @@ class Reservation(models.Model):
         User, on_delete=models.CASCADE, related_name='reservations')
     session = models.ForeignKey(
         'session', on_delete=models.CASCADE, related_name='reservations')
-    refund = models.BooleanField('Devolución', default=False)
 
     def user_info(self):
         return format_html(
