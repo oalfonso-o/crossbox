@@ -4,7 +4,8 @@
         "pk": 1,
         "fields": {
             "day": 1,
-            "hour": 3
+            "hour": 3,
+            "week_template": 1
         }
     },
     {
@@ -12,7 +13,8 @@
         "pk": 2,
         "fields": {
             "day": 1,
-            "hour": 4
+            "hour": 4,
+            "week_template": 1
         }
     },
     {
@@ -20,7 +22,8 @@
         "pk": 3,
         "fields": {
             "day": 1,
-            "hour": 5
+            "hour": 5,
+            "week_template": 1
         }
     },
     {
@@ -28,7 +31,8 @@
         "pk": 4,
         "fields": {
             "day": 1,
-            "hour": 6
+            "hour": 6,
+            "week_template": 1
         }
     },
     {
@@ -36,7 +40,8 @@
         "pk": 5,
         "fields": {
             "day": 1,
-            "hour": 10
+            "hour": 10,
+            "week_template": 1
         }
     },
     {
@@ -44,7 +49,8 @@
         "pk": 6,
         "fields": {
             "day": 1,
-            "hour": 11
+            "hour": 11,
+            "week_template": 1
         }
     },
     {
@@ -52,7 +58,8 @@
         "pk": 7,
         "fields": {
             "day": 1,
-            "hour": 12
+            "hour": 12,
+            "week_template": 1
         }
     },
     {
@@ -60,7 +67,8 @@
         "pk": 8,
         "fields": {
             "day": 1,
-            "hour": 13
+            "hour": 13,
+            "week_template": 1
         }
     },
     {
@@ -68,7 +76,8 @@
         "pk": 9,
         "fields": {
             "day": 2,
-            "hour": 3
+            "hour": 3,
+            "week_template": 1
         }
     },
     {
@@ -76,7 +85,8 @@
         "pk": 10,
         "fields": {
             "day": 2,
-            "hour": 4
+            "hour": 4,
+            "week_template": 1
         }
     },
     {
@@ -84,7 +94,8 @@
         "pk": 11,
         "fields": {
             "day": 2,
-            "hour": 5
+            "hour": 5,
+            "week_template": 1
         }
     },
     {
@@ -92,7 +103,8 @@
         "pk": 12,
         "fields": {
             "day": 2,
-            "hour": 6
+            "hour": 6,
+            "week_template": 1
         }
     },
     {
@@ -100,7 +112,8 @@
         "pk": 13,
         "fields": {
             "day": 2,
-            "hour": 10
+            "hour": 10,
+            "week_template": 1
         }
     },
     {
@@ -108,7 +121,8 @@
         "pk": 14,
         "fields": {
             "day": 2,
-            "hour": 11
+            "hour": 11,
+            "week_template": 1
         }
     },
     {
@@ -116,7 +130,8 @@
         "pk": 15,
         "fields": {
             "day": 2,
-            "hour": 12
+            "hour": 12,
+            "week_template": 1
         }
     },
     {
@@ -124,7 +139,8 @@
         "pk": 16,
         "fields": {
             "day": 2,
-            "hour": 13
+            "hour": 13,
+            "week_template": 1
         }
     },
     {
@@ -132,7 +148,8 @@
         "pk": 17,
         "fields": {
             "day": 3,
-            "hour": 3
+            "hour": 3,
+            "week_template": 1
         }
     },
     {
@@ -140,7 +157,8 @@
         "pk": 18,
         "fields": {
             "day": 3,
-            "hour": 4
+            "hour": 4,
+            "week_template": 1
         }
     },
     {
@@ -148,7 +166,8 @@
         "pk": 19,
         "fields": {
             "day": 3,
-            "hour": 5
+            "hour": 5,
+            "week_template": 1
         }
     },
     {
@@ -156,7 +175,8 @@
         "pk": 20,
         "fields": {
             "day": 3,
-            "hour": 6
+            "hour": 6,
+            "week_template": 1
         }
     },
     {
@@ -164,7 +184,8 @@
         "pk": 21,
         "fields": {
             "day": 3,
-            "hour": 10
+            "hour": 10,
+            "week_template": 1
         }
     },
     {
@@ -172,7 +193,8 @@
         "pk": 22,
         "fields": {
             "day": 3,
-            "hour": 11
+            "hour": 11,
+            "week_template": 1
         }
     },
     {
@@ -180,7 +202,8 @@
         "pk": 23,
         "fields": {
             "day": 3,
-            "hour": 12
+            "hour": 12,
+            "week_template": 1
         }
     },
     {
@@ -188,7 +211,8 @@
         "pk": 24,
         "fields": {
             "day": 3,
-            "hour": 13
+            "hour": 13,
+            "week_template": 1
         }
     },
     {
@@ -196,7 +220,8 @@
         "pk": 25,
         "fields": {
             "day": 4,
-            "hour": 3
+            "hour": 3,
+            "week_template": 1
         }
     },
     {
@@ -204,7 +229,8 @@
         "pk": 26,
         "fields": {
             "day": 4,
-            "hour": 4
+            "hour": 4,
+            "week_template": 1
         }
     },
     {
@@ -212,7 +238,8 @@
         "pk": 27,
         "fields": {
             "day": 4,
-            "hour": 5
+            "hour": 5,
+            "week_template": 1
         }
     },
     {
@@ -220,7 +247,8 @@
         "pk": 28,
         "fields": {
             "day": 4,
-            "hour": 6
+            "hour": 6,
+            "week_template": 1
         }
     },
     {
@@ -228,7 +256,8 @@
         "pk": 29,
         "fields": {
             "day": 4,
-            "hour": 10
+            "hour": 10,
+            "week_template": 1
         }
     },
     {
@@ -236,7 +265,8 @@
         "pk": 30,
         "fields": {
             "day": 4,
-            "hour": 11
+            "hour": 11,
+            "week_template": 1
         }
     },
     {
@@ -244,7 +274,8 @@
         "pk": 31,
         "fields": {
             "day": 4,
-            "hour": 12
+            "hour": 12,
+            "week_template": 1
         }
     },
     {
@@ -252,7 +283,8 @@
         "pk": 32,
         "fields": {
             "day": 4,
-            "hour": 13
+            "hour": 13,
+            "week_template": 1
         }
     },
     {
@@ -260,7 +292,8 @@
         "pk": 33,
         "fields": {
             "day": 5,
-            "hour": 3
+            "hour": 3,
+            "week_template": 1
         }
     },
     {
@@ -268,7 +301,8 @@
         "pk": 34,
         "fields": {
             "day": 5,
-            "hour": 4
+            "hour": 4,
+            "week_template": 1
         }
     },
     {
@@ -276,7 +310,8 @@
         "pk": 35,
         "fields": {
             "day": 5,
-            "hour": 5
+            "hour": 5,
+            "week_template": 1
         }
     },
     {
@@ -284,7 +319,8 @@
         "pk": 36,
         "fields": {
             "day": 5,
-            "hour": 6
+            "hour": 6,
+            "week_template": 1
         }
     },
     {
@@ -292,7 +328,8 @@
         "pk": 37,
         "fields": {
             "day": 5,
-            "hour": 10
+            "hour": 10,
+            "week_template": 1
         }
     },
     {
@@ -300,7 +337,8 @@
         "pk": 38,
         "fields": {
             "day": 5,
-            "hour": 11
+            "hour": 11,
+            "week_template": 1
         }
     },
     {
@@ -308,7 +346,8 @@
         "pk": 39,
         "fields": {
             "day": 5,
-            "hour": 12
+            "hour": 12,
+            "week_template": 1
         }
     },
     {
@@ -316,7 +355,8 @@
         "pk": 40,
         "fields": {
             "day": 5,
-            "hour": 13
+            "hour": 13,
+            "week_template": 1
         }
     }
 ]

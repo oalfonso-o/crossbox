@@ -1,0 +1,26 @@
+[
+    {
+        "model": "crossbox.weektemplate",
+        "pk": 1,
+        "fields": {
+            "name": "Normal",
+            "default": true
+        }
+    },
+    {
+        "model": "crossbox.weektemplate",
+        "pk": 1,
+        "fields": {
+            "name": "Covid19",
+            "default": false
+        }
+    },
+    {
+        "model": "crossbox.weektemplate",
+        "pk": 1,
+        "fields": {
+            "name": "Semana Santa",
+            "default": false
+        }
+    }
+]

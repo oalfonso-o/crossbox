@@ -1,0 +1,16 @@
+[
+    {
+        "model": "crossbox.track",
+        "pk": 1,
+        "fields": {
+            "name": "Pistas 1-2"
+        }
+    },
+    {
+        "model": "crossbox.track",
+        "pk": 2,
+        "fields": {
+            "name": "Pista 3"
+        }
+    }
+]

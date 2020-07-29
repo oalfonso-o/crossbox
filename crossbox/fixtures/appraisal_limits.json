@@ -1,0 +1,56 @@
+[
+    {
+        "model": "crossbox.appraisallimit",
+        "pk": 1,
+        "fields": {
+            "minimum": 3,
+            "maximum": 8,
+            "default": false
+        }
+    },
+    {
+        "model": "crossbox.appraisallimit",
+        "pk": 2,
+        "fields": {
+            "minimum": 3,
+            "maximum": 10,
+            "default": false
+        }
+    },
+    {
+        "model": "crossbox.appraisallimit",
+        "pk": 2,
+        "fields": {
+            "minimum": 4,
+            "maximum": 10,
+            "default": false
+        }
+    },
+    {
+        "model": "crossbox.appraisallimit",
+        "pk": 2,
+        "fields": {
+            "minimum": 3,
+            "maximum": 12,
+            "default": true
+        }
+    },
+    {
+        "model": "crossbox.appraisallimit",
+        "pk": 2,
+        "fields": {
+            "minimum": 4,
+            "maximum": 12,
+            "default": false
+        }
+    },
+    {
+        "model": "crossbox.appraisallimit",
+        "pk": 2,
+        "fields": {
+            "minimum": 4,
+            "maximum": 15,
+            "default": false
+        }
+    }
+]

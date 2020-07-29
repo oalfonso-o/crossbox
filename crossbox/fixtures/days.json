@@ -38,5 +38,13 @@
             "name": "Viernes",
             "weekday": 4
         }
+    },
+    {
+        "model": "crossbox.day",
+        "pk": 6,
+        "fields": {
+            "name": "Sábado",
+            "weekday": 5
+        }
     }
 ]
