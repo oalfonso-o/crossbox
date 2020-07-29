@@ -4,8 +4,8 @@
     <span>Edición de la plantilla de sesiones</span>
   </div>
   <div id="container">
-    <div class='table-responsive-vertical shadow-z-1'>
-      <table class="table table-hover table-mc-light-blue">
+    <div class='week_template_div'>
+      <table class="week_template_table">
         <thead>
           <tr>
             <th>Día</th>
@@ -17,15 +17,15 @@
         <tbody>
         {% for day_row in days %}
           <tr>
-            <td class='session session_header'>{{ day_row.0 }}</td>
+            <td>{{ day_row.0 }}</td>
             {% for day in day_row|slice:"1:" %}
-              <td class="session {% if not day.session %}not_session{% else %}session_closed{% endif %}" data-title='{{ day.hour_title }}'>
+              <td class="{% if not day.session %}template_session_not_marked{% else %}template_session_marked{% endif %}" data-title='{{ day.hour_title }}'>
                 <form action="{% if day.session %}{% url 'session-template-delete' %}{% else %}{% url 'session-template-create' %}{% endif %}" method="post">
                   <input type="hidden" id="session" name="session" value="{{ day.session }}">
                   <input type="hidden" id="day" name="day" value="{{ day.day }}">
                   <input type="hidden" id="hour" name="hour" value="{{ day.hour }}">
-                  <button class="reserva_submit" type="submit">
-                      <i class="fa {% if day.session %}fa-times{% else %}fa-plus{% endif %}"></i>
+                  <button class="reserva_submit {% if not day.session %}template_session_not_marked{% else %}template_session_marked{% endif %}" type="submit">
+                      <i class="fa {% if day.session %}fa-check{% else %}fa-plus{% endif %}"></i>
                   </button>
                 </form>
               </td>

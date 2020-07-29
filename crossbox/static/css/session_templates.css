@@ -1,0 +1,17 @@
+.week_template_div {
+    text-align: center;
+}
+.week_template_table {
+    margin: 0 auto;
+}
+.template_session_not_marked {
+    background-color: rgb(239, 239, 239);
+    color: #383966;
+    padding: 6px 0;
+}
+.template_session_marked {
+    background-color: blanchedalmond;
+    color: #0fd90f;
+    padding: 6px 0;
+}
+.reserva_submit {border: solid 0px;}
