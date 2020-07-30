@@ -4,14 +4,17 @@
     <span>Configurador de Sesiones</span>
   </div>
   <div id="container">
-    <div class='week_template_div'>
+    <div class='week_template_select_template_container'>
       <form action="{% url 'session-template-switch' %}" method="post">
         <input type="hidden" id="week_template" name="week_template" value="{{ current_week_template }}">
-        <select name="week_template" onchange="this.form.submit()">
-          {% for week_template in week_templates %}
-            <option value="{{week_template.pk}}" {% if week_template.pk == current_week_template %}selected="true"{%else%}{%endif%}>{{week_template.name}}</option>
-          {% endfor %}
-        </select>
+        <div class="">
+          <div><span>Plantilla:</span></div>
+          <select name="week_template" onchange="this.form.submit()">
+            {% for week_template in week_templates %}
+              <option value="{{week_template.pk}}" {% if week_template.pk == current_week_template %}selected="true"{%else%}{%endif%}>{{week_template.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
       </form>
     </div>
     <div class='week_template_div'>
@@ -46,14 +49,15 @@
         </tbody>
       </table>
     </div>
-    <form action="{% url 'generate-sessions' %}" method="get">
+    <form action="{% url 'generate-sessions' %}" method="post">
+      <input type="hidden" id="week_template" name="week_template" value="{{ current_week_template }}">
       <div class="apply_sessions_to_week_title"><span>Generar sesiones:</span></div>
       <div class="apply_sessions_to_week_container">
         <div class="apply_sessions_to_week_filter">
           <div><span>Pista:</span></div>
-          <select id="page" name="page">
-            {% for page, week_label in weeks.items %}
-              <option value="{{ page }}">{{ week_label }}</option>
+          <select id="track" name="track">
+            {% for track in tracks %}
+              <option value="{{ track.pk }}" {% if track.pk == current_track %}selected="true"{%else%}{%endif%}>{{ track }}</option>
             {% endfor %}
           </select>
         </div>
@@ -67,9 +71,9 @@
         </div>
         <div class="apply_sessions_to_week_filter">
           <div><span>Aforo:</span></div>
-          <select id="page" name="page">
-            {% for page, week_label in weeks.items %}
-              <option value="{{ page }}">{{ week_label }}</option>
+          <select id="appraisal_limit" name="appraisal_limit">
+            {% for appraisal_limit in appraisal_limits %}
+              <option value="{{ appraisal_limit.pk }}" {% if appraisal_limit.pk == current_appraisal_limit %}selected="true"{%else%}{%endif%}>{{ appraisal_limit }}</option>
             {% endfor %}
           </select>
         </div>

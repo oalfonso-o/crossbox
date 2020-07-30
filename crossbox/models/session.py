@@ -20,7 +20,7 @@ class Session(models.Model):
     class Meta:
         verbose_name = 'Sesión'
         verbose_name_plural = 'Sesiones'
-        unique_together = ('date', 'hour')
+        unique_together = ('date', 'hour', 'track')
 
     date = models.DateField('Día', default=True)
     hour = models.ForeignKey(Hour, on_delete=models.CASCADE, null=False)

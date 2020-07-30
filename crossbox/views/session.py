@@ -4,18 +4,18 @@ from http import HTTPStatus
 from django.views.decorators.http import require_http_methods
 from django.views.generic.list import ListView
 from django.http import JsonResponse, HttpResponseRedirect
-from django.db import IntegrityError
 from django.urls import reverse
 
 from crossbox.models import Session, Hour, SessionTemplate, Day
-from crossbox.models.session_template import WeekTemplate
+from crossbox.models.session_template import (
+    WeekTemplate, Track, AppraisalLimit
+)
 from crossbox.constants import (
     SATURDAY_WEEK_DAY,
     NUM_WEEKS_IN_A_YEAR,
     WEEK_DAYS,
 )
 from .tools import (
-    active_page_number,
     get_monday_from_page,
     error_response,
 )
@@ -43,6 +43,20 @@ class SessionTemplateView(ListView):
         context['week_templates'] = list(
             WeekTemplate.objects.order_by('-default'))
         context['current_week_template'] = week_template.pk
+        context['tracks'] = Track.objects.all()
+        current_track = 1
+        for track in context['tracks']:
+            if track.default is True:
+                current_track = track.pk
+                break
+        context['current_track'] = current_track
+        context['appraisal_limits'] = AppraisalLimit.objects.all()
+        current_appraisal_limit = 1
+        for appraisal_limit in context['appraisal_limits']:
+            if appraisal_limit.default is True:
+                current_appraisal_limit = appraisal_limit.pk
+                break
+        context['current_appraisal_limit'] = current_appraisal_limit
         return context
 
     def _row_object(self, d, hours, week_template):
@@ -104,18 +118,29 @@ def session_template_switch(request):
 
 
 def generate_sessions(request):
-    page_number = active_page_number(request)
+    page_number = request.GET.get('page')
+    week_template = request.POST.get('week_template')
+    track = request.POST.get('track')
+    appraisal_limit = request.POST.get('appraisal_limit')
+    if not page_number or week_template or track or appraisal_limit:
+        raise Exception(
+            f"Can't generate sessions, there is one empty field:"
+            f"page_number: {page_number}, week_template: {week_template}, "
+            f"track: {track}, appraisal_limit: {appraisal_limit}"
+    )
     monday = get_monday_from_page(page_number)
     sunday = monday + datetime.timedelta(days=SATURDAY_WEEK_DAY)
     sessions_to_delete = Session.objects.filter(
-        date__gte=monday, date__lte=sunday)
+        date__gte=monday, date__lte=sunday, track=track)
     sessions_to_delete.delete()
     future_sessions = (
         Session(
             date=monday + datetime.timedelta(days=st.day.weekday),
-            hour=st.hour
+            hour=st.hour,
+            track=track,
+            appraisal_limit=appraisal_limit,
         )
-        for st in SessionTemplate.objects.all())
+        for st in SessionTemplate.objects.filter(week_template=week_template))
     Session.objects.bulk_create(future_sessions)
     return HttpResponseRedirect('/reservation/?page={}'.format(page_number))
 
