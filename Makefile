@@ -16,6 +16,10 @@ init:
 	python manage.py loaddata crossbox/fixtures/week_templates
 	python manage.py loaddata crossbox/fixtures/session_templates
 
+resetdb:
+	python manage.py flush --skip-checks
+	make init
+
 lint:
 	flake8
 

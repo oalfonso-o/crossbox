@@ -19,7 +19,7 @@
     },
     {
         "model": "crossbox.appraisallimit",
-        "pk": 2,
+        "pk": 3,
         "fields": {
             "minimum": 4,
             "maximum": 10,
@@ -28,7 +28,7 @@
     },
     {
         "model": "crossbox.appraisallimit",
-        "pk": 2,
+        "pk": 4,
         "fields": {
             "minimum": 3,
             "maximum": 12,
@@ -37,7 +37,7 @@
     },
     {
         "model": "crossbox.appraisallimit",
-        "pk": 2,
+        "pk": 5,
         "fields": {
             "minimum": 4,
             "maximum": 12,
@@ -46,7 +46,7 @@
     },
     {
         "model": "crossbox.appraisallimit",
-        "pk": 2,
+        "pk": 6,
         "fields": {
             "minimum": 4,
             "maximum": 15,
