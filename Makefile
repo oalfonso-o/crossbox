@@ -17,7 +17,7 @@ init:
 	python manage.py loaddata crossbox/fixtures/session_templates
 
 resetdb:
-	python manage.py flush --skip-checks
+	python manage.py flush --no-input
 	make init
 
 lint:

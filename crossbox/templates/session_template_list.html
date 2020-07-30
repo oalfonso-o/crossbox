@@ -46,17 +46,37 @@
         </tbody>
       </table>
     </div>
-    <div class="apply_sessions_to_week_container">
-      <span>Generar sesiones en la semana:</span>
-      <form action="{% url 'generate-sessions' %}" method="get">
-        <select id="page" name="page">
-          {% for page, week_label in weeks.items %}
-            <option value="{{ page }}">{{ week_label }}</option>
-          {% endfor %}
-        </select>
-        <br>
+    <form action="{% url 'generate-sessions' %}" method="get">
+      <div class="apply_sessions_to_week_title"><span>Generar sesiones:</span></div>
+      <div class="apply_sessions_to_week_container">
+        <div class="apply_sessions_to_week_filter">
+          <div><span>Pista:</span></div>
+          <select id="page" name="page">
+            {% for page, week_label in weeks.items %}
+              <option value="{{ page }}">{{ week_label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="apply_sessions_to_week_filter">
+          <div><span>Semana:</span></div>
+          <select id="page" name="page">
+            {% for page, week_label in weeks.items %}
+              <option value="{{ page }}">{{ week_label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="apply_sessions_to_week_filter">
+          <div><span>Aforo:</span></div>
+          <select id="page" name="page">
+            {% for page, week_label in weeks.items %}
+              <option value="{{ page }}">{{ week_label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="apply_sessions_to_week_submit">
         <input type="submit" value="Generar">
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 {% endblock content %}
