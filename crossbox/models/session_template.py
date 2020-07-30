@@ -32,7 +32,7 @@ class SessionTemplate(models.Model):
     class Meta:
         verbose_name = 'Plantilla de Sesión'
         verbose_name_plural = 'Plantillas de Sesión'
-        unique_together = ('day', 'hour')
+        unique_together = ('day', 'hour', 'week_template')
 
     day = models.ForeignKey(Day, on_delete=models.CASCADE, null=False)
     hour = models.ForeignKey(Hour, on_delete=models.CASCADE, null=False)

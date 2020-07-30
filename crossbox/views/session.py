@@ -81,10 +81,7 @@ def session_template_create(request):
     session.day = Day.objects.get(pk=request.POST.get('day'))
     session.hour = Hour.objects.get(pk=request.POST.get('hour'))
     session.week_template = WeekTemplate.objects.get(pk=week_template)
-    try:
-        session.save()
-    except IntegrityError:
-        pass
+    session.save()
     return HttpResponseRedirect(
         f'{reverse("session-template")}?week_template={week_template}'
     )
