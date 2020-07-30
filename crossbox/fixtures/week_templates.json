@@ -9,7 +9,7 @@
     },
     {
         "model": "crossbox.weektemplate",
-        "pk": 1,
+        "pk": 2,
         "fields": {
             "name": "Covid19",
             "default": false
@@ -17,7 +17,7 @@
     },
     {
         "model": "crossbox.weektemplate",
-        "pk": 1,
+        "pk": 3,
         "fields": {
             "name": "Semana Santa",
             "default": false

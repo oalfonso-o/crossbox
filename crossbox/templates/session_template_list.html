@@ -1,9 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
   <div class='template_session_title'>
-    <span>Edición de la plantilla de sesiones</span>
+    <span>Configurador de Sesiones</span>
   </div>
   <div id="container">
+    <div class='week_template_div'>
+      <form action="{% url 'session-template-switch' %}" method="post">
+        <input type="hidden" id="week_template" name="week_template" value="{{ current_week_template }}">
+        <select name="week_template" onchange="this.form.submit()">
+          {% for week_template in week_templates %}
+            <option value="{{week_template.pk}}" {% if week_template.pk == current_week_template %}selected="true"{%else%}{%endif%}>{{week_template.name}}</option>
+          {% endfor %}
+        </select>
+      </form>
+    </div>
     <div class='week_template_div'>
       <table class="week_template_table">
         <thead>
@@ -24,6 +34,7 @@
                   <input type="hidden" id="session" name="session" value="{{ day.session }}">
                   <input type="hidden" id="day" name="day" value="{{ day.day }}">
                   <input type="hidden" id="hour" name="hour" value="{{ day.hour }}">
+                  <input type="hidden" id="week_template" name="week_template" value="{{ current_week_template }}">
                   <button class="reserva_submit {% if not day.session %}template_session_not_marked{% else %}template_session_marked{% endif %}" type="submit">
                       <i class="fa {% if day.session %}fa-check{% else %}fa-plus{% endif %}"></i>
                   </button>

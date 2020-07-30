@@ -8,6 +8,7 @@ from django.db import IntegrityError
 from django.urls import reverse
 
 from crossbox.models import Session, Hour, SessionTemplate, Day
+from crossbox.models.session_template import WeekTemplate
 from crossbox.constants import (
     SATURDAY_WEEK_DAY,
     NUM_WEEKS_IN_A_YEAR,
@@ -26,17 +27,29 @@ class SessionTemplateView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(SessionTemplateView, self).get_context_data(**kwargs)
+        week_template_id = self.request.GET.get('week_template')
+        if week_template_id:
+            week_template = WeekTemplate.objects.filter(
+                pk=week_template_id).first()
+        else:
+            week_template = WeekTemplate.objects.filter(default=True).first()
         hours = Hour.objects.order_by('hour').all()
         days = Day.objects.all()
         context['hours'] = hours
-        context['days'] = [self._row_object(d, hours) for d in days]
+        context['days'] = [
+            self._row_object(d, hours, week_template) for d in days
+        ]
         context['weeks'] = self._weeks()
+        context['week_templates'] = list(
+            WeekTemplate.objects.order_by('-default'))
+        context['current_week_template'] = week_template.pk
         return context
 
-    def _row_object(self, d, hours):
+    def _row_object(self, d, hours, week_template):
         data = [d]
         for h in hours:
-            session = SessionTemplate.objects.filter(day=d, hour=h).first()
+            session = SessionTemplate.objects.filter(
+                day=d, hour=h, week_template=week_template).first()
             data.append({
                 'session': session.id if session else None,
                 'day': d.id,
@@ -63,20 +76,34 @@ class SessionTemplateView(ListView):
 
 
 def session_template_create(request):
+    week_template = request.POST.get('week_template')
     session = SessionTemplate()
     session.day = Day.objects.get(pk=request.POST.get('day'))
     session.hour = Hour.objects.get(pk=request.POST.get('hour'))
+    session.week_template = WeekTemplate.objects.get(pk=week_template)
     try:
         session.save()
     except IntegrityError:
         pass
-    return HttpResponseRedirect(reverse('session-template'))
+    return HttpResponseRedirect(
+        f'{reverse("session-template")}?week_template={week_template}'
+    )
 
 
 def session_template_delete(request):
+    week_template = request.POST.get('week_template')
     session = SessionTemplate.objects.get(pk=request.POST.get('session'))
     session.delete()
-    return HttpResponseRedirect(reverse('session-template'))
+    return HttpResponseRedirect(
+        f'{reverse("session-template")}?week_template={week_template}'
+    )
+
+
+def session_template_switch(request):
+    week_template = request.POST.get('week_template')
+    return HttpResponseRedirect(
+        f'{reverse("session-template")}?week_template={week_template}'
+    )
 
 
 def generate_sessions(request):
