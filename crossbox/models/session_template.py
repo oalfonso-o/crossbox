@@ -43,7 +43,7 @@ class SessionTemplate(models.Model):
         return '{} - {}'.format(self.day, self.hour.hour_simple())
 
 
-class AppraisalLimit(models.Model):
+class CapacityLimit(models.Model):
     class Meta:
         verbose_name = 'Límite de Aforo'
         verbose_name_plural = 'Límites de Aforo'

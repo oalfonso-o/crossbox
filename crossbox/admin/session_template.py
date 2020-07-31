@@ -13,7 +13,7 @@ class WeekTemplateAdmin(admin.ModelAdmin):
     ordering = ['name', 'default']
 
 
-class AppraisalLimitAdmin(admin.ModelAdmin):
+class CapacityLimitAdmin(admin.ModelAdmin):
     list_display = ('minimum', 'maximum', 'default')
     search_fields = ['minimum', 'maximum', 'default']
     ordering = ['minimum', 'maximum', 'default']

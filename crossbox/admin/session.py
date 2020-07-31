@@ -39,6 +39,6 @@ class SessionAdminFilter(admin.SimpleListFilter):
 class SessionAdmin(admin.ModelAdmin):
     inlines = (ReservationAdminInline,)
     list_filter = (SessionAdminFilter,)
-    list_display = ('date', 'hour', 'appraisal_limit')
+    list_display = ('date', 'hour', 'capacity_limit')
     search_fields = ['date', 'hour__hour']
     list_per_page = 20

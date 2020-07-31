@@ -71,9 +71,9 @@
         </div>
         <div class="apply_sessions_to_week_filter">
           <div><span>Aforo:</span></div>
-          <select id="appraisal_limit" name="appraisal_limit">
-            {% for appraisal_limit in appraisal_limits %}
-              <option value="{{ appraisal_limit.pk }}" {% if appraisal_limit.pk == current_appraisal_limit %}selected="true"{%else%}{%endif%}>{{ appraisal_limit }}</option>
+          <select id="capacity_limit" name="capacity_limit">
+            {% for capacity_limit in capacity_limits %}
+              <option value="{{ capacity_limit.pk }}" {% if capacity_limit.pk == current_capacity_limit %}selected="true"{%else%}{%endif%}>{{ capacity_limit }}</option>
             {% endfor %}
           </select>
         </div>

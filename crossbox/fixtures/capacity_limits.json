@@ -1,6 +1,6 @@
 [
     {
-        "model": "crossbox.appraisallimit",
+        "model": "crossbox.capacitylimit",
         "pk": 1,
         "fields": {
             "minimum": 3,
@@ -9,7 +9,7 @@
         }
     },
     {
-        "model": "crossbox.appraisallimit",
+        "model": "crossbox.capacitylimit",
         "pk": 2,
         "fields": {
             "minimum": 3,
@@ -18,7 +18,7 @@
         }
     },
     {
-        "model": "crossbox.appraisallimit",
+        "model": "crossbox.capacitylimit",
         "pk": 3,
         "fields": {
             "minimum": 4,
@@ -27,7 +27,7 @@
         }
     },
     {
-        "model": "crossbox.appraisallimit",
+        "model": "crossbox.capacitylimit",
         "pk": 4,
         "fields": {
             "minimum": 3,
@@ -36,7 +36,7 @@
         }
     },
     {
-        "model": "crossbox.appraisallimit",
+        "model": "crossbox.capacitylimit",
         "pk": 5,
         "fields": {
             "minimum": 4,
@@ -45,7 +45,7 @@
         }
     },
     {
-        "model": "crossbox.appraisallimit",
+        "model": "crossbox.capacitylimit",
         "pk": 6,
         "fields": {
             "minimum": 4,

@@ -13,8 +13,8 @@ Vue.component('session', {
     page: Number,
     date: Boolean,
     hour: String,
-    prop_min_appraisal: Number,
-    prop_max_appraisal: Number,
+    prop_min_capacity: Number,
+    prop_max_capacity: Number,
     user_is_staff: Boolean,
     prop_type: String,
   },
@@ -82,14 +82,14 @@ Vue.component('session', {
         </div>
 
         <div class="session_num_reservations">
-          <div v-if="reservations.length < min_appraisal" class="num_reservations num_reservations_low">
-            {{ reservations.length }} / {{ max_appraisal }}
+          <div v-if="reservations.length < min_capacity" class="num_reservations num_reservations_low">
+            {{ reservations.length }} / {{ max_capacity }}
           </div>
-          <div v-else-if="reservations.length >= min_appraisal && reservations.length < max_appraisal" class="num_reservations num_reservations_open">
-            {{ reservations.length }} / {{ max_appraisal }}
+          <div v-else-if="reservations.length >= min_capacity && reservations.length < max_capacity" class="num_reservations num_reservations_open">
+            {{ reservations.length }} / {{ max_capacity }}
           </div>
           <div v-else class="num_reservations num_reservations_closed">
-            {{ reservations.length }} / {{ max_appraisal }}
+            {{ reservations.length }} / {{ max_capacity }}
           </div>
         </div>
 
@@ -105,8 +105,8 @@ Vue.component('session', {
   data: function () {
     return {
       show_reservation: false,
-      min_appraisal: this.prop_min_appraisal,
-      max_appraisal: this.prop_max_appraisal,
+      min_capacity: this.prop_min_capacity,
+      max_capacity: this.prop_max_capacity,
       reservated: this.prop_reservated,
       reservations: this.prop_reservations,
       notification_active: false,
@@ -127,9 +127,9 @@ Vue.component('session', {
     },
     checkbox_disabled: function () {
       return (
-        (!this.reservated && this.reservations.length == this.max_appraisal && !this.prop_reservated)
+        (!this.reservated && this.reservations.length == this.max_capacity && !this.prop_reservated)
         || this.session_closed
-        || (this.is_too_late && this.reservated && this.reservations.length >= this.min_appraisal && this.prop_reservated)
+        || (this.is_too_late && this.reservated && this.reservations.length >= this.min_capacity && this.prop_reservated)
       )
     }
   },

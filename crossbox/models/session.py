@@ -4,7 +4,7 @@ from datetime import datetime
 from django.db import models
 
 from .hour import Hour
-from .session_template import AppraisalLimit, Track
+from .session_template import CapacityLimit, Track
 
 
 class Session(models.Model):
@@ -26,8 +26,8 @@ class Session(models.Model):
     hour = models.ForeignKey(Hour, on_delete=models.CASCADE, null=False)
     session_type = models.CharField(
         max_length=4, choices=SESSION_TYPES, default=WOD)
-    appraisal_limit = models.ForeignKey(
-        AppraisalLimit, on_delete=models.PROTECT, null=False)
+    capacity_limit = models.ForeignKey(
+        CapacityLimit, on_delete=models.PROTECT, null=False)
     track = models.ForeignKey(Track, on_delete=models.PROTECT, null=False)
 
     def __str__(self):

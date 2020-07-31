@@ -61,8 +61,8 @@ class ReservationView(ListView):
                     ),
                     'is_too_late': is_too_late(session.id),
                     'type': session.get_session_type_display(),
-                    'min_appraisal': session.appraisal_limit.minimum,
-                    'max_appraisal': session.appraisal_limit.maximum,
+                    'min_capacity': session.capacity_limit.minimum,
+                    'max_capacity': session.capacity_limit.maximum,
                     'track': session.track,
                 })
             if not records:
@@ -75,8 +75,8 @@ class ReservationView(ListView):
                     'date': '',
                     'is_too_late': None,
                     'type': '',
-                    'min_appraisal': 0,
-                    'max_appraisal': 0,
+                    'min_capacity': 0,
+                    'max_capacity': 0,
                     'track': None,
                 })
             data.extend(records)
@@ -136,7 +136,7 @@ def reservation_delete(request):
             request, 'session_not_found', HTTPStatus.NOT_FOUND)
     if (
         is_too_late(data['session'])
-        and session.reservations.count() >= session.appraisal_limit.minimum
+        and session.reservations.count() >= session.capacity_limit.minimum
     ):
         return error_response(request, 'is_too_late', HTTPStatus.FORBIDDEN)
     wods = getattr(request.user.subscriber, 'wods')

@@ -12,7 +12,7 @@ init:
 	python manage.py loaddata crossbox/fixtures/hours
 	python manage.py loaddata crossbox/fixtures/days
 	python manage.py loaddata crossbox/fixtures/tracks
-	python manage.py loaddata crossbox/fixtures/appraisal_limits
+	python manage.py loaddata crossbox/fixtures/capacity_limits
 	python manage.py loaddata crossbox/fixtures/week_templates
 	python manage.py loaddata crossbox/fixtures/session_templates
 

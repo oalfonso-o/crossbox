@@ -33,7 +33,7 @@ class Reservation(models.Model):
     def save(self, *args, **kwargs):
         if (
             self.session.reservations.count()
-            < self.session.appraisal_limit.maximum
+            < self.session.capacity_limit.maximum
         ):
             super(Reservation, self).save(*args, **kwargs)
         else:

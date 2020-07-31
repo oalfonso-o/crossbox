@@ -8,7 +8,7 @@ from django.urls import reverse
 
 from crossbox.models import Session, Hour, SessionTemplate, Day
 from crossbox.models.session_template import (
-    WeekTemplate, Track, AppraisalLimit
+    WeekTemplate, Track, CapacityLimit
 )
 from crossbox.constants import (
     SATURDAY_WEEK_DAY,
@@ -49,13 +49,13 @@ class SessionTemplateView(ListView):
                 current_track = track.pk
                 break
         context['current_track'] = current_track
-        context['appraisal_limits'] = AppraisalLimit.objects.all()
-        current_appraisal_limit = 1
-        for appraisal_limit in context['appraisal_limits']:
-            if appraisal_limit.default is True:
-                current_appraisal_limit = appraisal_limit.pk
+        context['capacity_limits'] = CapacityLimit.objects.all()
+        current_capacity_limit = 1
+        for capacity_limit in context['capacity_limits']:
+            if capacity_limit.default is True:
+                current_capacity_limit = capacity_limit.pk
                 break
-        context['current_appraisal_limit'] = current_appraisal_limit
+        context['current_capacity_limit'] = current_capacity_limit
         return context
 
     def _row_object(self, d, hours, week_template):
@@ -120,15 +120,15 @@ def generate_sessions(request):
     page_num = request.POST.get('page')
     week_tmpl = request.POST.get('week_template')
     track = request.POST.get('track')
-    appraisal_limit = request.POST.get('appraisal_limit')
-    if all(p is None for p in(page_num, week_tmpl, track, appraisal_limit)):
+    capacity_limit = request.POST.get('capacity_limit')
+    if all(p is None for p in(page_num, week_tmpl, track, capacity_limit)):
         raise Exception(
             f"Can't generate sessions, there is one empty field:"
             f"page_num: {page_num}, week_template: {week_tmpl}, "
-            f"track: {track}, appraisal_limit: {appraisal_limit}"
+            f"track: {track}, capacity_limit: {capacity_limit}"
         )
     track_obj = Track.objects.get(pk=track)
-    appraisal_limit_obj = AppraisalLimit.objects.get(pk=appraisal_limit)
+    capacity_limit_obj = CapacityLimit.objects.get(pk=capacity_limit)
     monday = get_monday_from_page(int(page_num))
     sunday = monday + datetime.timedelta(days=SATURDAY_WEEK_DAY)
     sessions_to_delete = Session.objects.filter(
@@ -139,7 +139,7 @@ def generate_sessions(request):
             date=monday + datetime.timedelta(days=st.day.weekday),
             hour=st.hour,
             track=track_obj,
-            appraisal_limit=appraisal_limit_obj,
+            capacity_limit=capacity_limit_obj,
         )
         for st in SessionTemplate.objects.filter(week_template=week_tmpl))
     Session.objects.bulk_create(future_sessions)

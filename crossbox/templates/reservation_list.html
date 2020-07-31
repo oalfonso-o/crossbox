@@ -28,12 +28,12 @@
             <td class='table_day_row'>{{ day_row.0|date:'l d' }}</td>
           </tr>
           {% for day in day_row|slice:"1:" %}
-            <tr class="table_session_row session {% if not day.session %}not_session{% elif day.session and day.session_closed %}session_closed{% elif day.reservations|length >= day.min_appraisal %}session_open{% endif %}" data-title='{{ day.hour }}'>
+            <tr class="table_session_row session {% if not day.session %}not_session{% elif day.session and day.session_closed %}session_closed{% elif day.reservations|length >= day.min_capacity %}session_open{% endif %}" data-title='{{ day.hour }}'>
               <td>
                 <ul>
                   <session
-                    :prop_min_appraisal="{{day.min_appraisal}}"
-                    :prop_max_appraisal="{{day.max_appraisal}}"
+                    :prop_min_capacity="{{day.min_capacity}}"
+                    :prop_max_capacity="{{day.max_capacity}}"
                     :hour="'{{day.hour}}'"
                     :date="'{{ day.date }}'"
                     :prop_reservations="{{ day.reservations }}"
