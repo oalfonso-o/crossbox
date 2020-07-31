@@ -12,7 +12,6 @@ from crossbox.models import Reservation, Session, Hour
 from crossbox.constants import (
     MIDWEEK_DAYS,
     SATURDAY_WEEK_DAY,
-    MIN_RESERVATION_PLACES,
 )
 from .tools import (
     active_page_number,
@@ -47,23 +46,40 @@ class ReservationView(ListView):
     def _row_object(self, d, hours):
         data = [d]
         for h in hours:
-            session = Session.objects.filter(date=d, hour=h).first()
-            record = {
-                'user_reservated': self._user_has_reservated(session),
-                'session': session.id if session else None,
-                'session_closed': session.is_closed() if session else None,
-                'hour': h.hour_simple(),
-                'reservations': (
-                    self._username_reservations(session) if session else []),
-                'date': 'El día {} a las {}'.format(
-                    session.date.strftime('%d-%m-%Y'),
-                    session.hour.hour_simple(),
-                ) if session else '',
-                'is_too_late': is_too_late(session.id) if session else False,
-                'type': (
-                    session.get_session_type_display() if session else None),
-            }
-            data.append(record)
+            sessions = Session.objects.filter(date=d, hour=h)
+            records = []
+            for session in sessions:
+                records.append({
+                    'user_reservated': self._user_has_reservated(session),
+                    'session': session.id,
+                    'session_closed': session.is_closed(),
+                    'hour': h.hour_simple(),
+                    'reservations': self._username_reservations(session),
+                    'date': 'El día {} a las {}'.format(
+                        session.date.strftime('%d-%m-%Y'),
+                        session.hour.hour_simple(),
+                    ),
+                    'is_too_late': is_too_late(session.id),
+                    'type': session.get_session_type_display(),
+                    'min_appraisal': session.appraisal_limit.minimum,
+                    'max_appraisal': session.appraisal_limit.maximum,
+                    'track': session.track,
+                })
+            if not records:
+                records.append({
+                    'user_reservated': None,
+                    'session': None,
+                    'session_closed': None,
+                    'hour': h.hour_simple(),
+                    'reservations': [],
+                    'date': '',
+                    'is_too_late': None,
+                    'type': '',
+                    'min_appraisal': 0,
+                    'max_appraisal': 0,
+                    'track': None,
+                })
+            data.extend(records)
         return data
 
     def _username_reservations(self, session):
@@ -120,7 +136,7 @@ def reservation_delete(request):
             request, 'session_not_found', HTTPStatus.NOT_FOUND)
     if (
         is_too_late(data['session'])
-        and session.reservations.count() >= MIN_RESERVATION_PLACES
+        and session.reservations.count() >= session.appraisal_limit.minimum
     ):
         return error_response(request, 'is_too_late', HTTPStatus.FORBIDDEN)
     wods = getattr(request.user.subscriber, 'wods')

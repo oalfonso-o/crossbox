@@ -11,7 +11,7 @@ class Session(models.Model):
     WOD = 'wod'
     OPEN = 'open'
     STRETCHING = 'stre'
-    SESSION_TYPES = [
+    SESSION_TYPES = [  # TODO: as model!
         (WOD, 'WOD'),
         (OPEN, 'OPEN'),
         (STRETCHING, 'ESTIRAMIENTOS'),
