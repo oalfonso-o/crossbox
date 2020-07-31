@@ -29,8 +29,7 @@ class SessionTemplateView(ListView):
         context = super(SessionTemplateView, self).get_context_data(**kwargs)
         week_template_id = self.request.GET.get('week_template')
         if week_template_id:
-            week_template = WeekTemplate.objects.filter(
-                pk=week_template_id).first()
+            week_template = WeekTemplate.objects.get(pk=week_template_id)
         else:
             week_template = WeekTemplate.objects.filter(default=True).first()
         hours = Hour.objects.order_by('hour').all()
@@ -118,17 +117,19 @@ def session_template_switch(request):
 
 
 def generate_sessions(request):
-    page_number = request.GET.get('page')
-    week_template = request.POST.get('week_template')
+    page_num = request.POST.get('page')
+    week_tmpl = request.POST.get('week_template')
     track = request.POST.get('track')
     appraisal_limit = request.POST.get('appraisal_limit')
-    if not page_number or week_template or track or appraisal_limit:
+    if all(p is None for p in(page_num, week_tmpl, track, appraisal_limit)):
         raise Exception(
             f"Can't generate sessions, there is one empty field:"
-            f"page_number: {page_number}, week_template: {week_template}, "
+            f"page_num: {page_num}, week_template: {week_tmpl}, "
             f"track: {track}, appraisal_limit: {appraisal_limit}"
-    )
-    monday = get_monday_from_page(page_number)
+        )
+    track_obj = Track.objects.get(pk=track)
+    appraisal_limit_obj = AppraisalLimit.objects.get(pk=appraisal_limit)
+    monday = get_monday_from_page(int(page_num))
     sunday = monday + datetime.timedelta(days=SATURDAY_WEEK_DAY)
     sessions_to_delete = Session.objects.filter(
         date__gte=monday, date__lte=sunday, track=track)
@@ -137,12 +138,12 @@ def generate_sessions(request):
         Session(
             date=monday + datetime.timedelta(days=st.day.weekday),
             hour=st.hour,
-            track=track,
-            appraisal_limit=appraisal_limit,
+            track=track_obj,
+            appraisal_limit=appraisal_limit_obj,
         )
-        for st in SessionTemplate.objects.filter(week_template=week_template))
+        for st in SessionTemplate.objects.filter(week_template=week_tmpl))
     Session.objects.bulk_create(future_sessions)
-    return HttpResponseRedirect('/reservation/?page={}'.format(page_number))
+    return HttpResponseRedirect('/reservation/?page={}'.format(page_num))
 
 
 @require_http_methods(['PUT'])
