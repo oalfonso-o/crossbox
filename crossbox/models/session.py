@@ -7,15 +7,17 @@ from .hour import Hour
 from .session_template import CapacityLimit, Track
 
 
+class SessionType(models.Model):
+    class Meta:
+        verbose_name = 'Tipo de Sesión'
+        verbose_name_plural = 'Tipos de Sesión'
+
+    name = models.CharField('Tipo de sesión', max_length=50, unique=True)
+    default = models.BooleanField('Predeterminado', default=False)
+
+
 class Session(models.Model):
-    WOD = 'wod'
-    OPEN = 'open'
-    STRETCHING = 'stre'
-    SESSION_TYPES = [  # TODO: as model!
-        (WOD, 'WOD'),
-        (OPEN, 'OPEN'),
-        (STRETCHING, 'ESTIRAMIENTOS'),
-    ]
+    DEFAULT_SESSION_TYPE_ID = 1
 
     class Meta:
         verbose_name = 'Sesión'
@@ -24,8 +26,12 @@ class Session(models.Model):
 
     date = models.DateField('Día', default=True)
     hour = models.ForeignKey(Hour, on_delete=models.CASCADE, null=False)
-    session_type = models.CharField(
-        max_length=4, choices=SESSION_TYPES, default=WOD)
+    session_type = models.ForeignKey(
+        SessionType,
+        on_delete=models.CASCADE,
+        null=False,
+        default=DEFAULT_SESSION_TYPE_ID,
+    )
     capacity_limit = models.ForeignKey(
         CapacityLimit, on_delete=models.PROTECT, null=False)
     track = models.ForeignKey(Track, on_delete=models.PROTECT, null=False)
@@ -42,10 +48,11 @@ class Session(models.Model):
         return bool(self.datetime() < datetime.now())
 
     def set_next_session_type(self):
-        types_cycle = itertools.cycle(self.SESSION_TYPES)
-        for key, value in types_cycle:
-            if self.session_type == key:
-                next_type, _ = next(types_cycle)
+        session_types = SessionType.objects.all().order_by('pk')
+        types_cycle = itertools.cycle(session_types)
+        for session_type in types_cycle:
+            if self.session_type.pk == session_type.pk:
+                next_type = next(types_cycle)
                 self.session_type = next_type
                 self.save()
-                break
+                return next_type

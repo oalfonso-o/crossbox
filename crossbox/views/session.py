@@ -153,5 +153,12 @@ def change_session_type(request, session_id):
     except Session.DoesNotExist:
         return error_response(
             request, 'session_not_found', HTTPStatus.NOT_FOUND)
-    session.set_next_session_type()
-    return JsonResponse({'session_type': session.get_session_type_display()})
+    next_session_type = session.set_next_session_type()
+    return JsonResponse(
+        {
+            'session_type': {
+                'pk': next_session_type.pk,
+                'name': next_session_type.name,
+            }
+        }
+    )

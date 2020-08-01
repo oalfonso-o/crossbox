@@ -1,0 +1,26 @@
+[
+    {
+        "model": "crossbox.sessiontype",
+        "pk": 1,
+        "fields": {
+            "name": "WOD",
+            "default": true
+        }
+    },
+    {
+        "model": "crossbox.sessiontype",
+        "pk": 2,
+        "fields": {
+            "name": "OPEN",
+            "default": false
+        }
+    },
+    {
+        "model": "crossbox.sessiontype",
+        "pk": 3,
+        "fields": {
+            "name": "ESTIRAMIENTOS",
+            "default": false
+        }
+    }
+]

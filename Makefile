@@ -15,9 +15,11 @@ init:
 	python manage.py loaddata crossbox/fixtures/capacity_limits
 	python manage.py loaddata crossbox/fixtures/week_templates
 	python manage.py loaddata crossbox/fixtures/session_templates
+	python manage.py loaddata crossbox/fixtures/session_types
 
 resetdb:
-	python manage.py flush --no-input
+	python manage.py reset_db --noinput
+	make migrate
 	make init
 
 lint:

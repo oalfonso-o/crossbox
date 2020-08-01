@@ -8,9 +8,10 @@ from crossbox.models import (
     Day,
     Subscriber,
 )
+from crossbox.models.session import SessionType
 from crossbox.models.session_template import WeekTemplate, CapacityLimit
 from .reservation import ReservationAdmin
-from .session import SessionAdmin
+from .session import SessionAdmin, SessionTypeAdmin
 from .session_template import (
     SessionTemplateAdmin,
     WeekTemplateAdmin,
@@ -23,6 +24,7 @@ from .subscriber import SubscriberAdmin
 admin.site.register(Reservation, ReservationAdmin)
 admin.site.register(Session, SessionAdmin)
 admin.site.register(SessionTemplate, SessionTemplateAdmin)
+admin.site.register(SessionType, SessionTypeAdmin)
 admin.site.register(WeekTemplate, WeekTemplateAdmin)
 admin.site.register(CapacityLimit, CapacityLimitAdmin)
 admin.site.register(Hour, HourAdmin)

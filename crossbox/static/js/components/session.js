@@ -17,6 +17,7 @@ Vue.component('session', {
     prop_max_capacity: Number,
     user_is_staff: Boolean,
     prop_type: String,
+    prop_type_label: String,
   },
   template: `
     <div>
@@ -61,7 +62,7 @@ Vue.component('session', {
         </modal>
         <div class="session_hour">{{ hour }}</div>
 
-        <div class="session_type">{{ type }}<span v-if=user_is_staff @click="change_session_type()">&nbsp;<i class="fa fa-pencil"></i></span></div>
+        <div class="session_type">{{ type_label }}<span v-if=user_is_staff @click="change_session_type()">&nbsp;<i class="fa fa-pencil"></i></span></div>
 
         <div class="session_checkbox">
           <div class="inner_toggle">
@@ -114,6 +115,7 @@ Vue.component('session', {
       is_too_late: this.prop_is_too_late,
       showModal: false,
       type: this.prop_type,
+      type_label: this.prop_type_label,
     }
   },
   watch: {
@@ -137,7 +139,8 @@ Vue.component('session', {
     change_session_type: function() {
       axios.put('../change_session_type/' + this.session + '/')
       .then(response => {
-        this.type = response.data.session_type
+        this.type = response.data.session_type.pk
+        this.type_label = response.data.session_type.name
       }).catch(error => {
         if (error.response.data.result == 'session_not_found') {
           this.notification_text = 'Ha habído un error, esa sesión ya no existe.'

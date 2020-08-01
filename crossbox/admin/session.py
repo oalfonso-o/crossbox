@@ -42,3 +42,9 @@ class SessionAdmin(admin.ModelAdmin):
     list_display = ('date', 'hour', 'capacity_limit')
     search_fields = ['date', 'hour__hour']
     list_per_page = 20
+
+
+class SessionTypeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'default')
+    search_fields = ['name', 'default']
+    ordering = ['-default', 'name']

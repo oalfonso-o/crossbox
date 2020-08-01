@@ -60,7 +60,7 @@ class ReservationView(ListView):
                         session.hour.hour_simple(),
                     ),
                     'is_too_late': is_too_late(session.id),
-                    'type': session.get_session_type_display(),
+                    'type': session.session_type,
                     'min_capacity': session.capacity_limit.minimum,
                     'max_capacity': session.capacity_limit.maximum,
                     'track': session.track,
