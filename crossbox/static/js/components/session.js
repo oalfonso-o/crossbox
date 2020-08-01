@@ -100,7 +100,6 @@ Vue.component('session', {
           {{ notification_text }}
         </b-notification>
       </div>
-      {{ track_id }}
       <div v-if="session !== undefined && track_id==1" class="row_center_container_track_1_2">
         <span>{{ track_label }}</span>
       </div>
