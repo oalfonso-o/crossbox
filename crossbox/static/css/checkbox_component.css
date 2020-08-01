@@ -28,18 +28,18 @@
 }
 .people_list {
     background-color: #1e1e1e9e;
-    margin-top: 15px;
     border: 1px solid;
     border-radius: 15px;
     color: white;
     z-index: 1;
-    padding-top: 15px;
     font-size: 40px;
-    position: fixed;
-    left: 25%;
-    top: 57%;
-    width: 50%;
     display: inline-block;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    right: 25%;
+    width: 50%;
 }
 .people_li {height: 70px; padding-top: 20px;}
 .eye-closed {color: orange}
