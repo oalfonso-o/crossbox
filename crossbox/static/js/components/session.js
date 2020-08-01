@@ -18,6 +18,8 @@ Vue.component('session', {
     user_is_staff: Boolean,
     prop_type: String,
     prop_type_label: String,
+    track_id: Number,
+    track_label: String,
   },
   template: `
     <div>
@@ -97,6 +99,13 @@ Vue.component('session', {
         <b-notification auto-close :active.sync="notification_active">
           {{ notification_text }}
         </b-notification>
+      </div>
+      {{ track_id }}
+      <div v-if="session !== undefined && track_id==1" class="row_center_container_track_1_2">
+        <span>{{ track_label }}</span>
+      </div>
+      <div v-if="session !== undefined && track_id==2" class="row_center_container_track_3">
+        <span>{{ track_label }}</span>
       </div>
       <div v-if="!session">
         {{ hour }}

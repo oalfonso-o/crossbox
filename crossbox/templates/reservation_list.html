@@ -47,6 +47,8 @@
                     :user_is_staff={% if user.is_staff %}true{% else %}false{% endif %}
                     :prop_type="'{{ day.type.pk }}'"
                     :prop_type_label="'{{ day.type.name }}'"
+                    :track_id="'{{ day.track.pk }}'"
+                    :track_label="'{{ day.track.name }}'"
                   >
                   </session>
                 </ul>
