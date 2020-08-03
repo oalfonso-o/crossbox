@@ -207,11 +207,12 @@ class ReservationsCase(TestCase):
         pass  # TODO
 
     @with_login()
-    @freeze_time('2018-12-30 10:00:00')
+    @freeze_time('2020-01-01 00:00:00')
     def test_reservation_delete_reservation_not_found(self):
+        session = create_session()
         self.reservation_view_test(
             mode='delete',
-            session_id=2,
+            session_id=session.pk,
             status_code_expected=HTTPStatus.NOT_FOUND,
             result_expected='no_reservation',
         )
@@ -246,39 +247,38 @@ class ReservationsCase(TestCase):
         )
 
     @with_login()
-    @freeze_time('2019-01-02 00:00:00')
+    @freeze_time('2020-01-02 10:00:00')
     @patch('django.db.models.QuerySet.count')
     def test_reservation_delete_ok_is_too_late_but_few_people(
             self, QuerySetCountMock):
-        # session 21 -> day: 2019-01-02, hour: 17:00:00
-        QuerySetCountMock.return_value = 2
+        session = create_session(
+            hour=Hour.objects.get(hour=datetime.time(hour=12))
+        )
+        QuerySetCountMock.return_value = session.capacity_limit.minimum - 1
+        Reservation.objects.create(
+            session=session, user=User.objects.get(pk=1))
         self.reservation_view_test(
             mode='delete',
-            session_id=21,
+            session_id=session.pk,
             status_code_expected=HTTPStatus.OK,
             result_expected='deleted',
         )
         self.user.subscriber.refresh_from_db()
-        self.assertEquals(self.user.subscriber.wods, 2)
+        self.assertEquals(self.user.subscriber.wods, 51)
 
     @with_login()
-    @freeze_time('2019-01-01 23:59:59')
+    @freeze_time('2020-01-01 23:59:59')
     @patch('django.db.models.QuerySet.count')
     def test_reservation_delete_ok(self, QuerySetCountMock):
-        hour = Hour(hour=datetime.time(0, 0))
-        hour.save()
-        day = datetime.date(year=2019, month=1, day=2)
-        session = Session(date=day, hour=hour, **generic_session_fields())
-        session.save()
+        session = create_session()
         reservation = Reservation(user=self.user, session=session)
         QuerySetCountMock.return_value = 1
         reservation.save()
-        QuerySetCountMock.return_value = 14
         self.reservation_view_test(
             mode='delete',
-            session_id=session.id,
+            session_id=session.pk,
             status_code_expected=HTTPStatus.OK,
             result_expected='deleted',
         )
         self.user.subscriber.refresh_from_db()
-        self.assertEquals(self.user.subscriber.wods, 2)
+        self.assertEquals(self.user.subscriber.wods, 51)
