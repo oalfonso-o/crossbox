@@ -4,11 +4,9 @@ from freezegun import freeze_time
 from django.test import TestCase
 
 from crossbox.models.hour import Hour
-from crossbox.models.track import Track
 from crossbox.models.session import Session
-from crossbox.models.session_type import SessionType
-from crossbox.models.capacity_limit import CapacityLimit
 from crossbox.views.tools import get_monday_from_page
+from crossbox.tests.tools import generic_session_fields
 
 
 class ToolsCase(TestCase):
@@ -76,27 +74,19 @@ class ToolsCase(TestCase):
         kwargs = {
             'date': day,
             'hour': hour,
-            **self._generic_session_fields(),
+            **generic_session_fields(),
         }
         Session.objects.create(**kwargs)
         monday = get_monday_from_page(0)
         self.assertEquals(monday, datetime.date(year=2019, month=5, day=13))
 
-    @classmethod
-    def _create_saturday_session(cls):
+    @staticmethod
+    def _create_saturday_session():
         hour = Hour(hour=datetime.time(10))
         hour.save()
         kwargs = {
             'date': datetime.date(year=2019, month=5, day=18),  # Saturday
             'hour': hour,
-            **cls._generic_session_fields(),
+            **generic_session_fields(),
         }
         Session.objects.create(**kwargs)
-
-    @staticmethod
-    def _generic_session_fields():
-        return {
-            'session_type': SessionType.objects.get(pk=1),
-            'capacity_limit': CapacityLimit.objects.get(pk=1),
-            'track': Track.objects.get(pk=1),
-        }

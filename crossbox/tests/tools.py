@@ -1,6 +1,10 @@
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+from crossbox.models.track import Track
+from crossbox.models.session_type import SessionType
+from crossbox.models.capacity_limit import CapacityLimit
+
 
 def with_login(username='admin'):
     def decorator(func):
@@ -13,3 +17,11 @@ def with_login(username='admin'):
             func(self, *args, **kwargs)
         return wrapper
     return decorator
+
+
+def generic_session_fields():
+    return {
+        'session_type': SessionType.objects.get(pk=1),
+        'capacity_limit': CapacityLimit.objects.get(pk=1),
+        'track': Track.objects.get(pk=1),
+    }

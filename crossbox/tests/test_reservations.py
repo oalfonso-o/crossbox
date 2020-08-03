@@ -19,7 +19,7 @@ class ReservationsCase(TestCase):
 
     fixtures = [
         'users', 'hours', 'days', 'capacity_limits', 'session_types', 'tracks',
-        'week_templates', 'session_templates'
+        'week_templates', 'session_templates', 'subscribers'
     ]
 
     @with_login()
