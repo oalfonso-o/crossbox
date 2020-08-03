@@ -9,13 +9,18 @@ from django.contrib.auth.models import User
 
 from .tools import with_login
 from .constants import EXPECTED_RESERVATION_DAYS
-from crossbox.models import Session, Hour, Reservation
+from crossbox.models.session import Session
+from crossbox.models.hour import Hour
+from crossbox.models.reservation import Reservation
 from crossbox.constants import MAX_RESERVATION_PLACES
 
 
 class ReservationsCase(TestCase):
 
-    fixtures = ['tests_base']
+    fixtures = [
+        'users', 'hours', 'days', 'capacity_limits', 'session_types', 'tracks',
+        'week_templates', 'session_templates'
+    ]
 
     @with_login()
     @freeze_time('2019-05-14')

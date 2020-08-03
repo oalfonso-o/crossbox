@@ -1,0 +1,10 @@
+[
+    {
+        "model": "crossbox.subscriber",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "wods": 50
+        }
+    }
+]

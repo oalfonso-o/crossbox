@@ -6,13 +6,17 @@ from django.test import TestCase
 from django.urls import reverse
 
 from .tools import with_login
-from crossbox.models import Hour, Session
+from crossbox.models.session import Session
+from crossbox.models.hour import Hour
 from crossbox.admin.session import SessionAdmin, SessionAdminFilter
 
 
 class SessionsCase(TestCase):
 
-    fixtures = ['tests_base']
+    fixtures = [
+        'users', 'hours', 'days', 'capacity_limits', 'session_types', 'tracks',
+        'week_templates', 'session_templates'
+    ]
 
     @with_login()
     def test_change_session_type(self):

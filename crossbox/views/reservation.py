@@ -3,17 +3,16 @@ import json
 from http import HTTPStatus
 from datetime import timedelta, datetime
 
-from django.views.generic.list import ListView
 from django.http import JsonResponse
 from django.db import IntegrityError
+from django.views.generic.list import ListView
 
 from crossbox.exceptions import LimitExceeed
-from crossbox.models import Reservation, Session, Hour
-from crossbox.constants import (
-    MIDWEEK_DAYS,
-    SATURDAY_WEEK_DAY,
-)
-from .tools import (
+from crossbox.models.reservation import Reservation
+from crossbox.models.session import Session
+from crossbox.models.hour import Hour
+from crossbox.constants import MIDWEEK_DAYS, SATURDAY_WEEK_DAY
+from crossbox.views.tools import (
     active_page_number,
     get_monday_from_page,
     is_too_late,

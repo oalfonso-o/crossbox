@@ -3,17 +3,10 @@ from datetime import datetime
 
 from django.db import models
 
-from .hour import Hour
-from .session_template import CapacityLimit, Track
-
-
-class SessionType(models.Model):
-    class Meta:
-        verbose_name = 'Tipo de Sesión'
-        verbose_name_plural = 'Tipos de Sesión'
-
-    name = models.CharField('Tipo de sesión', max_length=50, unique=True)
-    default = models.BooleanField('Predeterminado', default=False)
+from crossbox.models.hour import Hour
+from crossbox.models.capacity_limit import CapacityLimit
+from crossbox.models.track import Track
+from crossbox.models.session_type import SessionType
 
 
 class Session(models.Model):

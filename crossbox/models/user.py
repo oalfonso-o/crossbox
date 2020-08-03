@@ -2,7 +2,7 @@ from django.db import models
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 
-from .subscriber import Subscriber
+from crossbox.models.subscriber import Subscriber
 
 
 @receiver(models.signals.post_save, sender=User)

@@ -2,7 +2,7 @@ from datetime import date, timedelta, datetime
 
 from django.http import JsonResponse
 
-from crossbox.models import Session
+from crossbox.models.session import Session
 from crossbox.constants import (
     WEEK_DAYS,
     SATURDAY_TIMEDELTA_DAYS,

@@ -9,7 +9,10 @@ from .tools import with_login
 
 class AuthCase(TestCase):
 
-    fixtures = ['tests_base']
+    fixtures = [
+        'users', 'hours', 'days', 'capacity_limits', 'session_types', 'tracks',
+        'week_templates', 'session_templates'
+    ]
 
     @with_login()
     def test_auth_user_calls_auth_route_ok(self):

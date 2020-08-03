@@ -2,7 +2,8 @@ from datetime import date, timedelta
 
 from django.contrib import admin
 
-from crossbox.models import Reservation, Session
+from crossbox.models.reservation import Reservation
+from crossbox.models.session import Session
 
 
 def refund_and_delete(modeladmin, request, queryset):

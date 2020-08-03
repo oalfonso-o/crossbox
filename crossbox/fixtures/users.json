@@ -3,58 +3,6 @@
         "model": "auth.user",
         "pk": 1,
         "fields": {
-            "password": "bcrypt_sha256$$2b$12$I7DEA.upmuaQYPxNSXuFROp/g0UaIQaRVCZZo5X4iNEb5fI1wTu3y",
-            "last_login": "2018-08-13T18:47:46Z",
-            "is_superuser": true,
-            "username": "oriol",
-            "first_name": "Oriol",
-            "last_name": "Alfonso Riba",
-            "email": "oriolalfonso91@gmail.com",
-            "is_staff": true,
-            "is_active": true,
-            "date_joined": "2018-08-13T18:47:35Z",
-            "groups": [],
-            "user_permissions": []
-        }
-    },
-    {
-        "model": "crossbox.subscriber",
-        "pk": 1,
-        "fields": {
-            "user": 1,
-            "wods": 50
-        }
-    },
-    {
-        "model": "auth.user",
-        "pk": 2,
-        "fields": {
-            "password": "bcrypt_sha256$$2b$12$MgdQD2bg0If2j2nNSZLaPuoWLV6syD12tyxT5QxNp8xeSwmXHk9Se",
-            "last_login": null,
-            "is_superuser": true,
-            "username": "crossbox",
-            "first_name": "",
-            "last_name": "",
-            "email": "crossbox@gmail.com",
-            "is_staff": true,
-            "is_active": true,
-            "date_joined": "2018-08-13T19:06:59.943Z",
-            "groups": [],
-            "user_permissions": []
-        }
-    },
-    {
-        "model": "crossbox.subscriber",
-        "pk": 2,
-        "fields": {
-            "user": 2,
-            "wods": 50
-        }
-    },
-    {
-        "model": "auth.user",
-        "pk": 3,
-        "fields": {
             "password": "bcrypt_sha256$$2b$12$CvhchpKpffEm7yDccUKq0.unIWKK4sXpqUGg3uZNhXjg2UDbmpSWC",
             "last_login": null,
             "is_superuser": true,
@@ -67,14 +15,6 @@
             "date_joined": "2018-08-13T19:07:06.321Z",
             "groups": [],
             "user_permissions": []
-        }
-    },
-    {
-        "model": "crossbox.subscriber",
-        "pk": 3,
-        "fields": {
-            "user": 3,
-            "wods": 10
         }
     }
 ]

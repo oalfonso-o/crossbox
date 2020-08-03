@@ -3,8 +3,9 @@ from freezegun import freeze_time
 
 from django.test import TestCase
 
-from crossbox.models import Session, Hour
-from crossbox.views.reservation import get_monday_from_page
+from crossbox.models.session import Session
+from crossbox.models.hour import Hour
+from crossbox.views.tools import get_monday_from_page
 
 
 class ToolsCase(TestCase):

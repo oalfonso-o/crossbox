@@ -1,7 +1,7 @@
 import os
+from dotenv import load_dotenv, find_dotenv
 
 from django.core.wsgi import get_wsgi_application
-from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 os.environ.setdefault(
