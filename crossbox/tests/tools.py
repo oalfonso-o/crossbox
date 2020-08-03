@@ -1,7 +1,11 @@
+import datetime
+
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+from crossbox.models.hour import Hour
 from crossbox.models.track import Track
+from crossbox.models.session import Session
 from crossbox.models.session_type import SessionType
 from crossbox.models.capacity_limit import CapacityLimit
 
@@ -25,3 +29,16 @@ def generic_session_fields():
         'capacity_limit': CapacityLimit.objects.get(pk=1),
         'track': Track.objects.get(pk=1),
     }
+
+
+def create_session(
+    date=datetime.date(year=2020, month=1, day=2),
+    hour=Hour.objects.get(pk=1),
+):
+    session = Session(
+        date=date,
+        hour=hour,
+        **generic_session_fields(),
+    )
+    session.save()
+    return session

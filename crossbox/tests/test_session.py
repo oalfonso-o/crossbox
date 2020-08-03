@@ -6,11 +6,11 @@ from django.test import TestCase
 from django.urls import reverse
 
 from .tools import with_login
-from crossbox.models.session import Session
 from crossbox.models.hour import Hour
+from crossbox.models.track import Track
+from crossbox.models.session import Session
 from crossbox.models.session_type import SessionType
 from crossbox.models.capacity_limit import CapacityLimit
-from crossbox.models.track import Track
 from crossbox.admin.session import SessionAdmin, SessionAdminFilter
 
 
