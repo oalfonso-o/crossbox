@@ -75,15 +75,16 @@ class ReservationsCase(TestCase):
         self.assertEquals(context['to_date'], datetime.date(2020, 1, 4))
 
     @with_login()
-    @freeze_time('2018-12-31')
+    @freeze_time('2020-01-01')
     def test_reservation_create_no_wods(self):
+        session = create_session()  # default on day 2
         user = User.objects.get(pk=1)
         user.subscriber.wods = 0
         user.subscriber.save()
 
         self.reservation_view_test(
             mode='create',
-            session_id=3,
+            session_id=session.pk,
             status_code_expected=HTTPStatus.FORBIDDEN,
             result_expected='no_wods',
         )
@@ -91,7 +92,7 @@ class ReservationsCase(TestCase):
     @with_login()
     @freeze_time('2020-01-01')
     def test_reservation_create_already_reserved(self):
-        session = create_session()
+        session = create_session()  # default on day 2
         # Reservate first time
         self.reservation_view_test(
             mode='create',
@@ -111,12 +112,7 @@ class ReservationsCase(TestCase):
     @freeze_time('2020-01-01')
     def test_reservation_create_max_reservations(self):
         gen_session_flds = generic_session_fields()
-        session = Session(
-            date=datetime.date(year=2020, month=1, day=2),
-            hour=Hour.objects.get(pk=1),
-            **gen_session_flds,
-        )
-        session.save()
+        session = create_session()  # default on day 2
         users = User.objects.bulk_create([
             User(username=f'user_{i}')
             for i in range(gen_session_flds['capacity_limit'].maximum)
@@ -160,9 +156,9 @@ class ReservationsCase(TestCase):
         )
 
     @with_login()
-    @freeze_time('2018-12-31')
+    @freeze_time('2020-01-01')
     def test_reservation_create_ok(self):
-        session = create_session()
+        session = create_session()  # default on day 2
         self.assertEquals(self.user.subscriber.wods, 50)
         self.reservation_view_test(
             mode='create',
@@ -194,7 +190,7 @@ class ReservationsCase(TestCase):
         )
 
     @with_login()
-    @freeze_time('2018-12-31 8:00:00')
+    @freeze_time('2020-01-01')
     def test_reservation_delete_no_subscriber(self):
         """
         given:
@@ -207,7 +203,7 @@ class ReservationsCase(TestCase):
         pass  # TODO
 
     @with_login()
-    @freeze_time('2020-01-01 00:00:00')
+    @freeze_time('2020-01-01')
     def test_reservation_delete_reservation_not_found(self):
         session = create_session()
         self.reservation_view_test(
@@ -230,14 +226,14 @@ class ReservationsCase(TestCase):
         pass  # TODO
 
     @with_login()
-    @freeze_time('2019-01-01 00:00:00')
+    @freeze_time('2020-01-01 00:00:00')
     @patch('django.db.models.QuerySet.count')
     def test_reservation_delete_is_too_late(self, QuerySetCountMock):
+        """It's not allowed to cancel a reservation on the same day"""
         hour = Hour(hour=datetime.time(23, 59))
         hour.save()
-        day = datetime.date(year=2019, month=1, day=1)
-        session = Session(date=day, hour=hour, **generic_session_fields())
-        session.save()
+        day = datetime.date(year=2020, month=1, day=1)
+        session = create_session(date=day, hour=hour)
         QuerySetCountMock.return_value = 5
         self.reservation_view_test(
             mode='delete',
@@ -251,6 +247,12 @@ class ReservationsCase(TestCase):
     @patch('django.db.models.QuerySet.count')
     def test_reservation_delete_ok_is_too_late_but_few_people(
             self, QuerySetCountMock):
+        """Refund wod if len(reservations) is less than the minimum limit
+        Even when it's the same day of the session, only in that case it's
+        allowed to cancel a reservation, because is considered fair to save
+        that wod and check if it's possible to cancel that session because of
+        not enough people
+        """
         session = create_session(
             hour=Hour.objects.get(hour=datetime.time(hour=12))
         )

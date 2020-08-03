@@ -82,7 +82,7 @@ class SessionAdminFilterCase(TestCase):
 
     fixtures = ['capacity_limits', 'session_types', 'tracks']
 
-    @freeze_time('2019-02-1')
+    @freeze_time('2020-02-1')
     def test_queryset_depending_on_filter_selected(self):
         hour = Hour(hour=datetime.time(0, 0))
         hour.save()
@@ -92,9 +92,9 @@ class SessionAdminFilterCase(TestCase):
             'capacity_limit': CapacityLimit.objects.get(pk=1),
             'track': Track.objects.get(pk=1),
         }
-        day_jan = datetime.date(year=2019, month=1, day=1)
-        day_feb = datetime.date(year=2019, month=2, day=1)
-        day_mar = datetime.date(year=2019, month=3, day=1)
+        day_jan = datetime.date(year=2020, month=1, day=1)
+        day_feb = datetime.date(year=2020, month=2, day=1)
+        day_mar = datetime.date(year=2020, month=3, day=1)
         Session.objects.bulk_create([
             Session(date=day_jan, **kwargs),
             Session(date=day_feb, **kwargs),
