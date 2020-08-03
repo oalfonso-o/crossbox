@@ -4,11 +4,16 @@ from freezegun import freeze_time
 from django.test import TestCase
 
 from crossbox.models.hour import Hour
+from crossbox.models.track import Track
 from crossbox.models.session import Session
+from crossbox.models.session_type import SessionType
+from crossbox.models.capacity_limit import CapacityLimit
 from crossbox.views.tools import get_monday_from_page
 
 
 class ToolsCase(TestCase):
+
+    fixtures = ['session_types', 'tracks', 'capacity_limits']
 
     @freeze_time('2019-05-14')
     def test_get_monday_from_page_tuesday(self):
@@ -68,13 +73,30 @@ class ToolsCase(TestCase):
         hour = Hour(hour=datetime.time(11))
         hour.save()
         day = datetime.date(year=2019, month=5, day=20)
-        Session.objects.create(date=day, hour=hour)
+        kwargs = {
+            'date': day,
+            'hour': hour,
+            **self._generic_session_fields(),
+        }
+        Session.objects.create(**kwargs)
         monday = get_monday_from_page(0)
         self.assertEquals(monday, datetime.date(year=2019, month=5, day=13))
 
-    @staticmethod
-    def _create_saturday_session():
+    @classmethod
+    def _create_saturday_session(cls):
         hour = Hour(hour=datetime.time(10))
         hour.save()
-        day = datetime.date(year=2019, month=5, day=18)  # Saturday
-        Session.objects.create(date=day, hour=hour)
+        kwargs = {
+            'date': datetime.date(year=2019, month=5, day=18),  # Saturday
+            'hour': hour,
+            **cls._generic_session_fields(),
+        }
+        Session.objects.create(**kwargs)
+
+    @staticmethod
+    def _generic_session_fields():
+        return {
+            'session_type': SessionType.objects.get(pk=1),
+            'capacity_limit': CapacityLimit.objects.get(pk=1),
+            'track': Track.objects.get(pk=1),
+        }
