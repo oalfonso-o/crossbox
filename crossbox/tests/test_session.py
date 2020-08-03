@@ -1,6 +1,6 @@
 import datetime
-from freezegun import freeze_time
 from http import HTTPStatus
+from freezegun import freeze_time
 
 from django.test import TestCase
 from django.urls import reverse
@@ -8,14 +8,17 @@ from django.urls import reverse
 from .tools import with_login
 from crossbox.models.session import Session
 from crossbox.models.hour import Hour
+from crossbox.models.session_type import SessionType
+from crossbox.models.capacity_limit import CapacityLimit
+from crossbox.models.track import Track
 from crossbox.admin.session import SessionAdmin, SessionAdminFilter
 
 
 class SessionsCase(TestCase):
 
     fixtures = [
-        'users', 'hours', 'days', 'capacity_limits', 'session_types', 'tracks',
-        'week_templates', 'session_templates'
+        'users', 'capacity_limits', 'session_types', 'tracks', 'subscribers',
+        'week_templates'
     ]
 
     @with_login()
@@ -23,27 +26,33 @@ class SessionsCase(TestCase):
         hour = Hour(hour=datetime.time(0, 0))
         hour.save()
         day = datetime.date(year=2019, month=1, day=1)
-        session = Session(date=day, hour=hour)
+        session = Session(
+            date=day,
+            hour=hour,
+            session_type=SessionType.objects.get(pk=1),
+            capacity_limit=CapacityLimit.objects.get(pk=1),
+            track=Track.objects.get(pk=1),
+        )
         session.save()
         self._session_view_test(
             session_id=session.id,
             status_code_expected=HTTPStatus.OK,
-            result_expected='OPEN',
+            result_expected={'pk': 2, 'name': 'OPEN'},
         )
         self._session_view_test(
             session_id=session.id,
             status_code_expected=HTTPStatus.OK,
-            result_expected='ESTIRAMIENTOS',
+            result_expected={'pk': 3, 'name': 'ESTIRAMIENTOS'},
         )
         self._session_view_test(
             session_id=session.id,
             status_code_expected=HTTPStatus.OK,
-            result_expected='WOD',
+            result_expected={'pk': 1, 'name': 'WOD'},
         )
         self._session_view_test(
             session_id=session.id,
             status_code_expected=HTTPStatus.OK,
-            result_expected='OPEN',
+            result_expected={'pk': 2, 'name': 'OPEN'},
         )
 
     @with_login()
@@ -71,17 +80,25 @@ class SessionsCase(TestCase):
 
 class SessionAdminFilterCase(TestCase):
 
+    fixtures = ['capacity_limits', 'session_types', 'tracks']
+
     @freeze_time('2019-02-1')
     def test_queryset_depending_on_filter_selected(self):
         hour = Hour(hour=datetime.time(0, 0))
         hour.save()
+        kwargs = {
+            'hour': hour,
+            'session_type': SessionType.objects.get(pk=1),
+            'capacity_limit': CapacityLimit.objects.get(pk=1),
+            'track': Track.objects.get(pk=1),
+        }
         day_jan = datetime.date(year=2019, month=1, day=1)
         day_feb = datetime.date(year=2019, month=2, day=1)
         day_mar = datetime.date(year=2019, month=3, day=1)
         Session.objects.bulk_create([
-            Session(date=day_jan, hour=hour),
-            Session(date=day_feb, hour=hour),
-            Session(date=day_mar, hour=hour),
+            Session(date=day_jan, **kwargs),
+            Session(date=day_feb, **kwargs),
+            Session(date=day_mar, **kwargs),
         ])
         session_filter = SessionAdminFilter(None, {}, Session, SessionAdmin)
         session_filter.used_parameters['filter'] = None

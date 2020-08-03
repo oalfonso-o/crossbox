@@ -1,7 +1,7 @@
 import datetime
-from freezegun import freeze_time
 from http import HTTPStatus
 from unittest.mock import patch
+from freezegun import freeze_time
 
 from django.test import TestCase
 from django.urls import reverse

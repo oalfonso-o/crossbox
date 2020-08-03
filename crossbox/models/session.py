@@ -4,9 +4,9 @@ from datetime import datetime
 from django.db import models
 
 from crossbox.models.hour import Hour
-from crossbox.models.capacity_limit import CapacityLimit
 from crossbox.models.track import Track
 from crossbox.models.session_type import SessionType
+from crossbox.models.capacity_limit import CapacityLimit
 
 
 class Session(models.Model):
