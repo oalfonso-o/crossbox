@@ -77,6 +77,41 @@ class ReservationsCase(TestCase):
 
     @with_login()
     @freeze_time('2020-01-01')
+    def test_reservation_view_return_only_current_week_sessions(self):
+        create_session(date=datetime.date(year=2019, month=12, day=20))
+        create_session(date=datetime.date(year=2020, month=1, day=10))
+        create_session()  # default is 2020-01-02
+
+        response = self.client.get(reverse('reservation'))
+
+        for day, session in response.context['days']:
+            if day != datetime.date(2020, 1, 2):
+                self.assertFalse(session['session'])
+            else:
+                self.assertTrue(session['session'])
+
+    @with_login()
+    @freeze_time('2020-01-01')
+    def test_reservation_view_session_type(self):
+        pass
+
+    @with_login()
+    @freeze_time('2020-01-01')
+    def test_reservation_view_session_min_capacity(self):
+        pass
+
+    @with_login()
+    @freeze_time('2020-01-01')
+    def test_reservation_view_session_max_capacity(self):
+        pass
+
+    @with_login()
+    @freeze_time('2020-01-01')
+    def test_reservation_view_session_track(self):
+        pass
+
+    @with_login()
+    @freeze_time('2020-01-01')
     def test_reservation_create_no_wods(self):
         session = create_session()  # default on day 2
         user = User.objects.get(pk=1)
