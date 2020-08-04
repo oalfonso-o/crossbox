@@ -84,6 +84,44 @@ class SessionsCase(TestCase):
             response.json()['session_type'], {'pk': 4, 'name': 'new_type'}
         )
 
+    @with_login()
+    def test_gen_sessions_invalid_post_params(self):
+        path = reverse('generate-sessions')
+        kwargs = {
+            'page': None,
+            'week_template': 1,
+            'track': 1,
+            'capacity_limit': 1,
+        }
+        with self.assertRaises(Exception):
+            self.client.post(path=path, data=kwargs)
+        kwargs['page'] = 1
+        kwargs['week_template'] = None
+        with self.assertRaises(Exception):
+            self.client.post(path=path, data=kwargs)
+        kwargs['week_template'] = 1
+        kwargs['track'] = None
+        with self.assertRaises(Exception):
+            self.client.post(path=path, data=kwargs)
+        kwargs['track'] = 1
+        kwargs['capacity_limit'] = None
+        with self.assertRaises(Exception):
+            self.client.post(path=path, data=kwargs)
+        kwargs['capacity_limit'] = 1
+        self.client.post(path=path, data=kwargs)  # no raise
+
+    @with_login()
+    def test_gen_sessions_delete_same_track_sessions(self):
+        pass
+
+    @with_login()
+    def test_gen_sessions_new_sessions_for_that_week(self):
+        pass
+
+    @with_login()
+    def test_gen_sessions_redirect_created_week_page(self):
+        pass
+
     def _session_view_test(
         self, session_id, status_code_expected, result_expected
     ):

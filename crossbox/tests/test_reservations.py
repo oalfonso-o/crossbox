@@ -12,7 +12,6 @@ from crossbox.models.day import Day
 from crossbox.models.hour import Hour
 from crossbox.models.session import Session
 from crossbox.models.reservation import Reservation
-from crossbox.models.session_type import SessionType
 from crossbox.tests.tools import (
     with_login,
     generic_session_fields,
