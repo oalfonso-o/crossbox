@@ -60,12 +60,52 @@ class SessionsCase(TestCase):
 
     @with_login()
     @freeze_time('2020-01-1')
-    def test_session_template_context_data_weeks(self):
+    def test_session_template_view_context_data_hours(self):
+        pass  # TODO
+
+    @with_login()
+    @freeze_time('2020-01-1')
+    def test_session_template_view_context_data_days(self):
+        pass  # TODO
+
+    @with_login()
+    @freeze_time('2020-01-1')
+    def test_session_template_view_context_data_weeks(self):
         response = self.client.get(path=reverse('session-template'))
         weeks = response.context_data['weeks']
         self.assertEqual(len(weeks), 52)
         self.assertEqual(weeks[0], 'Lunes 30/12/2019 - Semana 1 (actual)')
         self.assertEqual(weeks[51], 'Lunes 21/12/2020 - Semana 52')
+
+    @with_login()
+    @freeze_time('2020-01-1')
+    def test_session_template_view_context_data_week_templates(self):
+        pass  # TODO
+
+    @with_login()
+    @freeze_time('2020-01-1')
+    def test_session_template_view_context_data_current_week_template(self):
+        pass  # TODO
+
+    @with_login()
+    @freeze_time('2020-01-1')
+    def test_session_template_view_context_data_tracks(self):
+        pass  # TODO
+
+    @with_login()
+    @freeze_time('2020-01-1')
+    def test_session_template_view_context_data_current_track(self):
+        pass  # TODO
+
+    @with_login()
+    @freeze_time('2020-01-1')
+    def test_session_template_view_context_data_capacity_limits(self):
+        response = self.client.get(path=reverse('session-template'))
+        capacity_limits = response.context_data['capacity_limits']
+        self.assertEqual(
+            {cl.pk for cl in capacity_limits},
+            {cl.pk for cl in CapacityLimit.objects.all()}
+        )
 
     @with_login()
     def test_change_session_type_no_session(self):
@@ -163,6 +203,7 @@ class SessionsCase(TestCase):
             day=Day.objects.get(pk=session.date.weekday() + 1),
             hour=session.hour,
             week_template=week_template,
+            capacity_limit=session.capacity_limit,
         )
         path = reverse('generate-sessions')
         kwargs = {

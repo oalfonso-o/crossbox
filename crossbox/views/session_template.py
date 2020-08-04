@@ -43,16 +43,14 @@ class SessionTemplateView(ListView):
                 break
         context['current_track'] = current_track
         context['capacity_limits'] = CapacityLimit.objects.all()
-        current_capacity_limit = 1
-        for capacity_limit in context['capacity_limits']:
-            if capacity_limit.default is True:
-                current_capacity_limit = capacity_limit.pk
-                break
-        context['current_capacity_limit'] = current_capacity_limit
         return context
 
     def _row_object(self, d, hours, week_template):
         data = [d]
+        default_capacity_limit = CapacityLimit.objects.filter(
+            default=True).first()
+        if not default_capacity_limit:
+            default_capacity_limit = CapacityLimit.objects.all.first()
         for h in hours:
             session = SessionTemplate.objects.filter(
                 day=d, hour=h, week_template=week_template).first()
@@ -61,6 +59,11 @@ class SessionTemplateView(ListView):
                 'day': d.id,
                 'hour': h.id,
                 'hour_title': h.hour_simple(),
+                'capacity_limit': (
+                    session.capacity_limit.pk
+                    if session
+                    else default_capacity_limit.pk
+                ),
             })
         return data
 
@@ -87,6 +90,8 @@ def session_template_create(request):
     session.day = Day.objects.get(pk=request.POST.get('day'))
     session.hour = Hour.objects.get(pk=request.POST.get('hour'))
     session.week_template = WeekTemplate.objects.get(pk=week_template)
+    session.capacity_limit = CapacityLimit.objects.get(
+        pk=request.POST.get('capacity_limit'))
     session.save()
     return HttpResponseRedirect(
         f'{reverse("session-template")}?week_template={week_template}'

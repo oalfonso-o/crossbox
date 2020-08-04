@@ -38,6 +38,12 @@
                   <input type="hidden" id="day" name="day" value="{{ day.day }}">
                   <input type="hidden" id="hour" name="hour" value="{{ day.hour }}">
                   <input type="hidden" id="week_template" name="week_template" value="{{ current_week_template }}">
+                  <select id="capacity_limit" name="capacity_limit">
+                    {% for capacity_limit in capacity_limits %}
+                      <option value="{{ capacity_limit.pk }}" {% if capacity_limit.pk == day.capacity_limit %}selected="true"{%else%}{%endif%}>{{ capacity_limit }}</option>
+                    {% endfor %}
+                  </select>
+                  <br>
                   <button class="reserva_submit {% if not day.session %}template_session_not_marked{% else %}template_session_marked{% endif %}" type="submit">
                       <i class="fa {% if day.session %}fa-check{% else %}fa-plus{% endif %}"></i>
                   </button>
@@ -69,14 +75,7 @@
             {% endfor %}
           </select>
         </div>
-        <div class="apply_sessions_to_week_filter">
-          <div><span>Aforo:</span></div>
-          <select id="capacity_limit" name="capacity_limit">
-            {% for capacity_limit in capacity_limits %}
-              <option value="{{ capacity_limit.pk }}" {% if capacity_limit.pk == current_capacity_limit %}selected="true"{%else%}{%endif%}>{{ capacity_limit }}</option>
-            {% endfor %}
-          </select>
-        </div>
+        <div class="apply_sessions_to_week_filter"><!-- unused --></div>
       </div>
       <div class="apply_sessions_to_week_submit">
         <input type="submit" value="Generar">

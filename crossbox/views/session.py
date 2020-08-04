@@ -5,7 +5,6 @@ from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse, HttpResponseRedirect
 
 from crossbox.models.track import Track
-from crossbox.models.capacity_limit import CapacityLimit
 from crossbox.models.session import Session
 from crossbox.models.session_template import SessionTemplate
 from crossbox.views.tools import get_monday_from_page, error_response
@@ -16,15 +15,13 @@ def generate_sessions(request):
     page_num = request.POST.get('page')
     week_tmpl = request.POST.get('week_template')
     track = request.POST.get('track')
-    capacity_limit = request.POST.get('capacity_limit')
-    if all(p is None for p in(page_num, week_tmpl, track, capacity_limit)):
+    if all(p is None for p in(page_num, week_tmpl, track)):
         raise Exception(
             f"Can't generate sessions, there is one empty field:"
             f"page_num: {page_num}, week_template: {week_tmpl}, "
-            f"track: {track}, capacity_limit: {capacity_limit}"
+            f"track: {track}"
         )
     track_obj = Track.objects.get(pk=track)
-    capacity_limit_obj = CapacityLimit.objects.get(pk=capacity_limit)
     monday = get_monday_from_page(int(page_num))
     sunday = monday + datetime.timedelta(days=SATURDAY_WEEK_DAY)
     sessions_to_delete = Session.objects.filter(
@@ -35,7 +32,7 @@ def generate_sessions(request):
             date=monday + datetime.timedelta(days=st.day.weekday),
             hour=st.hour,
             track=track_obj,
-            capacity_limit=capacity_limit_obj,
+            capacity_limit=st.capacity_limit,
         )
         for st in SessionTemplate.objects.filter(week_template=week_tmpl))
     Session.objects.bulk_create(future_sessions)
