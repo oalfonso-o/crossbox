@@ -187,7 +187,19 @@ class SessionsCase(TestCase):
 
     @with_login()
     def test_gen_sessions_redirect_created_week_page(self):
-        pass
+        page = 5
+        path = reverse('generate-sessions')
+        kwargs = {
+            'page': page,
+            'week_template': 1,
+            'track': 1,
+            'capacity_limit': 1,
+        }
+
+        response = self.client.post(path=path, data=kwargs)
+
+        self.assertEquals(response.url, f'/reservation/?page={page}')
+        self.assertEquals(response.status_code, 302)
 
     def _session_view_test(
         self, session_id, status_code_expected, result_expected
