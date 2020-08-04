@@ -30,8 +30,8 @@ class Session(models.Model):
     track = models.ForeignKey(Track, on_delete=models.PROTECT, null=False)
 
     def __str__(self):
-        return '{} - {}:{}'.format(
-            self.session_type, self.date, self.hour.hour_simple()
+        return '{} - {} - {}'.format(
+            self.session_type.name, self.date, self.hour.hour_simple()
         )
 
     def datetime(self):

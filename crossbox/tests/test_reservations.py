@@ -7,6 +7,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+from crossbox.exceptions import LimitExceed
 from crossbox.models.day import Day
 from crossbox.models.hour import Hour
 from crossbox.models.session import Session
@@ -82,7 +83,7 @@ class ReservationsCase(TestCase):
         user.subscriber.wods = 0
         user.subscriber.save()
 
-        self.reservation_view_test(
+        self._reservation_view_test(
             mode='create',
             session_id=session.pk,
             status_code_expected=HTTPStatus.FORBIDDEN,
@@ -94,14 +95,14 @@ class ReservationsCase(TestCase):
     def test_reservation_create_already_reserved(self):
         session = create_session()  # default on day 2
         # Reservate first time
-        self.reservation_view_test(
+        self._reservation_view_test(
             mode='create',
             session_id=session.pk,
             status_code_expected=HTTPStatus.OK,
             result_expected='created',
         )
         # Now test reservate second time on same session
-        self.reservation_view_test(
+        self._reservation_view_test(
             mode='create',
             session_id=session.pk,
             status_code_expected=HTTPStatus.FORBIDDEN,
@@ -111,24 +112,23 @@ class ReservationsCase(TestCase):
     @with_login()
     @freeze_time('2020-01-01')
     def test_reservation_create_max_reservations(self):
-        gen_session_flds = generic_session_fields()
         session = create_session()  # default on day 2
         users = User.objects.bulk_create([
             User(username=f'user_{i}')
-            for i in range(gen_session_flds['capacity_limit'].maximum)
+            for i in range(session.capacity_limit.maximum)
         ])
-        for i in range(gen_session_flds['capacity_limit'].maximum):
+        for i in range(session.capacity_limit.maximum):
             Reservation.objects.create(session=session, user=users[i])
-        self.reservation_view_test(
+        self._reservation_view_test(
             mode='create',
-            session_id=2,
+            session_id=session.pk,
             status_code_expected=HTTPStatus.FORBIDDEN,
             result_expected='max_reservations',
         )
 
     @with_login()
     def test_reservation_create_session_not_found(self):
-        self.reservation_view_test(
+        self._reservation_view_test(
             mode='create',
             session_id=12345,
             status_code_expected=HTTPStatus.NOT_FOUND,
@@ -148,7 +148,7 @@ class ReservationsCase(TestCase):
         session = create_session(
             date=datetime.datetime(year=2020, month=1, day=1), hour=hour
         )
-        self.reservation_view_test(
+        self._reservation_view_test(
             mode='create',
             session_id=session.pk,
             status_code_expected=HTTPStatus.FORBIDDEN,
@@ -160,7 +160,7 @@ class ReservationsCase(TestCase):
     def test_reservation_create_ok(self):
         session = create_session()  # default on day 2
         self.assertEquals(self.user.subscriber.wods, 50)
-        self.reservation_view_test(
+        self._reservation_view_test(
             mode='create',
             session_id=session.pk,
             status_code_expected=HTTPStatus.OK,
@@ -170,19 +170,8 @@ class ReservationsCase(TestCase):
         self.assertEquals(self.user.subscriber.wods, 49)
 
     @with_login()
-    def reservation_view_test(
-            self, mode, session_id, status_code_expected, result_expected):
-        response = self.client.post(
-            path=reverse(f'reservation-{mode}'),
-            data={'session': session_id},
-            content_type='application/json',
-        )
-        self.assertEquals(response.status_code, status_code_expected)
-        self.assertEquals(response.json()['result'], result_expected)
-
-    @with_login()
     def test_reservation_delete_session_not_found(self):
-        self.reservation_view_test(
+        self._reservation_view_test(
             mode='delete',
             session_id=12345,
             status_code_expected=HTTPStatus.NOT_FOUND,
@@ -191,39 +180,14 @@ class ReservationsCase(TestCase):
 
     @with_login()
     @freeze_time('2020-01-01')
-    def test_reservation_delete_no_subscriber(self):
-        """
-        given:
-        - a request to delete a reservation arrives
-        when:
-        - user has no subscriber, so can't refund the wod
-        then:
-        - returns a FORBIDDEN response with 'no_subscriber' result
-        """
-        pass  # TODO
-
-    @with_login()
-    @freeze_time('2020-01-01')
     def test_reservation_delete_reservation_not_found(self):
         session = create_session()
-        self.reservation_view_test(
+        self._reservation_view_test(
             mode='delete',
             session_id=session.pk,
             status_code_expected=HTTPStatus.NOT_FOUND,
             result_expected='no_reservation',
         )
-
-    @with_login()
-    def test_reservation_delete_unhandled_error(self):
-        """
-        given:
-        - a request to delete a reservation arrives
-        when:
-        - any other kind of error happened
-        then:
-        - returns a FORBIDDEN response with 'unhandled' result
-        """
-        pass  # TODO
 
     @with_login()
     @freeze_time('2020-01-01 00:00:00')
@@ -235,9 +199,9 @@ class ReservationsCase(TestCase):
         day = datetime.date(year=2020, month=1, day=1)
         session = create_session(date=day, hour=hour)
         QuerySetCountMock.return_value = 5
-        self.reservation_view_test(
+        self._reservation_view_test(
             mode='delete',
-            session_id=session.id,
+            session_id=session.pk,
             status_code_expected=HTTPStatus.FORBIDDEN,
             result_expected='is_too_late',
         )
@@ -259,7 +223,7 @@ class ReservationsCase(TestCase):
         QuerySetCountMock.return_value = session.capacity_limit.minimum - 1
         Reservation.objects.create(
             session=session, user=User.objects.get(pk=1))
-        self.reservation_view_test(
+        self._reservation_view_test(
             mode='delete',
             session_id=session.pk,
             status_code_expected=HTTPStatus.OK,
@@ -276,7 +240,7 @@ class ReservationsCase(TestCase):
         reservation = Reservation(user=self.user, session=session)
         QuerySetCountMock.return_value = 1
         reservation.save()
-        self.reservation_view_test(
+        self._reservation_view_test(
             mode='delete',
             session_id=session.pk,
             status_code_expected=HTTPStatus.OK,
@@ -284,3 +248,52 @@ class ReservationsCase(TestCase):
         )
         self.user.subscriber.refresh_from_db()
         self.assertEquals(self.user.subscriber.wods, 51)
+
+    @with_login()
+    @freeze_time('2020-01-01')
+    def test_reservation_create_limit_exceed(self):
+        """When trying to save a reservation on a full session, raise exception
+        """
+        session = create_session()  # default on day 2
+        for i in range(session.capacity_limit.maximum):
+            user = User(username=f'user_{i}')
+            user.save()
+            Reservation.objects.create(session=session, user=user)
+        with self.assertRaises(LimitExceed):
+            Reservation.objects.create(session=session, user=user)
+
+    @with_login()
+    def test_reservation_delete_unhandled_error(self):
+        """
+        given:
+        - a request to delete a reservation arrives
+        when:
+        - any other kind of error happened
+        then:
+        - returns a FORBIDDEN response with 'unhandled' result
+        """
+        pass  # TODO
+
+    @with_login()
+    @freeze_time('2020-01-01')
+    def test_reservation_delete_no_subscriber(self):
+        """
+        given:
+        - a request to delete a reservation arrives
+        when:
+        - user has no subscriber, so can't refund the wod
+        then:
+        - returns a FORBIDDEN response with 'no_subscriber' result
+        """
+        pass  # TODO
+
+    @with_login()
+    def _reservation_view_test(
+            self, mode, session_id, status_code_expected, result_expected):
+        response = self.client.post(
+            path=reverse(f'reservation-{mode}'),
+            data={'session': session_id},
+            content_type='application/json',
+        )
+        self.assertEquals(response.status_code, status_code_expected)
+        self.assertEquals(response.json()['result'], result_expected)

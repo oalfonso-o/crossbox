@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.db import IntegrityError
 from django.views.generic.list import ListView
 
-from crossbox.exceptions import LimitExceeed
+from crossbox.exceptions import LimitExceed
 from crossbox.models.reservation import Reservation
 from crossbox.models.session import Session
 from crossbox.models.hour import Hour
@@ -115,7 +115,7 @@ def reservation_create(request):
     except IntegrityError:
         return error_response(
             request, 'already_reserved', HTTPStatus.FORBIDDEN)
-    except LimitExceeed:
+    except LimitExceed:
         return error_response(
             request, 'max_reservations', HTTPStatus.FORBIDDEN)
     return JsonResponse(

@@ -71,7 +71,8 @@ class SessionsCase(TestCase):
         self.assertEquals(response.status_code, HTTPStatus.NOT_FOUND)
 
     def _session_view_test(
-            self, session_id, status_code_expected, result_expected):
+        self, session_id, status_code_expected, result_expected
+    ):
         response = self.client.put(
             path=reverse('change_session_type', args=[session_id]))
         self.assertEquals(response.status_code, status_code_expected)

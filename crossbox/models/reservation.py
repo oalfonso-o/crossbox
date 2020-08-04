@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.html import format_html
 
-from crossbox.exceptions import LimitExceeed
+from crossbox.exceptions import LimitExceed
 
 
 class Reservation(models.Model):
@@ -37,4 +37,4 @@ class Reservation(models.Model):
         ):
             super(Reservation, self).save(*args, **kwargs)
         else:
-            raise LimitExceeed('Maximum reservations for this session')
+            raise LimitExceed('Maximum reservations for this session')
