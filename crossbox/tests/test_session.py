@@ -6,11 +6,14 @@ from django.test import TestCase
 from django.urls import reverse
 
 from crossbox.tests.tools import with_login, create_session
+from crossbox.models.day import Day
 from crossbox.models.hour import Hour
 from crossbox.models.track import Track
 from crossbox.models.session import Session
 from crossbox.models.session_type import SessionType
+from crossbox.models.week_template import WeekTemplate
 from crossbox.models.capacity_limit import CapacityLimit
+from crossbox.models.session_template import SessionTemplate
 from crossbox.admin.session import SessionAdmin, SessionAdminFilter
 
 
@@ -18,7 +21,7 @@ class SessionsCase(TestCase):
 
     fixtures = [
         'users', 'capacity_limits', 'session_types', 'tracks', 'subscribers',
-        'week_templates', 'hours'
+        'week_templates', 'hours', 'days'
     ]
 
     @with_login()
@@ -152,8 +155,35 @@ class SessionsCase(TestCase):
             Session.objects.get(pk=session_same_week.pk)
 
     @with_login()
+    @freeze_time('2020-01-01')
     def test_gen_sessions_new_sessions_for_that_week(self):
-        pass
+        week_template = WeekTemplate.objects.get(pk=1)
+        session = create_session()
+        SessionTemplate.objects.create(
+            day=Day.objects.get(pk=session.date.weekday() + 1),
+            hour=session.hour,
+            week_template=week_template,
+        )
+        path = reverse('generate-sessions')
+        kwargs = {
+            'page': 0,
+            'week_template': week_template.pk,
+            'track': session.track.pk,
+            'capacity_limit': session.capacity_limit.pk,
+        }
+        self.assertEquals(Session.objects.count(), 1)
+
+        self.client.post(path=path, data=kwargs)
+
+        self.assertEquals(Session.objects.count(), 1)
+        with self.assertRaises(Session.DoesNotExist):
+            Session.objects.get(pk=session.pk)
+        new_session = Session.objects.all()[0]
+        self.assertEquals(new_session.date, session.date)
+        self.assertEquals(new_session.hour, session.hour)
+        self.assertEquals(new_session.session_type, session.session_type)
+        self.assertEquals(new_session.capacity_limit, session.capacity_limit)
+        self.assertEquals(new_session.track, session.track)
 
     @with_login()
     def test_gen_sessions_redirect_created_week_page(self):
