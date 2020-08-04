@@ -5,7 +5,7 @@ from freezegun import freeze_time
 from django.test import TestCase
 from django.urls import reverse
 
-from .tools import with_login
+from crossbox.tests.tools import with_login, create_session
 from crossbox.models.hour import Hour
 from crossbox.models.track import Track
 from crossbox.models.session import Session
@@ -18,7 +18,7 @@ class SessionsCase(TestCase):
 
     fixtures = [
         'users', 'capacity_limits', 'session_types', 'tracks', 'subscribers',
-        'week_templates'
+        'week_templates', 'hours'
     ]
 
     @with_login()
@@ -69,6 +69,20 @@ class SessionsCase(TestCase):
         response = self.client.put(
             path=reverse('change_session_type', args=[13371337]))
         self.assertEquals(response.status_code, HTTPStatus.NOT_FOUND)
+
+    @with_login()
+    @freeze_time('2020-01-01')
+    def test_change_session_type_db_types(self):
+        """Check types are taken from database"""
+        SessionType.objects.create(name='new_type')
+        session = create_session()  # session_type WOD
+        path = reverse('change_session_type', args=[session.pk])
+        _ = self.client.put(path=path)  # session_type OPEN
+        _ = self.client.put(path=path)  # session_type ESTIRAMIENTOS
+        response = self.client.put(path=path)
+        self.assertEquals(
+            response.json()['session_type'], {'pk': 4, 'name': 'new_type'}
+        )
 
     def _session_view_test(
         self, session_id, status_code_expected, result_expected
