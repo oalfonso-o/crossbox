@@ -111,8 +111,45 @@ class SessionsCase(TestCase):
         self.client.post(path=path, data=kwargs)  # no raise
 
     @with_login()
-    def test_gen_sessions_delete_same_track_sessions(self):
-        pass
+    @freeze_time('2020-01-01')
+    def test_gen_sessions_delete_same_track_and_same_week_sessions(self):
+        track = Track.objects.get(pk=1)
+        other_track = Track.objects.get(pk=2)
+        session_same_week = Session.objects.create(
+            date=datetime.date(2020, 1, 1),
+            hour=Hour.objects.get(pk=1),
+            session_type=SessionType.objects.get(pk=1),
+            capacity_limit=CapacityLimit.objects.get(pk=1),
+            track=track,
+        )
+        Session.objects.create(  # other week, same track
+            date=datetime.date(2020, 1, 10),
+            hour=Hour.objects.get(pk=1),
+            session_type=SessionType.objects.get(pk=1),
+            capacity_limit=CapacityLimit.objects.get(pk=1),
+            track=track,
+        )
+        Session.objects.create(  # same week, other track
+            date=datetime.date(2020, 1, 1),
+            hour=Hour.objects.get(pk=1),
+            session_type=SessionType.objects.get(pk=1),
+            capacity_limit=CapacityLimit.objects.get(pk=1),
+            track=other_track,
+        )
+        self.assertEquals(Session.objects.count(), 3)
+        path = reverse('generate-sessions')
+        kwargs = {
+            'page': 0,
+            'week_template': 1,
+            'track': track.pk,
+            'capacity_limit': 1,
+        }
+
+        self.client.post(path=path, data=kwargs)
+
+        self.assertEquals(Session.objects.count(), 2)
+        with self.assertRaises(Session.DoesNotExist):
+            Session.objects.get(pk=session_same_week.pk)
 
     @with_login()
     def test_gen_sessions_new_sessions_for_that_week(self):
