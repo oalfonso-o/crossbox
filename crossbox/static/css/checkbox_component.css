@@ -1,11 +1,7 @@
-
-.row_center_container_track_1_2 {
-    size: 10px;
-    background-color: #0058ff2b;
-}
 .row_center_container_track_3 {
     size: 10px;
     background-color: #00ff402b;
+    margin-top: 10px;
 }
 .notification {
     background-color: #167df0;
