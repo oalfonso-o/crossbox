@@ -12,6 +12,7 @@ from crossbox.models.day import Day
 from crossbox.models.hour import Hour
 from crossbox.models.session import Session
 from crossbox.models.reservation import Reservation
+from crossbox.models.session_type import SessionType
 from crossbox.tests.tools import (
     with_login,
     generic_session_fields,
@@ -93,22 +94,53 @@ class ReservationsCase(TestCase):
     @with_login()
     @freeze_time('2020-01-01')
     def test_reservation_view_session_type(self):
-        pass
+        created_session = create_session()
+
+        response = self.client.get(reverse('reservation'))
+        day_rows = response.context['days'][3]
+        day_sessions = day_rows[1:]  # 0 is a date for table header in frontend
+        session = day_sessions[0]
+
+        self.assertEquals(session['type'], created_session.session_type)
 
     @with_login()
     @freeze_time('2020-01-01')
     def test_reservation_view_session_min_capacity(self):
-        pass
+        created_session = create_session()
+
+        response = self.client.get(reverse('reservation'))
+        day_rows = response.context['days'][3]
+        day_sessions = day_rows[1:]  # 0 is a date for table header in frontend
+        session = day_sessions[0]
+
+        self.assertEquals(
+            session['min_capacity'], created_session.capacity_limit.minimum)
 
     @with_login()
     @freeze_time('2020-01-01')
     def test_reservation_view_session_max_capacity(self):
-        pass
+        created_session = create_session()
+
+        response = self.client.get(reverse('reservation'))
+        day_rows = response.context['days'][3]
+        day_sessions = day_rows[1:]  # 0 is a date for table header in frontend
+        session = day_sessions[0]
+
+        self.assertEquals(
+            session['max_capacity'], created_session.capacity_limit.maximum)
 
     @with_login()
     @freeze_time('2020-01-01')
     def test_reservation_view_session_track(self):
-        pass
+        created_session = create_session()
+
+        response = self.client.get(reverse('reservation'))
+        day_rows = response.context['days'][3]
+        day_sessions = day_rows[1:]  # 0 is a date for table header in frontend
+        session = day_sessions[0]
+
+        self.assertEquals(
+            session['track'], created_session.track)
 
     @with_login()
     @freeze_time('2020-01-01')
