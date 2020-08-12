@@ -24,6 +24,7 @@ class Fee(models.Model):
 
 @receiver(models.signals.pre_save, sender=Fee)
 def fee_pre_save(sender, instance, *args, **kwargs):
+    import pudb; pudb.set_trace()
     existing_fees = Fee.objects.filter(pk=instance.pk).count()
     if not existing_fees:
         existing_products_response = stripe.Product.list()
@@ -53,24 +54,10 @@ def fee_pre_save(sender, instance, *args, **kwargs):
         )
         instance.stripe_price_id = stripe_price['id']
     elif not instance.active:
-        stripe_price_id = instance.subscriber.stripe_price_id
-        try:
-            response = stripe.Price.delete(stripe_price_id)
-        except stripe.error.InvalidRequestError:
-            logger.info(f'Fee {instance} is disabled and has no stripe price')
-            return
-        if not response['deleted']:
-            raise Exception(
-                f'Price {stripe_price_id} could not be deleted of fee '
-                f'{instance}. More info: {response}'
-            )
+        stripe_price_id = instance.stripe_price_id
+        stripe.Price.modify(stripe_price_id, active=False)
     else:
-        stripe_price = stripe.Price.retrieve(instance.stripe_price_id)
-        if 'deleted' in stripe_price and stripe_price['deleted']:
-            stripe_price = stripe.Price.create(
-                unit_amount=instance.price_cents,
-                currency='eur',
-                recurring={'interval': 'month'},
-                product=instance.stripe_product_id,
-            )
-            instance.stripe_price_id = stripe_price['id']
+        stripe_price_id = instance.stripe_price_id
+        stripe_price = stripe.Price.retrieve(stripe_price_id)
+        if 'active' in stripe_price and not stripe_price['active']:
+            stripe.Price.modify(stripe_price_id, active=True)
