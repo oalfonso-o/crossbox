@@ -24,7 +24,6 @@ class Fee(models.Model):
 
 @receiver(models.signals.pre_save, sender=Fee)
 def fee_pre_save(sender, instance, *args, **kwargs):
-    import pudb; pudb.set_trace()
     existing_fees = Fee.objects.filter(pk=instance.pk).count()
     if not existing_fees:
         existing_products_response = stripe.Product.list()
