@@ -10,6 +10,11 @@ class FeeAdmin(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
-            return ['num_sessions', 'price_cents', 'stripe_product_id']
+            return [
+                'num_sessions', 'price_cents', 'stripe_product_id',
+                'stripe_price_id']
         else:
-            return ['stripe_product_id']
+            return ['stripe_product_id', 'stripe_price_id']
+
+    def has_delete_permission(self, request, obj=None):
+        return False
