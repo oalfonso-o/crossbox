@@ -9,7 +9,6 @@ migrate:
 
 init:
 	python manage.py loaddata crossbox/fixtures/users
-	python manage.py loaddata crossbox/fixtures/subscribers
 	python manage.py loaddata crossbox/fixtures/hours
 	python manage.py loaddata crossbox/fixtures/days
 	python manage.py loaddata crossbox/fixtures/tracks
