@@ -12,11 +12,11 @@ class Subscriber(models.Model):
         User, on_delete=models.CASCADE, related_name='subscriber')
     wods = models.IntegerField(default=0)
     fee = models.ForeignKey(
-        Fee, on_delete=models.PROTECT, null=True, related_name='subscribers')
-    stripe_customer_id = models.IntegerField(
-        'ID Cliente Stripe', blank=False, null=True)
-    stripe_subscription_id = models.IntegerField(
-        'ID Subscripción Stripe', blank=False, null=True)
+        Fee, on_delete=models.PROTECT, null=True, blank=True,
+        related_name='subscribers')
+    stripe_customer_id = models.CharField('ID Cliente Stripe', max_length=30)
+    stripe_subscription_id = models.CharField(
+        'ID Subscripción Stripe', blank=False, null=True, max_length=30)
 
     def __str__(self):
         return '#{} - {}'.format(self.id, self.user)

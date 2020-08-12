@@ -1,5 +1,6 @@
 import os
 import sys
+import stripe
 from distutils.util import strtobool
 
 from dotenv import find_dotenv, load_dotenv
@@ -154,3 +155,5 @@ REST_FRAMEWORK = {
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
 ]
+
+stripe.api_key = os.getenv('DJANGO_STRIPE_SECRET_KEY')

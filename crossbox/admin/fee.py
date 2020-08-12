@@ -7,4 +7,9 @@ class FeeAdmin(admin.ModelAdmin):
     search_fields = [
         'num_sessions', 'price_cents', 'stripe_product_id', 'active']
     ordering = ['num_sessions', 'price_cents', 'stripe_product_id', 'active']
-    readonly_fields = ('num_sessions', 'price_cents', 'stripe_product_id')
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return ['num_sessions', 'price_cents', 'stripe_product_id']
+        else:
+            return ['stripe_product_id']
