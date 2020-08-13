@@ -38,12 +38,11 @@ def user_create(request):
 @require_GET
 def profile(request):
     user_cards = Card.objects.filter(subscriber=request.user.subscriber)
-    return render(request, 'profile.html', {'user_cards': []})
+    return render(request, 'profile.html', {'user_cards': user_cards})
 
 
 @require_POST
 def add_payment_method(request):
-    import pudb; pudb.set_trace()
     card_token = request.POST['stripeToken']
     stripe_card = stripe.Customer.create_source(
         request.user.subscriber.stripe_customer_id,
@@ -55,4 +54,5 @@ def add_payment_method(request):
         subscriber=request.user.subscriber,
         stripe_card_id=stripe_card['id'],
     )
-    return profile(request)
+    user_cards = Card.objects.filter(subscriber=request.user.subscriber)
+    return render(request, 'profile.html', {'user_cards': user_cards})

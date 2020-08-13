@@ -1,23 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{{data}}
-<div class="container">
-  <form action="{% url 'add_payment_method' %}" method="post" id="payment-form">
-    <div class="form-row">
-      <label for="card-element">
-        Credit or debit card
-      </label>
-      <div id="card-element">
-        <!-- A Stripe Element will be inserted here. -->
+{{user_cards}}
+<div id="table_container">
+  <class id="table_vertical">
+    <form action="{% url 'add_payment_method' %}" method="post" id="payment-form">
+      <div class="form-row">
+        <label for="card-element">
+          Credit or debit card
+        </label>
+        <div id="card-element">
+          <!-- A Stripe Element will be inserted here. -->
+        </div>
+
+        <!-- Used to display form errors. -->
+        <div id="card-errors" role="alert"></div>
       </div>
 
-      <!-- Used to display form errors. -->
-      <div id="card-errors" role="alert"></div>
-    </div>
-
-    <button>Submit Payment</button>
-  </form>
+      <button>Submit Payment</button>
+    </form>
+  </div>
 </div>
 <script src="{% static 'js/custom/profile.js' %}"></script>
 {% endblock content %}
