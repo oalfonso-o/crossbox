@@ -3,10 +3,10 @@ from http import HTTPStatus
 from unittest.mock import patch
 from freezegun import freeze_time
 
-from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+from crossbox.tests.mixins import BaseTestCase
 from crossbox.exceptions import LimitExceed
 from crossbox.models.day import Day
 from crossbox.models.hour import Hour
@@ -19,11 +19,11 @@ from crossbox.tests.tools import (
 )
 
 
-class ReservationsCase(TestCase):
+class ReservationsCase(BaseTestCase):
 
     fixtures = [
         'users', 'hours', 'days', 'capacity_limits', 'session_types', 'tracks',
-        'week_templates', 'session_templates', 'subscribers'
+        'week_templates', 'session_templates'
     ]
 
     @with_login()
@@ -323,6 +323,7 @@ class ReservationsCase(TestCase):
         session = create_session()  # default on day 2
         for i in range(session.capacity_limit.maximum):
             user = User(username=f'user_{i}')
+            import pudb; pudb.set_trace()
             user.save()
             Reservation.objects.create(session=session, user=user)
         with self.assertRaises(LimitExceed):

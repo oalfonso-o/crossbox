@@ -1,15 +1,14 @@
 import datetime
 from freezegun import freeze_time
 
-from django.test import TestCase
-
+from crossbox.tests.mixins import BaseTestCase
 from crossbox.models.hour import Hour
 from crossbox.models.session import Session
 from crossbox.views.tools import get_monday_from_page
 from crossbox.tests.tools import generic_session_fields
 
 
-class ToolsCase(TestCase):
+class ToolsCase(BaseTestCase):
 
     fixtures = ['session_types', 'tracks', 'capacity_limits']
 

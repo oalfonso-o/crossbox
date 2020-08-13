@@ -2,9 +2,9 @@ import datetime
 from http import HTTPStatus
 from freezegun import freeze_time
 
-from django.test import TestCase
 from django.urls import reverse
 
+from crossbox.tests.mixins import BaseTestCase
 from crossbox.tests.tools import with_login, create_session
 from crossbox.models.day import Day
 from crossbox.models.hour import Hour
@@ -17,11 +17,11 @@ from crossbox.models.session_template import SessionTemplate
 from crossbox.admin.session import SessionAdmin, SessionAdminFilter
 
 
-class SessionsCase(TestCase):
+class SessionsCase(BaseTestCase):
 
     fixtures = [
-        'users', 'capacity_limits', 'session_types', 'tracks', 'subscribers',
-        'week_templates', 'hours', 'days'
+        'users', 'capacity_limits', 'session_types', 'tracks', 'hours', 'days',
+        'week_templates',
     ]
 
     @with_login()
@@ -251,7 +251,7 @@ class SessionsCase(TestCase):
         self.assertEquals(response.json()['session_type'], result_expected)
 
 
-class SessionAdminFilterCase(TestCase):
+class SessionAdminFilterCase(BaseTestCase):
 
     fixtures = ['capacity_limits', 'session_types', 'tracks']
 

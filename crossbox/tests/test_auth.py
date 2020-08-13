@@ -1,17 +1,17 @@
 from http import HTTPStatus
 
-from django.test import TestCase
 from django.urls import reverse
 from django.conf import settings
 
-from .tools import with_login
+from crossbox.tests.mixins import BaseTestCase
+from crossbox.tests.tools import with_login
 
 
-class AuthCase(TestCase):
+class AuthCase(BaseTestCase):
 
     fixtures = [
         'users', 'hours', 'days', 'capacity_limits', 'session_types', 'tracks',
-        'week_templates', 'session_templates', 'subscribers'
+        'week_templates', 'session_templates'
     ]
 
     @with_login()
