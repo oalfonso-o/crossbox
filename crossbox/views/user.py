@@ -24,3 +24,7 @@ def user_create(request):
                 return render(request, 'user_create.html', {'form': form})
             return redirect('login')
     return render(request, 'user_create.html', {'form': form})
+
+
+def profile(request):
+    return render(request, 'profile.html',)

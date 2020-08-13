@@ -4,7 +4,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 
 from crossbox.views.session import generate_sessions, change_session_type
-from crossbox.views.user import user_create
+from crossbox.views.user import user_create, profile
 from crossbox.views.reservation import (
     ReservationView,
     reservation_create,
@@ -25,6 +25,7 @@ urlpatterns = [
     path('', LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     url(r'^user_create/', user_create, name='user-create'),
+    url(r'^profile/', profile, name='profile'),
     url(
         r'^reservation/',
         ReservationView.as_view(),

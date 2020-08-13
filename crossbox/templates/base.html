@@ -21,13 +21,13 @@
   <body>
     <div class='header'>
       <div class='logo'>
-        <a href="/"><img height='110' src='{% static "images/logo.png" %}'></a>
+        &nbsp;&nbsp;&nbsp;&nbsp;<a href="/"><img height='110' src='{% static "images/logo.png" %}'></a>
       </div>
       <div class='profile'>
         <span class='u-margin-left'>{{ user.username }} (<a href='{% url "logout" %}'>Logout</a>)</span>
       </div>
       <div class='profile'>
-        <span class='u-margin-left'><a href='{% url "reservation" %}'>Inicio</a></span>
+        <span class='u-margin-left'><a href='{% url "profile" %}'>Perfil</a></span>
       </div>
       {% if user.is_staff %}
         <div class='profile'>
