@@ -33,7 +33,7 @@ class BaseTestCase(TestCase):
         self.mock_customer_delete = self.patcher_customer_delete.start()
         self.mock_api_key = self.patcher_api_key.start()
 
-        self.mock_customer_create.return_value = 'mock_customer_id'
+        self.mock_customer_create.return_value = {'id': 'mock_customer_id'}
 
     def tearDown(self):
         self.patcher_product_create.stop()
