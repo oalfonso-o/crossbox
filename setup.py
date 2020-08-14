@@ -34,8 +34,8 @@ setup(
         'crossbox': [
             'templates/*.html', 'templates/registration/*.html', 'static/*',
             'static/images/*', 'static/css/*', 'static/js/*',
-            'static/js/lib/*', 'static/js/components/*', 'static/fonts/*',
-            'static/webfonts/*', 'fixtures/*',
+            'static/js/lib/*', 'static/js/components/*', 'static/js/custom/*',
+            'static/fonts/*', 'static/webfonts/*', 'fixtures/*',
         ],
     },
 )
