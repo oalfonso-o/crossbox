@@ -1,17 +1,10 @@
-import stripe
-
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
-from django.views.decorators.http import (
-    require_GET,
-    require_POST,
-    require_http_methods,
-)
+from django.views.decorators.http import require_http_methods
 
 from crossbox.forms import UserForm
-from crossbox.models.card import Card
 
 
 @require_http_methods(["GET", "POST"])
@@ -33,26 +26,3 @@ def user_create(request):
                 return render(request, 'user_create.html', {'form': form})
             return redirect('login')
     return render(request, 'user_create.html', {'form': form})
-
-
-@require_GET
-def profile(request):
-    user_cards = Card.objects.filter(subscriber=request.user.subscriber)
-    return render(request, 'profile.html', {'user_cards': user_cards})
-
-
-@require_POST
-def add_payment_method(request):
-    card_token = request.POST['stripeToken']
-    stripe_card = stripe.Customer.create_source(
-        request.user.subscriber.stripe_customer_id,
-        source=card_token,
-    )
-    Card.objects.create(
-        last_digits=stripe_card['last4'],
-        active=True,
-        subscriber=request.user.subscriber,
-        stripe_card_id=stripe_card['id'],
-    )
-    user_cards = Card.objects.filter(subscriber=request.user.subscriber)
-    return render(request, 'profile.html', {'user_cards': user_cards})

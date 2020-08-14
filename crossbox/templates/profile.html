@@ -1,9 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{{user_cards}}
 <div id="table_container">
   <class id="table_vertical">
+    <div class="payment_methods_container">
+      <div class="payment_methods_title">
+        Mis métodos de pago
+      </div>
+      <div class="cards_container">
+        {% for user_card in user_cards %}
+          <div class="card">
+            Tarjeta: ****{{ user_card.last_digits }} {% if user_card.active %} - Método por defecto {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
     <form action="{% url 'add_payment_method' %}" method="post" id="payment-form">
       <div class="form-row">
         <label for="card-element">

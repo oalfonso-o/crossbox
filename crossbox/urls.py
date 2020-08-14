@@ -4,7 +4,8 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 
 from crossbox.views.session import generate_sessions, change_session_type
-from crossbox.views.user import user_create, profile, add_payment_method
+from crossbox.views.user import user_create
+from crossbox.views.profile import profile, add_payment_method
 from crossbox.views.reservation import (
     ReservationView,
     reservation_create,
