@@ -18,13 +18,14 @@ class Fee(models.Model):
     stripe_price_id = models.CharField('ID Precio Stripe', max_length=30)
     active = models.BooleanField('Activa', default=True)
 
-    def label(self):
+    def label_property(self):
         return f'{self.num_sessions} sesiones - {self.price_cents / 100}€'
 
-    label.short_description = 'Cuota'
+    label_property.short_description = "Cuota"
+    label = property(label_property)
 
     def __str__(self):
-        return self.label()
+        return self.label
 
 
 @receiver(models.signals.pre_save, sender=Fee)
