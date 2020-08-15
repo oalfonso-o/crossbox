@@ -43,7 +43,8 @@
         Canjeo rápido <span style="color:red">*</span>
         <div class="buy_immediately"><span style="color:red">*</span> Si se marca esta casilla se entregarán los wods y se realizará el pago al momento, sin esperar a principio de mes, provocando que los próximos cobros se realicen también este mismo día en los siguientes meses. Se recomienda no marcar esta casilla y que se realice el cobro mensual y la entrega de wods el día 1 de cada mes.</div>
       </label>
-      <button class="card_add_submit" onclick="this.form.submit()">Activar cuota seleccionada</button>
+      <button {% if not user_cards %}style="opacity:0.5"{%endif%} class="card_add_submit" onclick="this.form.submit()" {% if not user_cards %}disabled{%endif%}>Activar cuota seleccionada</button>
+      {% if not user_cards %}<br><span style="color:red">*</span> Antes de subscribirte a una cuota tienes que introducir un método de pago{%endif%}
     </form>
   </div>
   <hr class="profile_hr">

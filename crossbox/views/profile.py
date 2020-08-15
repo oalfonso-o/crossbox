@@ -53,6 +53,8 @@ def change_fee(request):
         if new_fee_pk
         else None
     )
+    if previous_fee == new_fee:
+        return redirect('profile')
     subscriber.fee = new_fee
     if not previous_fee and new_fee:
         billing_cycle_anchor = (
