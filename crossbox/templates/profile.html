@@ -22,10 +22,11 @@
       </tr>
     </table>
   </div>
+  <hr class="profile_hr">
   <div class="fee_container profile_element_container">
-    Mi Cuota seleccionada
+    Mi Cuota
     <form action="{% url 'change_fee' %}" method="post">
-      <select name="fee" onchange="this.form.submit()">
+      <select name="fee" onchange="this.form.submit()" class="fee_selector">
         {% for fee in fees %}
           {% for fee_pk, fee_option in fee.items %}
             {{fee}}
@@ -36,6 +37,7 @@
     </form>
     <p class="fee_hint">Cuota mensual</p>
   </div>
+  <hr class="profile_hr">
   <div class="payment_methods_container profile_element_container">
     <div class="payment_methods_title">
       Mis métodos de pago
