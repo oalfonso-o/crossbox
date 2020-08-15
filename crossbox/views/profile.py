@@ -4,12 +4,38 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_POST
 
 from crossbox.models.card import Card
+from crossbox.models.fee import Fee
 
 
 @require_GET
 def profile(request):
-    user_cards = Card.objects.filter(subscriber=request.user.subscriber)
-    return render(request, 'profile.html', {'user_cards': user_cards})
+    subscriber = request.user.subscriber
+    user_cards = Card.objects.filter(subscriber=subscriber)
+    empty_fee_option = {None: {'selected': False, 'label': 'Sin cuota'}}
+    fees = [empty_fee_option]
+    for fee in Fee.objects.all():
+        selected = (
+            bool(subscriber.fee.pk == fee.pk)
+            if subscriber.fee
+            else False
+        )
+        select_option = {'selected': selected, 'label': fee.label}
+        fees.append({fee.pk: select_option})
+    return render(
+        request,
+        'profile.html',
+        {'user_cards': user_cards, 'fees': fees},
+    )
+
+
+@require_POST
+def change_cuota(request):
+    fee_pk = request.POST['fee']
+    fee = Fee.objects.get(pk=fee_pk)
+    subscriber = request.user.subscriber
+    subscriber.fee = fee
+    subscriber.save()
+    return redirect('profile')
 
 
 @require_POST
