@@ -67,3 +67,17 @@ function stripeTokenHandler(token) {
   // Submit the form
   form.submit();
 }
+
+var show_form_elements = document.getElementsByClassName('card_show_add_form')
+
+for (i = 0; i < show_form_elements.length; i++) {
+  show_form_elements[i].addEventListener('click', function() {
+    var card_form = document.getElementById('card_add_container')
+    if (!card_form.style.display) {card_form.style.display = "none"}
+    if (card_form.style.display == "none") {
+      card_form.style.display = "block"
+    } else {
+      card_form.style.display = "none"
+    }
+  });
+}

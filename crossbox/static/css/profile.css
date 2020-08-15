@@ -1,31 +1,60 @@
-.payment_methods_container {}
-.payment_methods_title {}
-.cards_container {}
+.payment_methods_container {
+    font-size: 30px
+}
+.payment_methods_title {text-align:center;}
 .cards_table {
     margin-left:auto;
     margin-right:auto;
+    margin-top: 15px;
 }
 .card_delete {
     border: solid 0px;
     background-color: white;
-    color: #13131391;
-    font-size: 20px;
+    font-size: 30px;
+    color:black;
 }
 .card_delete_icon {cursor: pointer;}
+.card_add_icon {cursor: pointer;}
 .card_set_default {
     border: solid 0px;
     background-color: white;
-    color: #13131391;
     font-size: 10px;
     cursor: pointer;
+    color:black;
+    text-decoration: underline;
 }
 .card_is_default {
-    color: #13131391;
+    color: #00449ba6;
     font-size: 10px;
     font-family: MrsEaves, arial, helvetica;
     font-weight: bold;
+    padding-left: 10px;
 
 }
-.card_delete_container {background-color:red;}
-.card_detail_container {background-color:red;}
-.card_default_container {background-color:red;}
+.card_add_submit {
+    font-family: bebas;
+    margin-top: 20px;
+    border-radius: 4px;
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: white;
+    font-size: 1.2em;
+    padding: 3px 30px;
+}
+.card-submit-container {text-align:center;}
+.card_show_add_form {
+    text-align:center;
+    padding-top: 40px;
+    cursor:pointer;
+}
+.card_last_digits {
+    color: grey;
+    padding-left: 20px;
+}
+#card_add_container {
+    display: none;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 60px;
+}

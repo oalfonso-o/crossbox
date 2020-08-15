@@ -45,7 +45,6 @@ def set_default_payment_method(request):
         if user_card.default:
             user_card.default = False
             user_card.save()
-            break  # Only one can be default at same time
     new_default_card.default = True
     new_default_card.save()
     return redirect('profile')
