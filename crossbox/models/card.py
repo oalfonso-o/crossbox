@@ -11,7 +11,7 @@ class Card(models.Model):
         verbose_name = 'Tarjeta'
         verbose_name_plural = 'Tarjetas'
 
-    last_digits = models.IntegerField('Últimos dígitos')
+    last_digits = models.CharField('Últimos dígitos', max_length=4)
     default = models.BooleanField('Por defecto', default=False)
     subscriber = models.ForeignKey(
         Subscriber, on_delete=models.CASCADE, related_name='cards')
