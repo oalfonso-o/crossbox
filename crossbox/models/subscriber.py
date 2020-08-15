@@ -25,6 +25,8 @@ class Subscriber(models.Model):
         'ID Precio de Subscripción Stripe',
         blank=False, null=True, max_length=30
     )
+    last_payment_datetime = models.DateTimeField(
+        'Fecha último pago', null=True, blank=True)
 
     def __str__(self):
         return '#{} - {}'.format(self.id, self.user)

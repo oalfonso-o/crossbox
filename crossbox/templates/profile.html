@@ -23,6 +23,9 @@
       <tr>
         <td class="brd_btm">Próximo cobro</td><td class="brd_btm user_info_detail_value">{% if user.subscriber.next_billing_cycle_datetime %}{{ user.subscriber.next_billing_cycle_datetime }}{% endif %}</td>
       </tr>
+      <tr>
+        <td class="brd_btm">Último cobro</td><td class="brd_btm user_info_detail_value">{% if user.subscriber.last_payment_datetime %}{{ user.subscriber.last_payment_datetime }}{% endif %}</td>
+      </tr>
     </table>
   </div>
   <hr class="profile_hr">

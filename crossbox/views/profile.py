@@ -57,13 +57,16 @@ def change_fee(request):
         return redirect('profile')
     subscriber.fee = new_fee
     if not previous_fee and new_fee:
-        billing_cycle_anchor = (
-            'now' if buy_immediately else get_next_billing_cycle_anchor())
+        subscription_kwargs = {}
+        if not buy_immediately:
+            subscription_kwargs['billing_cycle_anchor'] = (
+                get_next_billing_cycle_anchor()
+            )
         stripe_subscription = stripe.Subscription.create(
             customer=subscriber.stripe_customer_id,
             items=[{"price": subscriber.fee.stripe_price_id}],
             proration_behavior='none',
-            billing_cycle_anchor=billing_cycle_anchor,
+            **subscription_kwargs,
         )
         subscriber.stripe_subscription_id = stripe_subscription['id']
         subscriber.stripe_billing_cycle_anchor = stripe_subscription[
@@ -80,6 +83,7 @@ def change_fee(request):
                 'price': subscriber.fee.stripe_price_id,
             }],
             billing_cycle_anchor=billing_cycle_anchor,
+            proration_behavior='none',
         )
         subscriber.stripe_billing_cycle_anchor = stripe_subscription[
             'billing_cycle_anchor']
