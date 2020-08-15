@@ -19,11 +19,3 @@ class Card(models.Model):
 
     def __str__(self):
         return f'***{self.last_digits} - {self.subscriber}'
-
-
-@receiver(models.signals.post_delete, sender=Card)
-def delete_card(sender, instance, *args, **kwargs):
-    stripe.Customer.delete_source(
-        instance.subscriber.stripe_customer_id,
-        instance.stripe_card_id,
-    )

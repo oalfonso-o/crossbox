@@ -1,4 +1,31 @@
 .payment_methods_container {}
 .payment_methods_title {}
 .cards_container {}
-.card {}
+.cards_table {
+    margin-left:auto;
+    margin-right:auto;
+}
+.card_delete {
+    border: solid 0px;
+    background-color: white;
+    color: #13131391;
+    font-size: 20px;
+}
+.card_delete_icon {cursor: pointer;}
+.card_set_default {
+    border: solid 0px;
+    background-color: white;
+    color: #13131391;
+    font-size: 10px;
+    cursor: pointer;
+}
+.card_is_default {
+    color: #13131391;
+    font-size: 10px;
+    font-family: MrsEaves, arial, helvetica;
+    font-weight: bold;
+
+}
+.card_delete_container {background-color:red;}
+.card_detail_container {background-color:red;}
+.card_default_container {background-color:red;}

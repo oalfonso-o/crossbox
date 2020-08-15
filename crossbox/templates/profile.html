@@ -8,11 +8,31 @@
         Mis métodos de pago
       </div>
       <div class="cards_container">
-        {% for user_card in user_cards|dictsortreversed:"default" %}
-          <div class="card">
-            Tarjeta: ****{{ user_card.last_digits }} {% if user_card.default %} - Método por defecto {% endif %}
-          </div>
-        {% endfor %}
+        <table class="cards_table">
+          {% for user_card in user_cards|dictsortreversed:"default" %}
+            <tr>
+              <td>
+                <form action="{% url 'delete_card' %}" method="post">
+                  <input type="hidden" id="stripe_card_id" name="stripe_card_id" value="{{ user_card.stripe_card_id }}">
+                  <button class="card_delete" type="submit">
+                    <i class="fa fa-trash card_delete_icon"></i>
+                  </button>
+                </form>
+              </td>
+              <td>Tarjeta: ****{{ user_card.last_digits }}</td>
+              <td>
+                {% if user_card.default %}
+                  <span class="card_is_default">Método por defecto</span>
+                {% else %}
+                  <form action="{% url 'set_default_payment_method' %}" method="post">
+                    <input type="hidden" id="stripe_card_id" name="stripe_card_id" value="{{ user_card.stripe_card_id }}">
+                    <button class="card_set_default" type="submit">Usar esta tarjeta por defecto</button>
+                  </form>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
       </div>
     </div>
     <form action="{% url 'add_payment_method' %}" method="post" id="payment-form">

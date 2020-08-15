@@ -5,7 +5,12 @@ from django.urls import path
 
 from crossbox.views.session import generate_sessions, change_session_type
 from crossbox.views.user import user_create
-from crossbox.views.profile import profile, add_payment_method
+from crossbox.views.profile import (
+    profile,
+    add_payment_method,
+    set_default_payment_method,
+    delete_card,
+)
 from crossbox.views.reservation import (
     ReservationView,
     reservation_create,
@@ -32,6 +37,12 @@ urlpatterns = [
         add_payment_method,
         name='add_payment_method',
     ),
+    url(
+        r'^set_default_payment_method/',
+        set_default_payment_method,
+        name='set_default_payment_method',
+    ),
+    url(r'^delete_card/', delete_card, name='delete_card'),
     url(
         r'^reservation/',
         ReservationView.as_view(),
