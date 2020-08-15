@@ -1,7 +1,26 @@
-.payment_methods_container {
-    font-size: 30px
+.profile_container {font-size: 30px}
+.profile_element_container {margin-top: 40px}
+.user_info_container {text-align: center;}
+.user_info_detail_table {
+    font-size: 20px;
+    font-family: arial, roboto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    border: 1px solid #0000001c;
+    border-radius: 7px;
+    padding: 15px 30px;
 }
-.payment_methods_title {text-align:center;}
+.user_info_detail_value {padding: 0px 20px;}
+.brd_btm {border-bottom: 1px solid #0000001c;}
+.fee_container {text-align: center;}
+.fee_hint {
+    font-size: 15px;
+    color: #040404c4;
+    margin-top: 2px;
+}
+.payment_methods_container {}
+.payment_methods_title {text-align:center; margin-top: 40px}
 .cards_table {
     margin-left:auto;
     margin-right:auto;

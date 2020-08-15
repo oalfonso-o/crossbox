@@ -1,17 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div id="table_vertical">
-  <div class="payment_methods_container">
-    <div class="fee_container">
-      <form action="{% url 'change_fee' %}" method="post">
-        <select name="fee" onchange="this.form.submit()">
-          {% for fee_pk, fee in fees.items %}
-            <option value="{{fee_pk}}" {% if fee_pk.selected %}selected="true"{%endif%}>{{fee_pk.label}}</option>
+<div id="table_vertical" class="profile_container">
+  <div class="user_info_container">
+    Mi Información
+    <table class="user_info_detail_table">
+      <tr>
+        <td class="brd_btm">Usuario</td><td class="brd_btm user_info_detail_value">{{ user.username }}</td>
+      </tr>
+      <tr>
+        <td class="brd_btm">Wods</td><td class="brd_btm user_info_detail_value">{{ user.subscriber.wods }}</td>
+      </tr>
+      <tr>
+        <td class="brd_btm">Nombre</td><td class="brd_btm user_info_detail_value">{{ user.first_name }}</td>
+      </tr>
+      <tr>
+        <td class="brd_btm">Apellidos</td><td class="brd_btm user_info_detail_value">{{ user.last_name }}</td>
+      </tr>
+      <tr>
+        <td class="brd_btm">Email</td><td class="brd_btm user_info_detail_value">{{ user.email }}</td>
+      </tr>
+    </table>
+  </div>
+  <div class="fee_container profile_element_container">
+    Mi Cuota seleccionada
+    <form action="{% url 'change_fee' %}" method="post">
+      <select name="fee" onchange="this.form.submit()">
+        {% for fee in fees %}
+          {% for fee_pk, fee_option in fee.items %}
+            {{fee}}
+            <option value="{{fee_pk}}" {% if fee_option.selected %}selected="true"{%endif%}>{{fee_option.label}}</option>
           {% endfor %}
-        </select>
-      </form>
-    </div>
+        {% endfor %}
+      </select>
+    </form>
+    <p class="fee_hint">Cuota mensual</p>
+  </div>
+  <div class="payment_methods_container profile_element_container">
     <div class="payment_methods_title">
       Mis métodos de pago
     </div>
@@ -47,7 +72,7 @@
       </tr>
     </table>
   </div>
-  <div id="card_add_container">
+  <div id="card_add_container" class="profile_element_container">
     <form action="{% url 'add_payment_method' %}" method="post" id="payment-form">
       <div class="form-row">
         <div id="card-element">

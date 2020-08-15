@@ -11,7 +11,7 @@ from crossbox.models.fee import Fee
 def profile(request):
     subscriber = request.user.subscriber
     user_cards = Card.objects.filter(subscriber=subscriber)
-    empty_fee_option = {None: {'selected': False, 'label': 'Sin cuota'}}
+    empty_fee_option = {'': {'selected': False, 'label': 'Sin cuota'}}
     fees = [empty_fee_option]
     for fee in Fee.objects.all():
         selected = (
@@ -24,15 +24,23 @@ def profile(request):
     return render(
         request,
         'profile.html',
-        {'user_cards': user_cards, 'fees': fees},
+        {
+            'user': request.user,
+            'user_cards': user_cards,
+            'fees': fees,
+        },
     )
 
 
 @require_POST
 def change_fee(request):
-    fee_pk = request.POST['fee']
-    fee = Fee.objects.get(pk=fee_pk)
     subscriber = request.user.subscriber
+    fee_pk = request.POST['fee']
+    fee = (
+        Fee.objects.get(pk=fee_pk)
+        if fee_pk
+        else None
+    )
     subscriber.fee = fee
     subscriber.save()
     return redirect('profile')
