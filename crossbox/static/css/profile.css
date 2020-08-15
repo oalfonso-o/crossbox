@@ -4,8 +4,9 @@
     border: none;
     color: #d9d9d9;
     background-color: #d9d9d9;
+    margin-top: 35px;
 }
-.profile_container {font-size: 30px}
+.profile_title {font-size:30px}
 .profile_element_container {margin: 20px 0}
 .user_info_container {text-align: center; margin-bottom:20px}
 .user_info_detail_table {
@@ -20,7 +21,9 @@
 }
 .user_info_detail_value {padding: 0px 20px;}
 .brd_btm {border-bottom: 1px solid #0000001c;}
-.fee_container {text-align: center;}
+.fee_container {
+    text-align: center;
+}
 .fee_hint {
     font-size: 15px;
     color: #040404c4;
@@ -30,7 +33,12 @@
     font-size: 20px;
     margin: 10px;
 }
-.payment_methods_title {text-align:center; margin-top: 40px}
+.buy_immediately {
+    font-size: 12px;
+    width: 50%;
+    margin: 0 auto;
+}
+.payment_methods_container {text-align: center;}
 .cards_table {
     margin-left:auto;
     margin-right:auto;
@@ -65,17 +73,14 @@
     margin-top: 20px;
     border-radius: 4px;
     color: black;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid rgb(0, 0, 0);
     background-color: white;
-    font-size: 1.2em;
+    font-size: 1.4em;
     padding: 3px 30px;
-}
-.card-submit-container {text-align:center;}
-.card_show_add_form {
-    text-align:center;
-    padding-top: 40px;
     cursor:pointer;
 }
+.card-submit-container {text-align:center;}
+.card_show_add_form {}
 .card_last_digits {
     color: grey;
     padding-left: 20px;
@@ -85,5 +90,8 @@
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 60px;
+    border: 1px solid #00000091;
+    padding: 30px;
+    border-radius: 5px;
+    margin-bottom: 200px;
 }

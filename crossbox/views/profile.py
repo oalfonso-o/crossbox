@@ -35,13 +35,31 @@ def profile(request):
 @require_POST
 def change_fee(request):
     subscriber = request.user.subscriber
-    fee_pk = request.POST['fee']
-    fee = (
-        Fee.objects.get(pk=fee_pk)
-        if fee_pk
+    previous_fee = subscriber.fee
+    new_fee_pk = request.POST['fee']
+    buy_immediately = request.POST['buy_immediately']
+    new_fee = (
+        Fee.objects.get(pk=new_fee_pk)
+        if new_fee_pk
         else None
     )
-    subscriber.fee = fee
+    subscriber.fee = new_fee
+    if not previous_fee and new_fee:
+        stripe_subscription = stripe.Subscription.create(
+            customer=subscriber.stripe_customer_id,
+            items=[{"price": subscriber.fee.stripe_price_id}],
+            proration_behavior=None,
+        )
+        subscriber.stripe_subscription_id = stripe_subscription['id']
+    elif previous_fee and new_fee:
+        stripe_subscription = stripe.Subscription.modify(
+            subscriber.stripe_subscription_id,
+            items=[{"price": subscriber.fee.stripe_price_id}],
+        )
+    elif not new_fee:
+        stripe.Subscription.delete(subscriber.stripe_subscription_id)
+    else:
+        raise Exception('Something went wrong')
     subscriber.save()
     return redirect('profile')
 

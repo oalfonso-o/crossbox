@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div id="table_vertical" class="profile_container">
+<div id="table_vertical">
   <div class="user_info_container">
-    Mi Información
+    <div class="profile_title">Mi Información</div>
     <table class="user_info_detail_table">
       <tr>
         <td class="brd_btm">Usuario</td><td class="brd_btm user_info_detail_value">{{ user.username }}</td>
@@ -24,9 +24,9 @@
   </div>
   <hr class="profile_hr">
   <div class="fee_container profile_element_container">
-    Mi Cuota
+    <div class="profile_title">Mi Cuota</div>
     <form action="{% url 'change_fee' %}" method="post">
-      <select name="fee" onchange="this.form.submit()" class="fee_selector">
+      <select name="fee" class="fee_selector">
         {% for fee in fees %}
           {% for fee_pk, fee_option in fee.items %}
             {{fee}}
@@ -34,14 +34,18 @@
           {% endfor %}
         {% endfor %}
       </select>
+      <br>
+      <input type="checkbox" id="buy_immediately" name="buy_immediately" value="">
+      <label for="buy_immediately">
+        Canjeo rápido <span style="color:red">*</span>
+        <div class="buy_immediately"><span style="color:red">*</span> Si se marca esta casilla se entregarán los wods y se realizará el pago al momento, sin esperar a principio de mes. Esto puede conllevar a tener menos días del mes disponibles para consumir los wods. Se recomienda no marcar esta casilla y que se realice el cobro mensual y la entrega de wods el día 1 de cada mes de manera recurrente.</div>
+      </label>
+      <button class="card_add_submit" onclick="this.form.submit()">Activar cuota seleccionada</button>
     </form>
-    <p class="fee_hint">Cuota mensual</p>
   </div>
   <hr class="profile_hr">
   <div class="payment_methods_container profile_element_container">
-    <div class="payment_methods_title">
-      Mis métodos de pago
-    </div>
+    <div class="profile_title">Mis métodos de pago</div>
     <table class="cards_table">
       {% for user_card in user_cards|dictsortreversed:"default" %}
         <tr>
@@ -66,13 +70,8 @@
           </td>
         </tr>
       {% endfor %}
-      <tr>
-        <td class="card_show_add_form"><i class="fa fa-plus card_add_icon"></i></td>
-        <td class="card_show_add_form" colspan="2">
-          Añadir un nuevo método de pago
-        </td>
-      </tr>
     </table>
+    <button class="card_add_submit card_show_add_form">Añadir método de pago</button>
   </div>
   <div id="card_add_container" class="profile_element_container">
     <form action="{% url 'add_payment_method' %}" method="post" id="payment-form">
