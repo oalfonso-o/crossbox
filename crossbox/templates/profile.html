@@ -20,6 +20,9 @@
       <tr>
         <td class="brd_btm">Email</td><td class="brd_btm user_info_detail_value">{{ user.email }}</td>
       </tr>
+      <tr>
+        <td class="brd_btm">Próximo cobro</td><td class="brd_btm user_info_detail_value">{% if user.subscriber.next_billing_cycle_datetime %}{{ user.subscriber.next_billing_cycle_datetime }}{% endif %}</td>
+      </tr>
     </table>
   </div>
   <hr class="profile_hr">
@@ -35,10 +38,10 @@
         {% endfor %}
       </select>
       <br>
-      <input type="checkbox" id="buy_immediately" name="buy_immediately" value="">
+      <input type="checkbox" id="buy_immediately" name="buy_immediately" value="true">
       <label for="buy_immediately">
         Canjeo rápido <span style="color:red">*</span>
-        <div class="buy_immediately"><span style="color:red">*</span> Si se marca esta casilla se entregarán los wods y se realizará el pago al momento, sin esperar a principio de mes. Esto puede conllevar a tener menos días del mes disponibles para consumir los wods. Se recomienda no marcar esta casilla y que se realice el cobro mensual y la entrega de wods el día 1 de cada mes de manera recurrente.</div>
+        <div class="buy_immediately"><span style="color:red">*</span> Si se marca esta casilla se entregarán los wods y se realizará el pago al momento, sin esperar a principio de mes, provocando que los próximos cobros se realicen también este mismo día en los siguientes meses. Se recomienda no marcar esta casilla y que se realice el cobro mensual y la entrega de wods el día 1 de cada mes.</div>
       </label>
       <button class="card_add_submit" onclick="this.form.submit()">Activar cuota seleccionada</button>
     </form>

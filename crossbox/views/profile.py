@@ -1,4 +1,6 @@
 import stripe
+import datetime
+from dateutil.relativedelta import relativedelta
 
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_POST
@@ -7,13 +9,21 @@ from crossbox.models.card import Card
 from crossbox.models.fee import Fee
 
 
+def get_next_billing_cycle_anchor():
+    today = datetime.datetime.today()
+    first_day = today.replace(day=1) + relativedelta(months=1)
+    first_day_wo_time = first_day.replace(
+        hour=0, minute=0, second=0, microsecond=0)
+    return int(first_day_wo_time.timestamp())
+
+
 @require_GET
 def profile(request):
     subscriber = request.user.subscriber
     user_cards = Card.objects.filter(subscriber=subscriber)
     empty_fee_option = {'': {'selected': False, 'label': 'Sin cuota'}}
     fees = [empty_fee_option]
-    for fee in Fee.objects.all():
+    for fee in Fee.objects.filter(active=True).order_by('num_sessions'):
         selected = (
             bool(subscriber.fee.pk == fee.pk)
             if subscriber.fee
@@ -37,7 +47,7 @@ def change_fee(request):
     subscriber = request.user.subscriber
     previous_fee = subscriber.fee
     new_fee_pk = request.POST['fee']
-    buy_immediately = request.POST['buy_immediately']
+    buy_immediately = request.POST.get('buy_immediately')
     new_fee = (
         Fee.objects.get(pk=new_fee_pk)
         if new_fee_pk
@@ -45,17 +55,26 @@ def change_fee(request):
     )
     subscriber.fee = new_fee
     if not previous_fee and new_fee:
+        billing_cycle_anchor = (
+            'now' if buy_immediately else get_next_billing_cycle_anchor())
         stripe_subscription = stripe.Subscription.create(
             customer=subscriber.stripe_customer_id,
             items=[{"price": subscriber.fee.stripe_price_id}],
             proration_behavior=None,
+            billing_cycle_anchor=billing_cycle_anchor,
         )
         subscriber.stripe_subscription_id = stripe_subscription['id']
+        subscriber.stripe_billing_cycle_anchor = stripe_subscription[
+            'billing_cycle_anchor']
     elif previous_fee and new_fee:
+        billing_cycle_anchor = 'now' if buy_immediately else 'unchanged'
         stripe_subscription = stripe.Subscription.modify(
             subscriber.stripe_subscription_id,
             items=[{"price": subscriber.fee.stripe_price_id}],
+            billing_cycle_anchor=billing_cycle_anchor,
         )
+        subscriber.stripe_billing_cycle_anchor = stripe_subscription[
+            'billing_cycle_anchor']
     elif not new_fee:
         stripe.Subscription.delete(subscriber.stripe_subscription_id)
     else:

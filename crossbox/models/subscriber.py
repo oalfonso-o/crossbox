@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -17,6 +19,8 @@ class Subscriber(models.Model):
     stripe_customer_id = models.CharField('ID Cliente Stripe', max_length=30)
     stripe_subscription_id = models.CharField(
         'ID Subscripción Stripe', blank=False, null=True, max_length=30)
+    stripe_billing_cycle_anchor = models.IntegerField(
+        'Timestamp próximo pago', blank=True, null=True)
 
     def __str__(self):
         return '#{} - {}'.format(self.id, self.user)
@@ -29,3 +33,13 @@ class Subscriber(models.Model):
 
     def last_name(self):
         return self.user.last_name
+
+    def next_billing_cycle_datetime_property(self):
+        return datetime.datetime.fromtimestamp(
+            self.stripe_billing_cycle_anchor
+        ) if self.stripe_billing_cycle_anchor else None
+
+    next_billing_cycle_datetime_property.short_description = (
+        "Fecha próximo cobro")
+    next_billing_cycle_datetime = property(
+        next_billing_cycle_datetime_property)
