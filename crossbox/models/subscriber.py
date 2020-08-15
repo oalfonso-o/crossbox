@@ -21,6 +21,10 @@ class Subscriber(models.Model):
         'ID Subscripción Stripe', blank=False, null=True, max_length=30)
     stripe_billing_cycle_anchor = models.IntegerField(
         'Timestamp próximo pago', blank=True, null=True)
+    stripe_subscription_price_item_id = models.CharField(
+        'ID Precio de Subscripción Stripe',
+        blank=False, null=True, max_length=30
+    )
 
     def __str__(self):
         return '#{} - {}'.format(self.id, self.user)

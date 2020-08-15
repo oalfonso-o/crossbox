@@ -62,23 +62,34 @@ def change_fee(request):
         stripe_subscription = stripe.Subscription.create(
             customer=subscriber.stripe_customer_id,
             items=[{"price": subscriber.fee.stripe_price_id}],
-            proration_behavior=None,
+            proration_behavior='none',
             billing_cycle_anchor=billing_cycle_anchor,
         )
         subscriber.stripe_subscription_id = stripe_subscription['id']
         subscriber.stripe_billing_cycle_anchor = stripe_subscription[
             'billing_cycle_anchor']
+        subscriber.stripe_subscription_price_item_id = (
+            stripe_subscription['items']['data'][0].id
+        )
     elif previous_fee and new_fee:
         billing_cycle_anchor = 'now' if buy_immediately else 'unchanged'
         stripe_subscription = stripe.Subscription.modify(
             subscriber.stripe_subscription_id,
-            items=[{"price": subscriber.fee.stripe_price_id}],
+            items=[{
+                'id': subscriber.stripe_subscription_price_item_id,
+                'price': subscriber.fee.stripe_price_id,
+            }],
             billing_cycle_anchor=billing_cycle_anchor,
         )
         subscriber.stripe_billing_cycle_anchor = stripe_subscription[
             'billing_cycle_anchor']
+        subscriber.stripe_subscription_price_item_id = (
+            stripe_subscription['items']['data'][0].id
+        )
     elif not new_fee:
         stripe.Subscription.delete(subscriber.stripe_subscription_id)
+        subscriber.stripe_subscription_id = None
+        subscriber.stripe_billing_cycle_anchor = None
     else:
         raise Exception('Something went wrong')
     subscriber.save()
