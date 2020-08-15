@@ -29,7 +29,7 @@ def profile(request):
 
 
 @require_POST
-def change_cuota(request):
+def change_fee(request):
     fee_pk = request.POST['fee']
     fee = Fee.objects.get(pk=fee_pk)
     subscriber = request.user.subscriber

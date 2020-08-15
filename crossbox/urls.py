@@ -7,7 +7,7 @@ from crossbox.views.session import generate_sessions, change_session_type
 from crossbox.views.user import user_create
 from crossbox.views.profile import (
     profile,
-    change_cuota,
+    change_fee,
     add_payment_method,
     set_default_payment_method,
     delete_card,
@@ -33,7 +33,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     url(r'^user_create/', user_create, name='user-create'),
     url(r'^profile/', profile, name='profile'),
-    url(r'^change_cuota/', change_cuota, name='change_cuota'),
+    url(r'^change_fee/', change_fee, name='change_fee'),
     url(
         r'^add_payment_method/',
         add_payment_method,
