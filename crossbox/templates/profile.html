@@ -4,7 +4,7 @@
 <div id="table_vertical">
   <div class="payment_methods_container">
     <div class="fee_container">
-      <form action="{% url 'change_cuota' %}" method="post">
+      <form action="{% url 'change_fee' %}" method="post">
         <select name="fee" onchange="this.form.submit()">
           {% for fee_pk, fee in fees.items %}
             <option value="{{fee_pk}}" {% if fee_pk.selected %}selected="true"{%endif%}>{{fee_pk.label}}</option>
