@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
@@ -25,6 +26,12 @@ class UserForm(UserCreationForm):
             visible.field.widget.attrs['class'] = 'c-login__input'
             visible.field.widget.attrs['placeholder'] = visible.label
             visible.label = False
+
+    def clean(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("El email introducido ya existe")
+        return self.cleaned_data
 
     def save(self, commit=True):
         user = super(UserForm, self).save(commit=False)
