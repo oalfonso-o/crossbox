@@ -26,7 +26,7 @@ from crossbox.views.session_template import (
 )
 
 webhook_paths = [
-    path(webhook['endpoint'], webhook['view'])
+    path(webhook['endpoint'], webhook['view'], name=webhook['route_name'])
     for webhook in WEBHOOKS
 ]
 

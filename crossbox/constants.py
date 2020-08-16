@@ -20,6 +20,7 @@ NUM_WEEKS_IN_A_YEAR = 52
 WEBHOOKS = [
     {
         'endpoint': 'stripe_webhook/payment_ok/',
+        'route_name': 'stripe_webhook_payment_ok',
         'view': stripe_webhook_payment_ok,
         'enabled_events': [
             'invoice.payment_succeeded',
@@ -27,6 +28,7 @@ WEBHOOKS = [
     },
     {
         'endpoint': 'stripe_webhook/payment_fail/',
+        'route_name': 'stripe_webhook_payment_fail',
         'view': stripe_webhook_payment_fail,
         'enabled_events': [
             'invoice.payment_failed',
@@ -34,6 +36,7 @@ WEBHOOKS = [
     },
     {
         'endpoint': 'stripe_webhook/charges/',
+        'route_name': 'stripe_webhook_charges',
         'view': stripe_webhook_charges,
         'enabled_events': [
             'charge.captured',
@@ -53,6 +56,7 @@ WEBHOOKS = [
     },
     {
         'endpoint': 'stripe_webhook/invoices/',
+        'route_name': 'stripe_webhook_invoices',
         'view': stripe_webhook_invoices,
         'enabled_events': [
             'invoiceitem.created',
@@ -72,6 +76,7 @@ WEBHOOKS = [
     },
     {
         'endpoint': 'stripe_webhook/plans/',
+        'route_name': 'stripe_webhook_plans',
         'view': stripe_webhook_plans,
         'enabled_events': [
             'plan.created',
@@ -81,6 +86,7 @@ WEBHOOKS = [
     },
     {
         'endpoint': 'stripe_webhook/prices/',
+        'route_name': 'stripe_webhook_prices',
         'view': stripe_webhook_prices,
         'enabled_events': [
             'price.created',
@@ -93,6 +99,7 @@ WEBHOOKS = [
     },
     {
         'endpoint': 'stripe_webhook/customers/',
+        'route_name': 'stripe_webhook_customers',
         'view': stripe_webhook_customers,
         'enabled_events': [
             'customer.created',
@@ -114,6 +121,7 @@ WEBHOOKS = [
     },
     {
         'endpoint': 'stripe_webhook/customer_sources/',
+        'route_name': 'stripe_webhook_customer_sources',
         'view': stripe_webhook_customer_sources,
         'enabled_events': [
             'customer.source.updated',
