@@ -2,11 +2,13 @@ import os
 import stripe
 import logging
 import functools
+from dotenv import load_dotenv, find_dotenv
 
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 
+load_dotenv(find_dotenv())
 logger = logging.getLogger(__name__)
 
 
