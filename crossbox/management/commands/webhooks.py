@@ -4,19 +4,19 @@ base_url = os.getenv('DJANGO_STRIPE_BASE_URL')
 
 WEBHOOKS = [
     {
-        'url': f'{ base_url }stripe_webhook/payment_ok',
+        'url': f'{ base_url }/stripe_webhook/payment_ok',
         'enabled_events': [
             'invoice.payment_succeeded',
         ],
     },
     {
-        'url': f'{ base_url }stripe_webhook/payment_fail',
+        'url': f'{ base_url }/stripe_webhook/payment_fail',
         'enabled_events': [
             'invoice.payment_failed',
         ],
     },
     {
-        'url': f'{ base_url }stripe_webhook/charges',
+        'url': f'{ base_url }/stripe_webhook/charges',
         'enabled_events': [
             'charge.captured',
             'charge.expired',
@@ -34,7 +34,7 @@ WEBHOOKS = [
         ],
     },
     {
-        'url': f'{ base_url }stripe_webhook/invoices',
+        'url': f'{ base_url }/stripe_webhook/invoices',
         'enabled_events': [
             'invoiceitem.created',
             'invoiceitem.deleted',
@@ -52,7 +52,7 @@ WEBHOOKS = [
         ],
     },
     {
-        'url': f'{ base_url }stripe_webhook/plans',
+        'url': f'{ base_url }/stripe_webhook/plans',
         'enabled_events': [
             'plan.created',
             'plan.deleted',
@@ -60,7 +60,7 @@ WEBHOOKS = [
         ],
     },
     {
-        'url': f'{ base_url }stripe_webhook/prices',
+        'url': f'{ base_url }/stripe_webhook/prices',
         'enabled_events': [
             'price.created',
             'price.deleted',
@@ -71,7 +71,7 @@ WEBHOOKS = [
         ],
     },
     {
-        'url': f'{ base_url }stripe_webhook/customers',
+        'url': f'{ base_url }/stripe_webhook/customers',
         'enabled_events': [
             'customer.created',
             'customer.deleted',
@@ -91,7 +91,7 @@ WEBHOOKS = [
         ],
     },
     {
-        'url': f'{ base_url }stripe_webhook/customer_sources',
+        'url': f'{ base_url }/stripe_webhook/customer_sources',
         'enabled_events': [
             'customer.source.updated',
             'customer.source.expiring',
