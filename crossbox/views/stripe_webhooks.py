@@ -12,10 +12,10 @@ load_dotenv(find_dotenv())
 logger = logging.getLogger(__name__)
 
 
-def stripe_secure(endpoint_secret):
-    def decorator_stripe_secure(func):
+def stripe_event(endpoint_secret):
+    def decorator_stripe_event(func):
         @functools.wraps(func)
-        def wrapper_stripe_secure(request):
+        def wrapper_stripe_event(request):
             logger.info('in wrapper')
             payload = request.body
             sig_header = request.META['HTTP_STRIPE_SIGNATURE']
@@ -23,49 +23,61 @@ def stripe_secure(endpoint_secret):
                 payload, sig_header, endpoint_secret
             )
             return func(request, event)
-        return wrapper_stripe_secure
-    return decorator_stripe_secure
+        return wrapper_stripe_event
+    return decorator_stripe_event
 
 
 @csrf_exempt
 @require_POST
-def stripe_webhook_payment_ok(request):
+@stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_PAYMENT_OK'))
+def stripe_webhook_payment_ok(request, event):
+    logger.info(event)
     return HttpResponse(status=200)
 
 
 @csrf_exempt
 @require_POST
-def stripe_webhook_payment_fail(request):
+@stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_PAYMENT_FAIL'))
+def stripe_webhook_payment_fail(request, event):
+    logger.info(event)
     return HttpResponse(status=200)
 
 
 @csrf_exempt
 @require_POST
-def stripe_webhook_charges(request):
+@stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_CHARGES'))
+def stripe_webhook_charges(request, event):
+    logger.info(event)
     return HttpResponse(status=200)
 
 
 @csrf_exempt
 @require_POST
-def stripe_webhook_invoices(request):
+@stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_INVOICES'))
+def stripe_webhook_invoices(request, event):
+    logger.info(event)
     return HttpResponse(status=200)
 
 
 @csrf_exempt
 @require_POST
-def stripe_webhook_plans(request):
+@stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_PLANS'))
+def stripe_webhook_plans(request, event):
+    logger.info(event)
     return HttpResponse(status=200)
 
 
 @csrf_exempt
 @require_POST
-def stripe_webhook_prices(request):
+@stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_PRICES'))
+def stripe_webhook_prices(request, event):
+    logger.info(event)
     return HttpResponse(status=200)
 
 
 @csrf_exempt
 @require_POST
-@stripe_secure(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_CUSTOMERS'))
+@stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_CUSTOMERS'))
 def stripe_webhook_customers(request, event):
     logger.info(event)
     # Handle the event
@@ -84,5 +96,7 @@ def stripe_webhook_customers(request, event):
 
 @csrf_exempt
 @require_POST
-def stripe_webhook_customer_sources(request):
+@stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_CUSTOMER_SOURCES'))
+def stripe_webhook_customer_sources(request, event):
+    logger.info(event)
     return HttpResponse(status=200)
