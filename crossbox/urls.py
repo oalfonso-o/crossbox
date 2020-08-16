@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 
+from crossbox.constants import WEBHOOKS
 from crossbox.views.session import generate_sessions, change_session_type
 from crossbox.views.user import user_create
 from crossbox.views.profile import (
@@ -24,6 +25,10 @@ from crossbox.views.session_template import (
     session_template_switch,
 )
 
+webhook_paths = [
+    path(webhook['endpoint'], webhook['view'])
+    for webhook in WEBHOOKS
+]
 
 urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),
@@ -90,4 +95,5 @@ urlpatterns = [
         change_session_type,
         name='change_session_type',
     ),
+    *webhook_paths,
 ]
