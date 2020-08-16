@@ -9,22 +9,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 logger = logging.getLogger(__name__)
 
-STRIPE_IPS = [
-    'api.stripe.com',
-    'checkout.stripe.com',
-    'js.stripe.com',
-    'm.stripe.com',
-    'm.stripe.network',
-    'q.stripe.com',
-]
-
 
 def stripe_secure(endpoint_secret):
     def decorator_stripe_secure(func):
         @functools.wraps(func)
         def wrapper_stripe_secure(request):
-            if request.META['REMOTE_ADDR'] not in STRIPE_IPS:
-                return HttpResponse(status=400)
+            logger.info('in wrapper')
             payload = request.body
             sig_header = request.META['HTTP_STRIPE_SIGNATURE']
             event = stripe.Webhook.construct_event(
