@@ -34,12 +34,13 @@ def stripe_event(endpoint_secret):
 def stripe_webhook_payment_ok(request, event):
     if event.type == 'invoice.payment_succeeded':
         logger.info(event)
-        data_obj = event.data.object.lines.data[0]
-        price_id = data_obj.price.id
+        event_data = event.data
+        line_data_first = event_data.object.lines.data[0]
+        price_id = line_data_first.price.id
         fee = Fee.objects.get(stripe_price_id=price_id)
         wods = fee.num_sessions
-        paid_timestamp = data_obj.status_transitions.paid_at
-        subscription_id = data_obj.subscription
+        paid_timestamp = event_data.status_transitions.paid_at
+        subscription_id = event_data.subscription
         subscription = stripe.Subscription.retrieve(subscription_id)
         next_payment_timestamp = subscription.current_period_end
 
