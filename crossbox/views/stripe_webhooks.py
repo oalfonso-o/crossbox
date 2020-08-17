@@ -5,6 +5,7 @@ import functools
 from dotenv import load_dotenv, find_dotenv
 
 from django.http import HttpResponse
+from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 
@@ -118,6 +119,13 @@ def stripe_webhook_prices(request, event):
 @stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_CUSTOMERS'))
 def stripe_webhook_customers(request, event):
     logger.info(event)
+    send_mail(
+        'Subject here',
+        'Here is the message.',
+        'notifications@crossboxpalau.com',
+        ['oriolalfonso91@gmail.com'],
+        fail_silently=False,
+    )
     return HttpResponse(status=200)
 
 
