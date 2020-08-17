@@ -9,6 +9,7 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 
 from crossbox.models.fee import Fee
+from crossbox.models.subscriber import Subscriber
 
 load_dotenv(find_dotenv())
 logger = logging.getLogger(__name__)
@@ -44,7 +45,8 @@ def stripe_webhook_payment_ok(request, event):
         subscription = stripe.Subscription.retrieve(subscription_id)
         next_payment_timestamp = subscription.current_period_end
 
-        subscriber = request.user.subscriber
+        customer_id = event_data_obj.customer
+        subscriber = Subscriber.objects.get(stripe_customer_id=customer_id)
         subscriber.stipe_last_payment_timestamp = paid_timestamp
         subscriber.stripe_billing_cycle_anchor = next_payment_timestamp  # TODO: rename to stripe_next_payment_timestamp
         subscriber.wods = wods
