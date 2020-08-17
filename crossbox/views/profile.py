@@ -70,7 +70,7 @@ def change_fee(request):
         )
         subscriber.stripe_subscription_id = stripe_subscription['id']
         subscriber.stripe_billing_cycle_anchor = stripe_subscription[
-            'billing_cycle_anchor']
+            'current_period_end']
         subscriber.stripe_subscription_price_item_id = (
             stripe_subscription['items']['data'][0].id
         )
@@ -86,7 +86,7 @@ def change_fee(request):
             proration_behavior='none',
         )
         subscriber.stripe_billing_cycle_anchor = stripe_subscription[
-            'billing_cycle_anchor']
+            'current_period_end']
         subscriber.stripe_subscription_price_item_id = (
             stripe_subscription['items']['data'][0].id
         )
