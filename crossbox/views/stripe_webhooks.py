@@ -78,9 +78,10 @@ def other_event_mail_message(event, receivers):
     return message.as_string()
 
 
-def payment_succeeded_message(fee, receivers):
+def payment_succeeded_message(fee, receivers, username):
     message = MIMEMultipart('alternative')
-    message['Subject'] = f'Acabas de comprar {fee.num_sessions} wods!'
+    message['Subject'] = (
+        f'{username} acabas de comprar {fee.num_sessions} wods!')
     message['From'] = settings.SMTP_USER_NOTIFICATIONS
     message['To'] = ', '.join(receivers)
     html = f'''\
@@ -109,9 +110,10 @@ def payment_succeeded_message(fee, receivers):
     return message.as_string()
 
 
-def payment_failed_message(receivers):
+def payment_failed_message(receivers, username):
     message = MIMEMultipart('alternative')
-    message['Subject'] = 'No se ha podido procesar el pago de Crossbox :('
+    message['Subject'] = (
+        f'{username} no hemos podido procesar tu pago de Crossbox :(')
     message['From'] = settings.SMTP_USER_NOTIFICATIONS
     message['To'] = ', '.join(receivers)
     html = f'''\
@@ -189,7 +191,8 @@ def stripe_webhook_payment_ok(request, event):
             settings.SMTP_ADMIN_NOTIFICATIONS,
             settings.SMTP_BOSS_NOTIFICATIONS,
         ]
-        mail_msg = payment_succeeded_message(fee, receivers)
+        mail_msg = payment_succeeded_message(
+            fee, receivers, subscriber.user.username)
         send_mail(mail_msg, receivers)
     else:
         logger.error(event)
@@ -211,7 +214,7 @@ def stripe_webhook_payment_fail(request, event):
             settings.SMTP_ADMIN_NOTIFICATIONS,
             settings.SMTP_BOSS_NOTIFICATIONS,
         ]
-        mail_msg = payment_failed_message(receivers)
+        mail_msg = payment_failed_message(receivers, subscriber.user.username)
         send_mail(mail_msg, receivers)
     else:
         logger.error(event)
