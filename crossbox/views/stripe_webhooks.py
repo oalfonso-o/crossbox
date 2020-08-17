@@ -38,7 +38,11 @@ def stripe_log_mail_event(func):
     def wrapper_stripe_log_mail_event(request, event):
         logger.info(event)
         mail_msg = other_event_mail_message(event)
-        send_mail(mail_msg)
+        receivers = [
+            settings.SMTP_ADMIN_NOTIFICATIONS,
+            settings.SMTP_BOSS_NOTIFICATIONS,
+        ]
+        send_mail(mail_msg, receivers)
         return func(request, event)
     return wrapper_stripe_log_mail_event
 
@@ -67,10 +71,7 @@ def payment_failed_message(receivers):
 \n\nGracias!''')
 
 
-def send_mail(message, receivers=None):
-    if not receivers:
-        receivers = [settings.SMTP_ADMIN_NOTIFICATIONS]
-
+def send_mail(message, receivers):
     context = ssl.create_default_context()
     with smtplib.SMTP(
         settings.SMTP_SERVER_NOTIFICATIONS,
@@ -114,7 +115,7 @@ def stripe_webhook_payment_ok(request, event):
             settings.SMTP_BOSS_NOTIFICATIONS,
         ]
         mail_msg = payment_succeeded_message(receivers, fee)
-        send_mail(mail_msg)
+        send_mail(mail_msg, receivers)
     else:
         logger.error(event)
         return HttpResponse(status=400)
@@ -136,7 +137,7 @@ def stripe_webhook_payment_fail(request, event):
             settings.SMTP_BOSS_NOTIFICATIONS,
         ]
         mail_msg = payment_failed_message(receivers)
-        send_mail(mail_msg)
+        send_mail(mail_msg, receivers)
     else:
         logger.error(event)
         return HttpResponse(status=400)
