@@ -44,7 +44,7 @@ def stripe_log_mail_event(func):
 
 
 def other_event_mail_message(webhook, event):
-    receivers = [settings.DJANGO_SMTP_ADMIN_NOTIFICATIONS]
+    receivers = [settings.SMTP_ADMIN_NOTIFICATIONS]
     return (
         f'''Subject:{webhook}: {event.type}\nTo:{receivers}
 \n\nEvent body:
@@ -109,8 +109,8 @@ def stripe_webhook_payment_ok(request, event):
         subscriber.save()
         receivers = [
             subscriber.user.email,
-            settings.DJANGO_SMTP_ADMIN_NOTIFICATIONS,
-            settings.DJANGO_SMTP_BOSS_NOTIFICATIONS,
+            settings.SMTP_ADMIN_NOTIFICATIONS,
+            settings.SMTP_BOSS_NOTIFICATIONS,
         ]
         mail_msg = payment_succeeded_message(receivers, fee)
         send_mail(mail_msg)
@@ -131,8 +131,8 @@ def stripe_webhook_payment_fail(request, event):
         subscriber = Subscriber.objects.get(stripe_customer_id=customer_id)
         receivers = [
             subscriber.user.email,
-            settings.DJANGO_SMTP_ADMIN_NOTIFICATIONS,
-            settings.DJANGO_SMTP_BOSS_NOTIFICATIONS,
+            settings.SMTP_ADMIN_NOTIFICATIONS,
+            settings.SMTP_BOSS_NOTIFICATIONS,
         ]
         mail_msg = payment_failed_message(receivers)
         send_mail(mail_msg)
