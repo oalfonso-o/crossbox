@@ -4,7 +4,7 @@ from django.contrib import admin
 class SubscriberAdmin(admin.ModelAdmin):
     list_display = (
         'username', 'first_name', 'last_name', 'wods',
-        'next_billing_cycle_datetime')
+        'last_payment_datetime', 'next_billing_cycle_datetime')
     search_fields = [
         'user__first_name', 'user__last_name', 'user__username', 'wods'
     ]

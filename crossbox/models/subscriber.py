@@ -25,8 +25,8 @@ class Subscriber(models.Model):
         'ID Precio de Subscripción Stripe',
         blank=False, null=True, max_length=30
     )
-    last_payment_datetime = models.DateTimeField(
-        'Fecha último pago', null=True, blank=True)
+    stipe_last_payment_timestamp = models.IntegerField(
+        'Fecha último pago', blank=True, null=True)
 
     def __str__(self):
         return '#{} - {}'.format(self.id, self.user)
@@ -46,6 +46,14 @@ class Subscriber(models.Model):
         ) if self.stripe_billing_cycle_anchor else None
 
     next_billing_cycle_datetime_property.short_description = (
-        "Fecha próximo cobro")
+        "Fecha próximo pago")
     next_billing_cycle_datetime = property(
         next_billing_cycle_datetime_property)
+
+    def last_payment_datetime_property(self):
+        return datetime.datetime.fromtimestamp(
+            self.stipe_last_payment_timestamp
+        ) if self.stipe_last_payment_timestamp else None
+
+    last_payment_datetime_property.short_description = ("Fecha último pago")
+    last_payment_datetime = property(last_payment_datetime_property)

@@ -8,6 +8,8 @@ from django.http import HttpResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 
+from crossbox.models.fee import Fee
+
 load_dotenv(find_dotenv())
 logger = logging.getLogger(__name__)
 
@@ -16,7 +18,6 @@ def stripe_event(endpoint_secret):
     def decorator_stripe_event(func):
         @functools.wraps(func)
         def wrapper_stripe_event(request):
-            logger.info('in wrapper')
             payload = request.body
             sig_header = request.META['HTTP_STRIPE_SIGNATURE']
             event = stripe.Webhook.construct_event(
@@ -31,7 +32,34 @@ def stripe_event(endpoint_secret):
 @require_POST
 @stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_PAYMENT_OK'))
 def stripe_webhook_payment_ok(request, event):
-    logger.info(event)
+    if event.type == 'invoice.payment_succeeded':
+        logger.info(event)
+        data_obj = event.data.object.lines.data[0]
+        price_id = data_obj.price
+        fee = Fee.objects.get(stripe_price_id=price_id)
+        wods = fee.num_sessions
+        paid_timestamp = data_obj.status_transitions.paid_at
+        subscription_id = data_obj.subscription
+        subscription = stripe.Subscription.retrieve(subscription_id)
+        next_payment_timestamp = subscription.current_period_end
+
+        subscriber = request.user.subscriber
+        subscriber.stipe_last_payment_timestamp = paid_timestamp
+        subscriber.stripe_billing_cycle_anchor = next_payment_timestamp  # TODO: rename to stripe_next_payment_timestamp
+        subscriber.wods = wods
+        try:
+            subscriber.save()
+        except Exception as e:
+            # TODO: mail -> uri
+            logger.info('mail -> uri')
+            raise e
+        logger.info('mail -> roger uri customer')
+        # TODO: mail -> roger uri customer
+    else:
+        logger.error(event)
+        # TODO: mail -> uri
+        logger.info('mail -> uri')
+        return HttpResponse(status=400)
     return HttpResponse(status=200)
 
 
@@ -39,7 +67,14 @@ def stripe_webhook_payment_ok(request, event):
 @require_POST
 @stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_PAYMENT_FAIL'))
 def stripe_webhook_payment_fail(request, event):
-    logger.info(event)
+    if event.type == 'invoice.payment_failed':
+        logger.info(event)
+        # TODO: mail -> roger uri customer
+    else:
+        logger.error(event)
+        # TODO: mail -> uri
+        logger.info('mail -> uri')
+        return HttpResponse(status=400)
     return HttpResponse(status=200)
 
 
@@ -80,17 +115,6 @@ def stripe_webhook_prices(request, event):
 @stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_CUSTOMERS'))
 def stripe_webhook_customers(request, event):
     logger.info(event)
-    # Handle the event
-    # if event.type == 'payment_intent.succeeded':
-    #     payment_intent = event.data.object # contains a stripe.PaymentIntent
-    #     print('PaymentIntent was successful!')
-    # elif event.type == 'payment_method.attached':
-    #     payment_method = event.data.object # contains a stripe.PaymentMethod
-    #     print('PaymentMethod was attached to a Customer!')
-    # # ... handle other event types
-    # else:
-    #     # Unexpected event type
-    #     return HttpResponse(status=400)
     return HttpResponse(status=200)
 
 
@@ -100,3 +124,15 @@ def stripe_webhook_customers(request, event):
 def stripe_webhook_customer_sources(request, event):
     logger.info(event)
     return HttpResponse(status=200)
+
+
+STRIPE_WEBHOOKS_VIEWS_MAPPER = {
+    'stripe_webhook_payment_ok': stripe_webhook_payment_ok,
+    'stripe_webhook_payment_fail': stripe_webhook_payment_fail,
+    'stripe_webhook_charges': stripe_webhook_charges,
+    'stripe_webhook_invoices': stripe_webhook_invoices,
+    'stripe_webhook_plans': stripe_webhook_plans,
+    'stripe_webhook_prices': stripe_webhook_prices,
+    'stripe_webhook_customers': stripe_webhook_customers,
+    'stripe_webhook_customer_sources': stripe_webhook_customer_sources,
+}

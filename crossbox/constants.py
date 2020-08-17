@@ -1,14 +1,3 @@
-from crossbox.views.stripe_webhooks import (
-    stripe_webhook_payment_ok,
-    stripe_webhook_payment_fail,
-    stripe_webhook_charges,
-    stripe_webhook_invoices,
-    stripe_webhook_plans,
-    stripe_webhook_prices,
-    stripe_webhook_customers,
-    stripe_webhook_customer_sources,
-)
-
 WEEK_DAYS = 7
 MIDWEEK_DAYS = 5
 SATURDAY_WEEK_DAY = 6
@@ -21,7 +10,6 @@ WEBHOOKS = [
     {
         'endpoint': 'stripe_webhook/payment_ok',
         'route_name': 'stripe_webhook_payment_ok',
-        'view': stripe_webhook_payment_ok,
         'enabled_events': [
             'invoice.payment_succeeded',
         ],
@@ -29,7 +17,6 @@ WEBHOOKS = [
     {
         'endpoint': 'stripe_webhook/payment_fail',
         'route_name': 'stripe_webhook_payment_fail',
-        'view': stripe_webhook_payment_fail,
         'enabled_events': [
             'invoice.payment_failed',
         ],
@@ -37,7 +24,6 @@ WEBHOOKS = [
     {
         'endpoint': 'stripe_webhook/charges',
         'route_name': 'stripe_webhook_charges',
-        'view': stripe_webhook_charges,
         'enabled_events': [
             'charge.captured',
             'charge.expired',
@@ -57,7 +43,6 @@ WEBHOOKS = [
     {
         'endpoint': 'stripe_webhook/invoices',
         'route_name': 'stripe_webhook_invoices',
-        'view': stripe_webhook_invoices,
         'enabled_events': [
             'invoiceitem.created',
             'invoiceitem.deleted',
@@ -77,7 +62,6 @@ WEBHOOKS = [
     {
         'endpoint': 'stripe_webhook/plans',
         'route_name': 'stripe_webhook_plans',
-        'view': stripe_webhook_plans,
         'enabled_events': [
             'plan.created',
             'plan.deleted',
@@ -87,7 +71,6 @@ WEBHOOKS = [
     {
         'endpoint': 'stripe_webhook/prices',
         'route_name': 'stripe_webhook_prices',
-        'view': stripe_webhook_prices,
         'enabled_events': [
             'price.created',
             'price.deleted',
@@ -100,7 +83,6 @@ WEBHOOKS = [
     {
         'endpoint': 'stripe_webhook/customers',
         'route_name': 'stripe_webhook_customers',
-        'view': stripe_webhook_customers,
         'enabled_events': [
             'customer.created',
             'customer.deleted',
@@ -122,7 +104,6 @@ WEBHOOKS = [
     {
         'endpoint': 'stripe_webhook/customer_sources',
         'route_name': 'stripe_webhook_customer_sources',
-        'view': stripe_webhook_customer_sources,
         'enabled_events': [
             'customer.source.updated',
             'customer.source.expiring',

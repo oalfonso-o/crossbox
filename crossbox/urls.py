@@ -24,9 +24,14 @@ from crossbox.views.session_template import (
     session_template_delete,
     session_template_switch,
 )
+from crossbox.views.stripe_webhooks import STRIPE_WEBHOOKS_VIEWS_MAPPER
 
 webhook_paths = [
-    path(webhook['endpoint'], webhook['view'], name=webhook['route_name'])
+    path(
+        webhook['endpoint'],
+        STRIPE_WEBHOOKS_VIEWS_MAPPER[webhook['route_name']],
+        name=webhook['route_name'],
+    )
     for webhook in WEBHOOKS
 ]
 
