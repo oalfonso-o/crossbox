@@ -58,7 +58,7 @@ def other_event_mail_message(event):
 def payment_succeeded_message(receivers, fee):
     return (
         f'''Subject:Acabas de comprar wods!\nTo:{receivers}
-\n\nHas comprado {fee.num_sessions} wods por {fee.price_cents / 100}€.
+\n\nHas comprado {fee.num_sessions} wods por {fee.price_cents / 100}\u20ac.
 \n\nGracias!''')
 
 
