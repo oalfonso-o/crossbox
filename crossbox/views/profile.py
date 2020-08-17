@@ -53,7 +53,7 @@ def change_fee(request):
         if new_fee_pk
         else None
     )
-    if previous_fee == new_fee:
+    if previous_fee == new_fee and not buy_immediately:
         return redirect('profile')
     subscriber.fee = new_fee
     if not previous_fee and new_fee:
