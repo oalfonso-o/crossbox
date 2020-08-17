@@ -69,7 +69,7 @@ def change_fee(request):
             **subscription_kwargs,
         )
         subscriber.stripe_subscription_id = stripe_subscription['id']
-        subscriber.stripe_billing_cycle_anchor = stripe_subscription[
+        subscriber.stripe_next_payment_timestamp = stripe_subscription[
             'current_period_end']
         subscriber.stripe_subscription_price_item_id = (
             stripe_subscription['items']['data'][0].id
@@ -85,7 +85,7 @@ def change_fee(request):
             billing_cycle_anchor=billing_cycle_anchor,
             proration_behavior='none',
         )
-        subscriber.stripe_billing_cycle_anchor = stripe_subscription[
+        subscriber.stripe_next_payment_timestamp = stripe_subscription[
             'current_period_end']
         subscriber.stripe_subscription_price_item_id = (
             stripe_subscription['items']['data'][0].id
@@ -93,7 +93,7 @@ def change_fee(request):
     elif not new_fee:
         stripe.Subscription.delete(subscriber.stripe_subscription_id)
         subscriber.stripe_subscription_id = None
-        subscriber.stripe_billing_cycle_anchor = None
+        subscriber.stripe_next_payment_timestamp = None
     else:
         raise Exception('Something went wrong')
     subscriber.save()

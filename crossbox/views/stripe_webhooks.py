@@ -48,7 +48,7 @@ def stripe_webhook_payment_ok(request, event):
         customer_id = event_data_obj.customer
         subscriber = Subscriber.objects.get(stripe_customer_id=customer_id)
         subscriber.stipe_last_payment_timestamp = paid_timestamp
-        subscriber.stripe_billing_cycle_anchor = next_payment_timestamp  # TODO: rename to stripe_next_payment_timestamp
+        subscriber.stripe_next_payment_timestamp = next_payment_timestamp  # TODO: rename to stripe_next_payment_timestamp
         subscriber.wods = wods
         try:
             subscriber.save()
