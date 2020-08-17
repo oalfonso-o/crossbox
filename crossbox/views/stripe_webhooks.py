@@ -43,10 +43,10 @@ def stripe_log_mail_event(func):
     return wrapper_stripe_log_mail_event
 
 
-def other_event_mail_message(webhook, event):
+def other_event_mail_message(event):
     receivers = [settings.SMTP_ADMIN_NOTIFICATIONS]
     return (
-        f'''Subject:{webhook}: {event.type}\nTo:{receivers}
+        f'''Subject: Crossbox event: {event.type}\nTo:{receivers}
 \n\nEvent body:
 {json.dumps(event, indent=4)}''')
 
@@ -67,22 +67,23 @@ def payment_failed_message(receivers):
 \n\nGracias!''')
 
 
-def send_mail(message, receivers):
+def send_mail(message, receivers=None):
+    if not receivers:
+        receivers = [settings.SMTP_ADMIN_NOTIFICATIONS]
+
     context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(
+    with smtplib.SMTP(
         settings.SMTP_SERVER_NOTIFICATIONS,
         settings.SMTP_PORT_NOTIFICATIONS,
-        context=context,
     ) as server:
+        server.ehlo()  # Can be omitted
+        server.starttls(context=context)
+        server.ehlo()  # Can be omitted
         server.login(
             settings.SMTP_USER_NOTIFICATIONS,
             settings.SMTP_PASSWORD_NOTIFICATIONS,
         )
-        server.sendmail(
-            settings.SMTP_USER_NOTIFICATIONS,
-            receivers.split(','),
-            message,
-        )
+        server.sendmail(settings.SMTP_USER_NOTIFICATIONS, receivers, message)
 
 
 @csrf_exempt
