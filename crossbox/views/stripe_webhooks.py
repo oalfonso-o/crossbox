@@ -5,6 +5,8 @@ import stripe
 import smtplib
 import logging
 import functools
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv, find_dotenv
 
 from django.http import HttpResponse
@@ -37,38 +39,111 @@ def stripe_log_mail_event(func):
     @functools.wraps(func)
     def wrapper_stripe_log_mail_event(request, event):
         logger.info(event)
-        mail_msg = other_event_mail_message(event)
         receivers = [
             settings.SMTP_ADMIN_NOTIFICATIONS,
             settings.SMTP_BOSS_NOTIFICATIONS,
         ]
+        mail_msg = other_event_mail_message(event, receivers)
         send_mail(mail_msg, receivers)
         return func(request, event)
     return wrapper_stripe_log_mail_event
 
 
-def other_event_mail_message(event):
-    receivers = [settings.SMTP_ADMIN_NOTIFICATIONS]
-    return (
-        f'''Subject: Crossbox event: {event.type}\nTo:{receivers}
-\n\nEvent body:
-{json.dumps(event, indent=4)}''')
+def other_event_mail_message(event, receivers):
+    message = MIMEMultipart('alternative')
+    message['Subject'] = f'Crossbox event: {event.type}'
+    message['From'] = settings.SMTP_USER_NOTIFICATIONS
+    message['To'] = ', '.join(receivers)
+    html = f'''\
+<html>
+    <body>
+        <p>Hei admin, aquí tienes un nuevo evento:</p>
+        <br>
+            <pre>
+{json.dumps(event, indent=4)}
+            </pre>
+        <br>
+        Disfrútalo ;)
+        <br>
+        <br>
+        Atentamente,
+        <br>
+        El equipo de <a href="https://www.crossboxpalau.com/">Crossbox Palau
+        </a>
+    </p>
+  </body>
+</html>'''
+    html_part = MIMEText(html, 'html')
+    message.attach(html_part)
+    return message.as_string()
 
 
-def payment_succeeded_message(receivers, fee):
-    return (
-        f'''Subject:Acabas de comprar wods!\nTo:{receivers}
-\n\nHas comprado {fee.num_sessions} wods por {fee.price_cents / 100}\u20ac.
-\n\nGracias!''')
+def payment_succeeded_message(fee, receivers):
+    message = MIMEMultipart('alternative')
+    message['Subject'] = f'Acabas de comprar {fee.num_sessions} wods!'
+    message['From'] = settings.SMTP_USER_NOTIFICATIONS
+    message['To'] = ', '.join(receivers)
+    html = f'''\
+<html>
+    <body>
+        <p>Hei, te notificamos que hemos recibido tu pago!</p>
+        <p>Has comprado <b>{fee.num_sessions}</b> wods por
+        <b>{fee.price_cents / 100}€</b>
+        </p>
+        Recuerda que siempre puedes modificar tu cuota des de tu
+        <a href="https://reservations.crossboxpalau.com/profile/">perfil</a>.
+        <br>
+        <br>
+        Muchas gracias!
+        <br>
+        <br>
+        Atentamente,
+        <br>
+        El equipo de <a href="https://www.crossboxpalau.com/">Crossbox Palau
+        </a>
+    </p>
+  </body>
+</html>'''
+    html_part = MIMEText(html, 'html')
+    message.attach(html_part)
+    return message.as_string()
 
 
 def payment_failed_message(receivers):
-    return (
-        f'''Subject:No se ha podido procesar el pago de Crossbox\nTo:{receivers}
-\n\nNo hemos podido procesar el pago de tu subscripción de Crossbox Palau.
- Comprueba que tengas activado un método de pago válido y si es así, ponte en
- contacto con nosotros y te lo solucionaremos.
-\n\nGracias!''')
+    message = MIMEMultipart('alternative')
+    message['Subject'] = 'No se ha podido procesar el pago de Crossbox :('
+    message['From'] = settings.SMTP_USER_NOTIFICATIONS
+    message['To'] = ', '.join(receivers)
+    html = f'''\
+<html>
+    <body>
+        <p>Hei, lamentablemente no hemos podido procesar el pago de tu cuota.
+        </p>
+        <p>Es posible que tu método de pago haya caducado o que lo hayas
+        eliminado de tu perfil. Comprueba que tengas un método de pago
+        válido activado en tu
+        <a href="https://reservations.crossboxpalau.com/profile/">perfil</a> y
+        si no recibes confirmación del pago
+        en las próximas horas ponte en contacto con nosotros directamente por
+        whatsapp o mandando un mail a
+        <a href="{settings.SMTP_BOSS_NOTIFICATIONS}">
+        {settings.SMTP_BOSS_NOTIFICATIONS}</a>.
+        </p>
+        <br>
+        <br>
+        Muchas gracias!
+        <br>
+        <br>
+        Atentamente,
+        <br>
+        El equipo de <a href="https://www.crossboxpalau.com/">Crossbox Palau
+        </a>
+    </p>
+  </body>
+</html>'''
+    html_part = MIMEText(html, 'html')
+    message.attach(html_part)
+    return message.as_string()
 
 
 def send_mail(message, receivers):
@@ -114,7 +189,7 @@ def stripe_webhook_payment_ok(request, event):
             settings.SMTP_ADMIN_NOTIFICATIONS,
             settings.SMTP_BOSS_NOTIFICATIONS,
         ]
-        mail_msg = payment_succeeded_message(receivers, fee)
+        mail_msg = payment_succeeded_message(fee, receivers)
         send_mail(mail_msg, receivers)
     else:
         logger.error(event)
