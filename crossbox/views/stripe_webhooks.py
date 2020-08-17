@@ -91,7 +91,7 @@ def payment_succeeded_message(fee, receivers):
         <b>{fee.price_cents / 100}€</b>
         </p>
         Recuerda que siempre puedes modificar tu cuota des de tu
-        <a href="https://reservations.crossboxpalau.com/profile/">perfil</a>.
+        <a href="{settings.BASE_URL}/profile/">perfil</a>.
         <br>
         <br>
         Muchas gracias!
@@ -122,7 +122,7 @@ def payment_failed_message(receivers):
         <p>Es posible que tu método de pago haya caducado o que lo hayas
         eliminado de tu perfil. Comprueba que tengas un método de pago
         válido activado en tu
-        <a href="https://reservations.crossboxpalau.com/profile/">perfil</a> y
+        <a href="{settings.BASE_URL}/profile/">perfil</a> y
         si no recibes confirmación del pago
         en las próximas horas ponte en contacto con nosotros directamente por
         whatsapp o mandando un mail a
