@@ -10,14 +10,7 @@ from dotenv import load_dotenv, find_dotenv
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-from django.conf.settings import (
-    SMTP_SERVER_NOTIFICATIONS,
-    SMTP_PORT_NOTIFICATIONS,
-    SMTP_USER_NOTIFICATIONS,
-    SMTP_PASSWORD_NOTIFICATIONS,
-    DJANGO_SMTP_ADMIN_NOTIFICATIONS,
-    DJANGO_SMTP_BOSS_NOTIFICATIONS,
-)
+from django.conf import settings
 
 from crossbox.models.fee import Fee
 from crossbox.models.subscriber import Subscriber
@@ -51,7 +44,7 @@ def stripe_log_mail_event(func):
 
 
 def other_event_mail_message(webhook, event):
-    receivers = [DJANGO_SMTP_ADMIN_NOTIFICATIONS]
+    receivers = [settings.DJANGO_SMTP_ADMIN_NOTIFICATIONS]
     return (
         f'''Subject:{webhook}: {event.type}\nTo:{receivers}
 \n\nEvent body:
@@ -77,10 +70,19 @@ def payment_failed_message(receivers):
 def send_mail(message, receivers):
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(
-        SMTP_SERVER_NOTIFICATIONS, SMTP_PORT_NOTIFICATIONS, context=context
+        settings.SMTP_SERVER_NOTIFICATIONS,
+        settings.SMTP_PORT_NOTIFICATIONS,
+        context=context,
     ) as server:
-        server.login(SMTP_USER_NOTIFICATIONS, SMTP_PASSWORD_NOTIFICATIONS)
-        server.sendmail(SMTP_USER_NOTIFICATIONS, receivers.split(','), message)
+        server.login(
+            settings.SMTP_USER_NOTIFICATIONS,
+            settings.SMTP_PASSWORD_NOTIFICATIONS,
+        )
+        server.sendmail(
+            settings.SMTP_USER_NOTIFICATIONS,
+            receivers.split(','),
+            message,
+        )
 
 
 @csrf_exempt
@@ -107,8 +109,8 @@ def stripe_webhook_payment_ok(request, event):
         subscriber.save()
         receivers = [
             subscriber.user.email,
-            DJANGO_SMTP_ADMIN_NOTIFICATIONS,
-            DJANGO_SMTP_BOSS_NOTIFICATIONS,
+            settings.DJANGO_SMTP_ADMIN_NOTIFICATIONS,
+            settings.DJANGO_SMTP_BOSS_NOTIFICATIONS,
         ]
         mail_msg = payment_succeeded_message(receivers, fee)
         send_mail(mail_msg)
@@ -129,8 +131,8 @@ def stripe_webhook_payment_fail(request, event):
         subscriber = Subscriber.objects.get(stripe_customer_id=customer_id)
         receivers = [
             subscriber.user.email,
-            DJANGO_SMTP_ADMIN_NOTIFICATIONS,
-            DJANGO_SMTP_BOSS_NOTIFICATIONS,
+            settings.DJANGO_SMTP_ADMIN_NOTIFICATIONS,
+            settings.DJANGO_SMTP_BOSS_NOTIFICATIONS,
         ]
         mail_msg = payment_failed_message(receivers)
         send_mail(mail_msg)
