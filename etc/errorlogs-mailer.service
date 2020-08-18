@@ -1,0 +1,13 @@
+[Unit]
+Description=ErrorLogs Mailer for CrossboxPalau
+Wants=network-online.target
+After=network.target network-online.target
+[Service]
+Environment=DJANGO_ENV_FILE=/opt/django/crossboxpalau_dev/.env
+ExecStart=/opt/django/crossboxpalau_dev/bin/python /opt/django/crossboxpalau_dev/lib/python3.6/site-packages/crossbox/errorlogs_mailer.py
+Restart=on-failure
+RestartSec=5s
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target
