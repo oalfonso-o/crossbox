@@ -15,7 +15,7 @@ def generate_sessions(request):
     page_num = request.POST.get('page')
     week_tmpl = request.POST.get('week_template')
     track = request.POST.get('track')
-    if all(p is None for p in(page_num, week_tmpl, track)):
+    if all(p is None for p in (page_num, week_tmpl, track)):
         raise Exception(
             f"Can't generate sessions, there is one empty field:"
             f"page_num: {page_num}, week_template: {week_tmpl}, "

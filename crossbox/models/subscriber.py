@@ -18,10 +18,10 @@ class Subscriber(models.Model):
         related_name='subscribers')
     stripe_customer_id = models.CharField('ID Cliente Stripe', max_length=30)
     stripe_subscription_id = models.CharField(
-        'ID Subscripción Stripe', blank=False, null=True, max_length=30)
+        'ID Subscripción Stripe', blank=True, null=True, max_length=30)
     stripe_subscription_price_item_id = models.CharField(
         'ID Precio de Subscripción Stripe',
-        blank=False, null=True, max_length=30
+        blank=True, null=True, max_length=30
     )
     stripe_next_payment_timestamp = models.IntegerField(
         'Timestamp próximo pago', blank=True, null=True)
