@@ -31,7 +31,7 @@ class Fee(models.Model):
 @receiver(models.signals.pre_save, sender=Fee)
 def fee_pre_save(sender, instance, *args, **kwargs):
     existing_fees = Fee.objects.filter(pk=instance.pk).count()
-    if not existing_fees:
+    if not existing_fees:  # when creating first fee, create/use stripe product
         existing_products_response = stripe.Product.list()
         existing_products = existing_products_response.get('data', [])
         if not existing_products:

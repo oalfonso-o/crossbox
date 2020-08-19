@@ -185,6 +185,8 @@ def stripe_webhook_payment_ok(request, event):
         subscriber.stipe_last_payment_timestamp = paid_timestamp
         subscriber.stripe_next_payment_timestamp = next_payment_timestamp
         subscriber.wods = wods
+        if not fee.active:
+            subscriber.fee = None
         subscriber.save()
         receivers = [
             subscriber.user.email,
