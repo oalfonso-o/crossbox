@@ -78,7 +78,7 @@
         </tr>
       {% endfor %}
     </table>
-    <button class="card_add_submit card_show_add_form">Añadir método de pago</button>
+    <a href="#card_add_container"><button class="card_add_submit card_show_add_form">Añadir método de pago</button></a>
   </div>
   <div id="card_add_container" class="profile_element_container">
     <form action="{% url 'add_payment_method' %}" method="post" id="payment-form">
