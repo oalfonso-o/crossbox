@@ -46,6 +46,10 @@ def profile(request):
     )
 
 
+def buying_inactive_fee(buy_immediately, fee):
+    return(buy_immediately and not fee.active)
+
+
 @require_POST
 def change_fee(request):
     subscriber = request.user.subscriber
@@ -79,6 +83,8 @@ def change_fee(request):
             stripe_subscription['items']['data'][0].id
         )
     elif previous_fee and new_fee:
+        if buying_inactive_fee(buy_immediately, new_fee):
+            return redirect('profile')
         billing_cycle_anchor = 'now' if buy_immediately else 'unchanged'
         stripe_subscription = stripe.Subscription.modify(
             subscriber.stripe_subscription_id,
