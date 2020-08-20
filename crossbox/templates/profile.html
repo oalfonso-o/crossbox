@@ -40,7 +40,7 @@
           {% endfor %}
         {% endfor %}
       </select>
-      {% if not subscriber_fee_active %}
+      {% if user.subscriber.fee and not subscriber_fee_active %}
         <br>
         <span style="color:red">La cuota que tienes seleccionada ha sido deshabilitada.<br>Se te mantendrá hasta que se realice el próximo pago pero después tendrás que seleccionar otra cuota.<br>Si lo prefieres puedes cambiar ya a otra cuota.</span>
         <br>

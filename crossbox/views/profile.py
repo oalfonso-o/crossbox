@@ -24,7 +24,7 @@ def profile(request):
     empty_fee_option = {'': {'selected': False, 'label': 'Sin cuota'}}
     fees = [empty_fee_option]
     fee_objs = list(Fee.objects.filter(active=True).order_by('num_sessions'))
-    if not subscriber.fee.active:
+    if subscriber.fee and not subscriber.fee.active:
         fee_objs.append(subscriber.fee)
     for fee in fee_objs:
         selected = (
@@ -41,7 +41,8 @@ def profile(request):
             'user': request.user,
             'user_cards': user_cards,
             'fees': fees,
-            'subscriber_fee_active': subscriber.fee.active,
+            'subscriber_fee_active': (
+                subscriber.fee.active if subscriber.fee else False),
         },
     )
 
