@@ -24,7 +24,7 @@
     <table id="table_vertical">
       <tbody>
         {% for day_row in days %}
-          <tr class="table_session_row">
+          <tr class="table_day_header">
             <td class='table_day_row'>{{ day_row.0|date:'l d' }}</td>
           </tr>
           {% for day in day_row|slice:"1:" %}

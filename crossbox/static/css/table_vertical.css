@@ -12,7 +12,7 @@
 .table_day_row {
     margin-top: 10px;
     background-color: grey;
-    font-size: 100px;
+    font-size: 80px;
 }
 .table_session_row {
     text-align: center;
@@ -22,4 +22,8 @@
     width: 200px;
     font-size: 90px;
     vertical-align: middle;
+}
+.table_day_header {
+    text-align: center;
+    height:180px;
 }
