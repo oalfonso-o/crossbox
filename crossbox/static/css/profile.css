@@ -33,11 +33,6 @@
     font-size: 20px;
     margin: 10px;
 }
-.buy_immediately {
-    font-size: 12px;
-    width: 50%;
-    margin: 0 auto;
-}
 .payment_methods_container {text-align: center;}
 .cards_table {
     margin-left:auto;

@@ -47,35 +47,24 @@ def profile(request):
     )
 
 
-def buying_inactive_fee(buy_immediately, fee):
-    return(buy_immediately and not fee.active)
-
-
 @require_POST
 def change_fee(request):
     subscriber = request.user.subscriber
     previous_fee = subscriber.fee
     new_fee_pk = request.POST['fee']
-    buy_immediately = request.POST.get('buy_immediately')
     new_fee = (
         Fee.objects.get(pk=new_fee_pk)
         if new_fee_pk
         else None
     )
-    if previous_fee == new_fee and not buy_immediately:
+    if previous_fee == new_fee:
         return redirect('profile')
     subscriber.fee = new_fee
-    if not previous_fee and new_fee:
-        subscription_kwargs = {}
-        if not buy_immediately:
-            subscription_kwargs['billing_cycle_anchor'] = (
-                get_next_billing_cycle_anchor()
-            )
+    if not previous_fee and new_fee:  # TODO: refactor + tests
         stripe_subscription = stripe.Subscription.create(
             customer=subscriber.stripe_customer_id,
             items=[{"price": subscriber.fee.stripe_price_id}],
             proration_behavior='none',
-            **subscription_kwargs,
         )
         subscriber.stripe_subscription_id = stripe_subscription['id']
         subscriber.stripe_next_payment_timestamp = stripe_subscription[
@@ -84,16 +73,12 @@ def change_fee(request):
             stripe_subscription['items']['data'][0].id
         )
     elif previous_fee and new_fee:
-        if buying_inactive_fee(buy_immediately, new_fee):
-            return redirect('profile')
-        billing_cycle_anchor = 'now' if buy_immediately else 'unchanged'
         stripe_subscription = stripe.Subscription.modify(
             subscriber.stripe_subscription_id,
             items=[{
                 'id': subscriber.stripe_subscription_price_item_id,
                 'price': subscriber.fee.stripe_price_id,
             }],
-            billing_cycle_anchor=billing_cycle_anchor,
             proration_behavior='none',
         )
         subscriber.stripe_next_payment_timestamp = stripe_subscription[
@@ -101,10 +86,6 @@ def change_fee(request):
         subscriber.stripe_subscription_price_item_id = (
             stripe_subscription['items']['data'][0].id
         )
-    elif not new_fee:
-        stripe.Subscription.delete(subscriber.stripe_subscription_id)
-        subscriber.stripe_subscription_id = None
-        subscriber.stripe_next_payment_timestamp = None
     else:
         raise Exception('Something went wrong')
     subscriber.save()
