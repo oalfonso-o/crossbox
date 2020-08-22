@@ -21,7 +21,8 @@ class Fee(models.Model):
     def label_property(self):
         if not self.num_sessions:
             return f'Cuota de mantenimiento {self.price_cents / 100}€'
-        return f'{self.num_sessions} sesiones - {self.price_cents / 100}€'
+        num_sessions = '∞' if self.num_sessions >= 50 else self.num_sessions
+        return f'{num_sessions} sesiones - {self.price_cents / 100}€'
 
     label_property.short_description = "Cuota"
     label = property(label_property)
