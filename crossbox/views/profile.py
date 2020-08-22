@@ -21,8 +21,11 @@ def get_next_billing_cycle_anchor():
 def profile(request):
     subscriber = request.user.subscriber
     user_cards = Card.objects.filter(subscriber=subscriber)
-    empty_fee_option = {'': {'selected': False, 'label': 'Sin cuota'}}
-    fees = [empty_fee_option]
+    if not subscriber.stripe_subscription_id:
+        empty_fee_option = {'': {'selected': False, 'label': 'Sin cuota'}}
+        fees = [empty_fee_option]
+    else:
+        fees = []
     fee_objs = list(Fee.objects.filter(active=True).order_by('num_sessions'))
     if subscriber.fee and not subscriber.fee.active:
         fee_objs.append(subscriber.fee)
@@ -65,6 +68,7 @@ def change_fee(request):
             customer=subscriber.stripe_customer_id,
             items=[{"price": subscriber.fee.stripe_price_id}],
             proration_behavior='none',
+            billing_cycle_anchor=get_next_billing_cycle_anchor(),
         )
         subscriber.stripe_subscription_id = stripe_subscription['id']
         subscriber.stripe_next_payment_timestamp = stripe_subscription[
