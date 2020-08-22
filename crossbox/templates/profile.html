@@ -80,7 +80,8 @@
         </tr>
       {% endfor %}
     </table>
-    <a href="#card_add_container"><button class="card_add_submit card_show_add_form">Añadir método de pago</button></a>
+    <br>
+    <a href="#card_add_container"><img src="{% static 'images/connect_with_stripe.png' %}" class="card_show_add_form"></a>
   </div>
   <div id="card_add_container" class="profile_element_container">
     <form action="{% url 'add_payment_method' %}" method="post" id="payment-form">
@@ -95,6 +96,9 @@
         <button class="card_add_submit">Añadir</button>
       </div>
     </form>
+  </div>
+  <div class="card-submit-container">
+    <img src="{% static 'images/powered_by_stripe.svg' %}"/>
   </div>
 </div>
 <script src="{% static 'js/custom/profile.js' %}"></script>

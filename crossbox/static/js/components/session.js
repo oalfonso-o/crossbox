@@ -18,7 +18,7 @@ Vue.component('session', {
     user_is_staff: Boolean,
     prop_type: String,
     prop_type_label: String,
-    track_id: Number,
+    track_id: String,
     track_label: String,
   },
   template: `
@@ -104,7 +104,7 @@ Vue.component('session', {
         <span>{{ track_label }}</span>
       </div>
       <div v-if="!session">
-        {{ hour }}
+        <div class="session_hour no_session_hour">{{ hour }}</div>
       </div>
     </div>
   `,
