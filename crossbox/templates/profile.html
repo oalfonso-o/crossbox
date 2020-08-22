@@ -59,9 +59,11 @@
           <td>
             <form action="{% url 'delete_card' %}" method="post">
               <input type="hidden" id="stripe_card_id" name="stripe_card_id" value="{{ user_card.stripe_card_id }}">
-              <button class="card_delete" type="submit">
-                <i class="fa fa-trash card_delete_icon"></i>
-              </button>
+              {% if not user_card.default %}
+                <button class="card_delete" type="submit">
+                  <i class="fa fa-trash card_delete_icon"></i>
+                </button>
+              {% endif %}
             </form>
           </td>
           <td class="card_last_digits">Tarjeta: ****{{ user_card.last_digits }}</td>

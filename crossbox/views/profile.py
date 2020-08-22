@@ -136,17 +136,14 @@ def set_default_payment_method(request):
 
 @require_POST
 def delete_card(request):
-    subscriber = request.user.subscriber
     stripe_card_id = request.POST['stripe_card_id']
+    card_to_delete = Card.objects.filter(stripe_card_id=stripe_card_id).first()
+    if card_to_delete.default:
+        return redirect('profile')
+    subscriber = request.user.subscriber
     stripe.Customer.delete_source(
         subscriber.stripe_customer_id,
         stripe_card_id,
     )
-    card_to_delete = Card.objects.filter(stripe_card_id=stripe_card_id).first()
     card_to_delete.delete()
-    if card_to_delete.default:
-        card_to_be_default = Card.objects.filter(subscriber=subscriber).first()
-        if card_to_be_default:
-            card_to_be_default.default = True
-            card_to_be_default.save()
     return redirect('profile')
