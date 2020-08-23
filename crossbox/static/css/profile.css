@@ -74,7 +74,7 @@
     padding: 3px 30px;
     cursor:pointer;
 }
-.card-submit-container {text-align:center;}
+.card-submit-container {text-align:center}
 .card_last_digits {
     color: grey;
     padding-left: 20px;
@@ -87,7 +87,10 @@
     border: 1px solid #00000091;
     padding: 30px;
     border-radius: 5px;
-    margin-bottom: 200px;
 }
 
 .inactive_fee {background-color: #ff000059;}
+.powered_by_stripe_container {
+    text-align:center;
+    margin-bottom: 200px;
+}

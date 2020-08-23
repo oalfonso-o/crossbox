@@ -9,7 +9,7 @@
         <td class="brd_btm">Usuario</td><td class="brd_btm user_info_detail_value">{{ user.username }}</td>
       </tr>
       <tr>
-        <td class="brd_btm">Wods</td><td class="brd_btm user_info_detail_value">{{ user.subscriber.wods }}</td>
+        <td class="brd_btm">Wods</td><td class="brd_btm user_info_detail_value">{% if user.subscriber.wods < 50 %}{{ user.subscriber.wods }}{% else %}∞{% endif %}</td>
       </tr>
       <tr>
         <td class="brd_btm">Nombre</td><td class="brd_btm user_info_detail_value">{{ user.first_name }}</td>
@@ -97,7 +97,7 @@
       </div>
     </form>
   </div>
-  <div class="card-submit-container">
+  <div class="powered_by_stripe_container">
     <img src="{% static 'images/powered_by_stripe.svg' %}"/>
   </div>
 </div>

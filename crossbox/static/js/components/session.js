@@ -74,8 +74,8 @@ Vue.component('session', {
 
         <div v-on:click="show_reservation = !show_reservation" class="session_people_list">
           <div class="show_hide_people">
-            <span v-if="show_reservation"><i class="fa fa-eye-slash eye-closed"></i></span>
-            <span v-else><i class="fa fa-eye"></i></span>
+            <span v-if="show_reservation"><i class="fas fa-users eye-closed"></i></span>
+            <span v-else><i class="fas fa-users"></i></span>
           </div>
           <div v-if="show_reservation && reservations.length" class="people_list">
             <li v-for="reservation in reservations" class="people_li">
