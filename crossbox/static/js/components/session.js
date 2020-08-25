@@ -23,6 +23,10 @@ Vue.component('session', {
   },
   template: `
     <div>
+      <div v-if="session !== undefined && track_id==1" class="row_center_container_track_1">
+      </div>
+      <div v-if="session !== undefined && track_id==2" class="row_center_container_track_3">
+      </div>
       <div v-if="session !== undefined" class="row_center_container">
         <script type="text/x-template" id="modal-template">
           <transition name="modal">
@@ -99,6 +103,9 @@ Vue.component('session', {
         <b-notification auto-close :active.sync="notification_active">
           {{ notification_text }}
         </b-notification>
+      </div>
+      <div v-if="session !== undefined && track_id==1" class="row_center_container_track_1">
+        <span>{{ track_label }}</span>
       </div>
       <div v-if="session !== undefined && track_id==2" class="row_center_container_track_3">
         <span>{{ track_label }}</span>

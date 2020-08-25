@@ -3,14 +3,16 @@
         "model": "crossbox.track",
         "pk": 1,
         "fields": {
-            "name": "Pistas 1-2"
+            "name": "WOD",
+            "default": true
         }
     },
     {
         "model": "crossbox.track",
         "pk": 2,
         "fields": {
-            "name": "Pista 3"
+            "name": "OPEN",
+            "default": false
         }
     }
 ]

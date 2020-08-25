@@ -1,7 +1,10 @@
+.row_center_container_track_1 {
+    background-color: rgb(123, 147, 249);
+    height:20px
+}
 .row_center_container_track_3 {
-    size: 10px;
-    background-color: #00ff402b;
-    margin-top: 10px;
+    background-color: rgb(109, 249, 148);
+    height:20px
 }
 .notification {
     background-color: #167df0;
@@ -54,6 +57,7 @@
     align-items: center;
     justify-content: space-around;
     padding: 0 1%;
+    padding-top: 5px;
 }
 .row_center_container::before {content: "";}
 .row_center_container::after {content: "";}

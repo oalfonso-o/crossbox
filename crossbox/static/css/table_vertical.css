@@ -16,7 +16,8 @@
 }
 .table_session_row {
     text-align: center;
-    height: 240px;
+    border-top: 3px solid;
+    border-bottom: 3px solid;
 }
 .table_session_row_td_left {
     width: 200px;
@@ -26,4 +27,7 @@
 .table_day_header {
     text-align: center;
     height:170px;
+}
+.table_session_td {
+    padding: 0;
 }

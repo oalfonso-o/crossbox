@@ -29,7 +29,7 @@
           </tr>
           {% for day in day_row|slice:"1:" %}
             <tr class="table_session_row session {% if not day.session %}not_session{% elif day.session and day.session_closed %}session_closed{% elif day.reservations|length >= day.min_capacity %}session_open{% endif %}" data-title='{{ day.hour }}'>
-              <td>
+              <td class="table_session_td">
                 <ul>
                   <session
                     :prop_min_capacity="{{day.min_capacity}}"
