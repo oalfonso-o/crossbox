@@ -41,7 +41,7 @@ def get_mail_msg(user):
     return message.as_string()
 
 
-def send_email(user):
+def send_new_user_email(user):
     msg = get_mail_msg(user)
     receivers = [
         user.email,
@@ -61,11 +61,11 @@ def user_create(request):
                 clean_password = form.cleaned_data['password1']
                 validate_password(clean_password)
                 password = make_password(clean_password, None, 'bcrypt_sha256')
-                user = form.save()
+                user = form.save(commit=False)
                 user.password = password
                 user.is_active = False  # user is activated manually by admin
                 user.save()
-                send_email(user)
+                send_new_user_email(user)
                 return redirect('login')
             except ValidationError:
                 form.errors['password'] = (

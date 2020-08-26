@@ -46,7 +46,7 @@ ul {
 }
 .not_session {background-color: rgb(239, 239, 239); font-size: 40px}
 .no_session_hour {text-align: left; padding-left: 55px;}
-.session_closed {background-color: blanchedalmond;}
+.session_closed {background-color: #dfdfdf}
 .session_open {background-color: #0bff171a;}
 .next_prev {display: flex;}
 .next_prev div {display: inline;}
