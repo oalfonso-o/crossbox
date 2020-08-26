@@ -17,7 +17,16 @@ logger = logging.getLogger(__name__)
 @receiver(models.signals.pre_save, sender=User)
 def user_pre_save(sender, instance, *args, **kwargs):
     if instance.pk:  # update existing
-        db_instance = User.objects.get(pk=instance.pk)
+        try:
+            db_instance = User.objects.get(pk=instance.pk)
+        except User.DoesNotExist:
+            logger.error(
+                f"User instance {instance} has pk {instance.pk} before being "
+                f"saved so it must exist but is not present in DB. If this is "
+                f"a first setup this is not a problem, it's because of "
+                f"loaddata behaviour, fixtures wear pk included."
+            )
+            return
         if UserModelHelper.user_has_been_activated(db_instance, instance):
             UserModelHelper.create_stripe_customer_and_subscriber(instance)
             UserModelHelper.send_activate_user_email(instance)
