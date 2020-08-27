@@ -235,16 +235,16 @@ def stripe_webhook_charges(request, event):
 @csrf_exempt
 @require_POST
 @stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_INVOICES'))
-@stripe_log_mail_event
 def stripe_webhook_invoices(request, event):
+    # MAILS DEACTIVATED
     return HttpResponse(status=200)
 
 
 @csrf_exempt
 @require_POST
 @stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_PLANS'))
-@stripe_log_mail_event
 def stripe_webhook_plans(request, event):
+    # MAILS DEACTIVATED
     return HttpResponse(status=200)
 
 
@@ -259,8 +259,8 @@ def stripe_webhook_prices(request, event):
 @csrf_exempt
 @require_POST
 @stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_CUSTOMERS'))
-@stripe_log_mail_event
 def stripe_webhook_customers(request, event):
+    # MAILS DEACTIVATED
     return HttpResponse(status=200)
 
 

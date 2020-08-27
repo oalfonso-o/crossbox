@@ -43,11 +43,7 @@ def get_mail_msg(user):
 
 def send_new_user_email(user):
     msg = get_mail_msg(user)
-    receivers = [
-        user.email,
-        settings.SMTP_ADMIN_NOTIFICATIONS,
-        settings.SMTP_BOSS_NOTIFICATIONS,
-    ]
+    receivers = [user.email]
     send_mail(msg, receivers)
 
 
