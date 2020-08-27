@@ -50,7 +50,7 @@ class SessionTemplateView(ListView):
         default_capacity_limit = CapacityLimit.objects.filter(
             default=True).first()
         if not default_capacity_limit:
-            default_capacity_limit = CapacityLimit.objects.all.first()
+            default_capacity_limit = CapacityLimit.objects.all().first()
         for h in hours:
             session = SessionTemplate.objects.filter(
                 day=d, hour=h, week_template=week_template).first()
