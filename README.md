@@ -4,6 +4,7 @@
 ### 1. Environment variables file
 ```bash
 cp .env.example .env
+cp crossbox/static/js/custom/.env.js.example crossbox/static/js/custom/.env.js
 ```
 And edit wherever you need
 

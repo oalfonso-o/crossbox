@@ -4,3 +4,5 @@ venv
 oalfonso_crossbox.egg-info
 .vscode
 .nox
+# used for stripe key
+.env.js
