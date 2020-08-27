@@ -29,28 +29,6 @@
     </table>
   </div>
   <hr class="profile_hr">
-  <div class="fee_container profile_element_container">
-    <div class="profile_title">Mi Cuota</div>
-    <form action="{% url 'change_fee' %}" method="post">
-      <select name="fee" class="fee_selector{% if not subscriber_fee_active %} inactive_fee{% endif %}">
-        {% for fee in fees %}
-          {% for fee_pk, fee_option in fee.items %}
-            {{fee}}
-            <option value="{{fee_pk}}" {% if fee_option.selected %}selected="true"{%endif%}>{{fee_option.label}}</option>
-          {% endfor %}
-        {% endfor %}
-      </select>
-      {% if user.subscriber.fee and not subscriber_fee_active %}
-        <br>
-        <span style="color:red">La cuota que tienes seleccionada ha sido deshabilitada.<br>Se te mantendrá hasta que se realice el próximo pago pero después tendrás que seleccionar otra cuota.<br>Si lo prefieres puedes cambiar ya a otra cuota.</span>
-        <br>
-      {% endif %}
-      <br>
-      <button {% if not user_cards %}style="opacity:0.5"{%endif%} class="card_add_submit" onclick="this.form.submit()" {% if not user_cards %}disabled{%endif%}>Activar cuota seleccionada</button>
-      {% if not user_cards %}<br><span style="color:red">*</span> Antes de subscribirte a una cuota tienes que introducir un método de pago{%endif%}
-    </form>
-  </div>
-  <hr class="profile_hr">
   <div class="payment_methods_container profile_element_container">
     <div class="profile_title">Mis métodos de pago</div>
     <table class="cards_table">
@@ -99,6 +77,29 @@
   </div>
   <div class="powered_by_stripe_container">
     <img src="{% static 'images/powered_by_stripe.svg' %}"/>
+  </div>
+  <hr class="profile_hr">
+  <div class="fee_container profile_element_container">
+    <div class="profile_title">Mi Cuota</div>
+    <form action="{% url 'change_fee' %}" method="post">
+      <select name="fee" class="fee_selector{% if not subscriber_fee_active %} inactive_fee{% endif %}">
+        {% for fee in fees %}
+          {% for fee_pk, fee_option in fee.items %}
+            {{fee}}
+            <option value="{{fee_pk}}" {% if fee_option.selected %}selected="true"{%endif%}>{{fee_option.label}}</option>
+          {% endfor %}
+        {% endfor %}
+      </select>
+      {% if user.subscriber.fee and not subscriber_fee_active %}
+        <br>
+        <span style="color:red">La cuota que tienes seleccionada ha sido deshabilitada.<br>Se te mantendrá hasta que se realice el próximo pago pero después tendrás que seleccionar otra cuota.<br>Si lo prefieres puedes cambiar ya a otra cuota.</span>
+        <br>
+      {% endif %}
+      <br>
+      <button {% if not user_cards %}style="opacity:0.5;cursor: not-allowed;"{%endif%} class="card_add_submit" onclick="this.form.submit()" {% if not user_cards %}disabled{%endif%}>Activar cuota seleccionada</button>
+      {% if not user_cards %}
+      <p><span style="color:red">*</span> Antes de subscribirte a una cuota tienes que introducir un método de pago</p>{%endif%}
+    </form>
   </div>
 </div>
 <script src="{% static 'js/custom/.env.js' %}"></script>
