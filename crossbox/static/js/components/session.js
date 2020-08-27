@@ -105,10 +105,10 @@ Vue.component('session', {
         </b-notification>
       </div>
       <div v-if="session !== undefined && track_id==1" class="row_center_container_track_1">
-        <span>{{ track_label }}</span>
+        <span></span>
       </div>
       <div v-if="session !== undefined && track_id==2" class="row_center_container_track_3">
-        <span>{{ track_label }}</span>
+        <span></span>
       </div>
       <div v-if="!session">
         <div class="session_hour no_session_hour">{{ hour }}</div>
