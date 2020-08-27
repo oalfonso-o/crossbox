@@ -62,7 +62,7 @@
     <a href="#card_add_container"><img src="{% static 'images/connect_with_stripe.png' %}" class="card_show_add_form"></a>
   </div>
   <div id="card_add_container" class="profile_element_container">
-    <form action="{% url 'add_payment_method' %}" method="post" id="payment-form" onsubmit="return confirm('Vas a añadir un nuevo método de pago. ¿Estás seguro?');">
+    <form action="{% url 'add_payment_method' %}" method="post" id="payment-form">
       <div class="form-row">
         <div id="card-element">
           <!-- A Stripe Element will be inserted here. -->
