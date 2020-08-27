@@ -35,7 +35,7 @@ setup(
             'templates/*.html', 'templates/registration/*.html', 'static/*',
             'static/images/*', 'static/css/*', 'static/js/*',
             'static/js/lib/*', 'static/js/components/*', 'static/js/custom/*',
-            'static/fonts/*', 'static/webfonts/*', 'fixtures/*',
+            'static/fonts/*', 'static/webfonts/*', 'fixtures/*'
         ],
     },
 )
