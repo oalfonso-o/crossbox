@@ -14,11 +14,12 @@ MAIL_PORT = os.getenv('DJANGO_SMTP_PORT_NOTIFICATIONS')
 MAIL_USER = os.getenv('DJANGO_SMTP_USER_NOTIFICATIONS')
 MAIL_PASSWORD = os.getenv('DJANGO_SMTP_PASSWORD_NOTIFICATIONS')
 MAIL_RECEIVERS = os.getenv('DJANGO_SMTP_ADMIN_NOTIFICATIONS')
+PROJECT_ENVIRONMENT = os.getenv('DJANGO_PROJECT_ENVIRONMENT')
 
 
 def mail(line):
     message = f'''\
-Subject:Errors in CrossboxPalau APP
+Subject:{PROJECT_ENVIRONMENT} - Errors in CrossboxPalau APP
 To:{MAIL_RECEIVERS}
 
 Errors found:

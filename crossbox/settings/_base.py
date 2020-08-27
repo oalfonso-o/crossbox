@@ -12,6 +12,8 @@ load_dotenv(ENVIRONMENT_FILE)
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', '')
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+PROJECT_ENVIRONMENT = os.getenv('DJANGO_PROJECT_ENVIRONMENT')
+
 INSTALLED_APPS = [
     'jet',
     'django.contrib.admin',

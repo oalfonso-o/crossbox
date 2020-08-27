@@ -51,7 +51,8 @@ def stripe_log_mail_event(func):
 
 def other_event_mail_message(event, receivers):
     message = MIMEMultipart('alternative')
-    message['Subject'] = f'Crossbox event: {event.type}'
+    message['Subject'] = (
+        f'{settings.PROJECT_ENVIRONMENT} - Crossbox event {event.type}')
     message['From'] = settings.SMTP_USER_NOTIFICATIONS
     message['To'] = ', '.join(receivers)
     html = f'''\
