@@ -1,7 +1,4 @@
-import stripe
-
 from django.db import models
-from django.dispatch import receiver
 
 from crossbox.models.subscriber import Subscriber
 
