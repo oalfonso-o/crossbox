@@ -39,7 +39,7 @@ def today_is_last_day_of_month():
 def reset_wods():
     logger.info('Reset wods to everyone when last day of month at 21:00')
     if today_is_last_day_of_month():
-        logger.info('It\'s last day of month at 22:00 UTC. Reseting wods...')
+        logger.info('It\'s last day of month at 21:00 UTC. Reseting wods...')
         Subscriber.objects.all().update(wods=0)
         logger.info('Wods reseted.')
     else:
