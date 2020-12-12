@@ -3,6 +3,7 @@ import subprocess
 import logging
 import smtplib
 import ssl
+import threading
 from dotenv import find_dotenv, load_dotenv
 
 ENVIRONMENT_FILE = os.getenv('DJANGO_ENV_FILE', find_dotenv())
@@ -33,23 +34,18 @@ Errors found:
         server.sendmail(MAIL_USER, MAIL_RECEIVERS.split(','), message)
 
 
-def tail_logs(logfiles):
-    processes = [
-        subprocess.Popen(
-            ['tail', '-F', '-n1', logfile],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-        for logfile in logfiles
-    ]
-
+def tail_logs(logfile):
+    f = subprocess.Popen(
+        ['tail', '-F', '-n1', logfile],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
     while True:
-        for process in processes:
-            line = process.stdout.readline()
-            line = line.decode('utf-8').lower()
-            if 'error' in line:
-                logger.info(line)
-                mail(line)
+        line = f.stdout.readline()
+        line = line.decode('utf-8').lower()
+        if 'error' in line:
+            logger.info(line)
+            mail(line)
 
 
 if __name__ == '__main__':
@@ -68,4 +64,15 @@ if __name__ == '__main__':
     )
     logger = logging.getLogger(__name__)
     logger.info('Reading logs and email when error')
-    tail_logs([log_filepath, log_scheduler_log_filepath])
+    threads = []
+    try:
+        t = threading.Thread(target=tail_logs, args=(log_filepath,))
+        t.start()
+        threads.append(t)
+        t = threading.Thread(
+            target=tail_logs, args=(log_scheduler_log_filepath,))
+        t.start()
+        threads.append(t)
+    except Exception:
+        for thread in threads:
+            thread.join()
