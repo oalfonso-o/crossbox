@@ -32,6 +32,7 @@ def reset_subscriptions(subscriptions):
                 stripe_subscription['id'])
             django_subscriber.stripe_next_payment_timestamp = (
                 stripe_subscription['current_period_end']
+            )
             django_subscriber.stripe_subscription_price_item_id = (
                 stripe_subscription['items']['data'][0].id
             )
