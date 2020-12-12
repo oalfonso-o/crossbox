@@ -16,6 +16,7 @@ from django.conf import settings
 
 from crossbox.models.fee import Fee
 from crossbox.models.subscriber import Subscriber
+from crossbox.views.profile import get_next_billing_cycle_anchor
 
 load_dotenv(find_dotenv())
 logger = logging.getLogger(__name__)
@@ -172,17 +173,25 @@ def stripe_webhook_payment_ok(request, event):
     if event.type == 'invoice.payment_succeeded':
         logger.info(event)
         event_data_obj = event.data.object
+        customer_id = event_data_obj.customer
+        subscription_id = event_data_obj.subscription
         line_data_first = event_data_obj.lines.data[0]
         price_id = line_data_first.price.id
+        paid_timestamp = event_data_obj.status_transitions.paid_at
+        next_payment_timestamp = get_next_billing_cycle_anchor()
+        subscriber = Subscriber.objects.get(stripe_customer_id=customer_id)
         fee = Fee.objects.get(stripe_price_id=price_id)
         wods = fee.num_sessions
-        paid_timestamp = event_data_obj.status_transitions.paid_at
-        subscription_id = event_data_obj.subscription
-        subscription = stripe.Subscription.retrieve(subscription_id)
-        next_payment_timestamp = subscription.current_period_end
 
-        customer_id = event_data_obj.customer
-        subscriber = Subscriber.objects.get(stripe_customer_id=customer_id)
+        stripe.Subscription.delete(subscription_id)
+        stripe_subscription = stripe.Subscription.create(
+            customer=customer_id,
+            items=[{"price": price_id}],
+            proration_behavior='none',
+            billing_cycle_anchor=next_payment_timestamp,
+        )
+
+        subscriber.stripe_subscription_id = stripe_subscription['id']
         subscriber.stipe_last_payment_timestamp = paid_timestamp
         subscriber.stripe_next_payment_timestamp = next_payment_timestamp
         subscriber.wods = wods
