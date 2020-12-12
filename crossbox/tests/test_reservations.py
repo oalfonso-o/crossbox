@@ -69,7 +69,7 @@ class ReservationsCase(BaseTestCase):
             self.assertEquals(len(sessions), 15)
             self.assertTrue(isinstance(sessions[0], datetime.date))
             self.assertEquals(len(sessions[1].keys()), 11)
-        self.assertEquals(context['wods'], 1)
+        self.assertEquals(context['wods'], 50)
         self.assertEquals(context['page'], 0)
         self.assertEquals(
             context['from_date'], datetime.date(2019, 12, 30))
@@ -228,7 +228,7 @@ class ReservationsCase(BaseTestCase):
     @freeze_time('2020-01-01')
     def test_reservation_create_ok(self):
         session = create_session()  # default on day 2
-        self.assertEquals(self.user.subscriber.wods, 1)
+        self.assertEquals(self.user.subscriber.wods, 50)
         self._reservation_view_test(
             mode='create',
             session_id=session.pk,
@@ -236,7 +236,7 @@ class ReservationsCase(BaseTestCase):
             result_expected='created',
         )
         self.user.subscriber.refresh_from_db()
-        self.assertEquals(self.user.subscriber.wods, 0)
+        self.assertEquals(self.user.subscriber.wods, 49)
 
     @with_login()
     def test_reservation_delete_session_not_found(self):
@@ -299,7 +299,7 @@ class ReservationsCase(BaseTestCase):
             result_expected='deleted',
         )
         self.user.subscriber.refresh_from_db()
-        self.assertEquals(self.user.subscriber.wods, 2)
+        self.assertEquals(self.user.subscriber.wods, 51)
 
     @with_login()
     @freeze_time('2020-01-01 23:59:59')
@@ -316,7 +316,7 @@ class ReservationsCase(BaseTestCase):
             result_expected='deleted',
         )
         self.user.subscriber.refresh_from_db()
-        self.assertEquals(self.user.subscriber.wods, 2)
+        self.assertEquals(self.user.subscriber.wods, 51)
 
     @with_login()
     @freeze_time('2020-01-01')
