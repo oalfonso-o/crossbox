@@ -51,6 +51,9 @@ def tail_logs(logfile):
 if __name__ == '__main__':
     log_filepath = os.getenv(
         'DJANGO_LOG_FILEPATH', '/var/log/django/django_crossboxpalau_dev.log')
+    log_scheduler_log_filepath = os.getenv(
+        'DJANGO_SCHEDULER_LOG_FILEPATH',
+        '/var/log/django/crossbox_scheduler.log')
     log_error_mailer_log_filepath = os.getenv(
         'DJANGO_LOG_ERROR_MAILER_LOG_FILEPATH',
         '/var/log/django/crossbox_error_mailer.log')
@@ -62,3 +65,4 @@ if __name__ == '__main__':
     logger = logging.getLogger(__name__)
     logger.info('Reading logs and email when error')
     tail_logs(log_filepath)
+    tail_logs(log_scheduler_log_filepath)
