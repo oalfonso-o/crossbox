@@ -1,16 +1,7 @@
 import stripe
-import datetime
-from dateutil.relativedelta import relativedelta
 
 from crossbox.models.subscriber import Subscriber
-
-
-def get_next_billing_cycle_anchor():
-    today = datetime.datetime.today()
-    first_day = today.replace(day=1) + relativedelta(months=1)
-    first_day_wo_time = first_day.replace(
-        hour=0, minute=0, second=0, microsecond=0)
-    return int(first_day_wo_time.timestamp())
+from crossbox.views.profile import get_next_billing_cycle_anchor
 
 
 def reset_subscriptions(subscriptions):
@@ -40,7 +31,8 @@ def reset_subscriptions(subscriptions):
 
 
 if __name__ == '__main__':
-    # Ideally to be used with django shell
-    # use starting_after='sub_IDxxx' for more than 100 subs
+    # This main is a sample, reset_subscriptions has to be used with
+    # django shell copying the code there to load django env
+    # use starting_after='sub_IDxxx' for pagination when more than 100 subs
     subscriptions = stripe.Subscription.list(limit=100)
     reset_subscriptions(subscriptions)
