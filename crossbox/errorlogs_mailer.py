@@ -4,6 +4,7 @@ import logging
 import smtplib
 import ssl
 import threading
+import time
 from dotenv import find_dotenv, load_dotenv
 
 ENVIRONMENT_FILE = os.getenv('DJANGO_ENV_FILE', find_dotenv())
@@ -41,6 +42,7 @@ def tail_logs(logfile):
         stderr=subprocess.PIPE,
     )
     while True:
+        time.sleep(0.5)
         line = f.stdout.readline()
         line = line.decode('utf-8').lower()
         if 'error' in line:
