@@ -192,6 +192,9 @@ def stripe_webhook_payment_ok(request, event):
         )
 
         subscriber.stripe_subscription_id = stripe_subscription['id']
+        subscriber.stripe_subscription_price_item_id = (
+            stripe_subscription['items']['data'][0].id
+        )
         subscriber.stipe_last_payment_timestamp = paid_timestamp
         subscriber.stripe_next_payment_timestamp = next_payment_timestamp
         subscriber.wods = wods
