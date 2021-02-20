@@ -118,7 +118,7 @@ LOGGING = {
     'formatters': {
         'syslog': {
             'format':
-                'logstash-django-crossbox %(process)d '
+                f'{os.getenv("PROJECT_NAME")} %(process)d '
                 '- %(levelname)s:%(name)s:%(message)s',
         },
         'debug': {
