@@ -51,14 +51,10 @@ def tail_logs(logfile):
 
 
 if __name__ == '__main__':
-    log_filepath = os.getenv(
-        'DJANGO_LOG_FILEPATH', '/var/log/django/django_crossboxpalau_dev.log')
-    log_scheduler_log_filepath = os.getenv(
-        'DJANGO_SCHEDULER_LOG_FILEPATH',
-        '/var/log/django/crossbox_scheduler.log')
+    log_filepath = os.getenv('DJANGO_LOG_FILEPATH')
+    log_scheduler_log_filepath = os.getenv('DJANGO_SCHEDULER_LOG_FILEPATH')
     log_error_mailer_log_filepath = os.getenv(
-        'DJANGO_LOG_ERROR_MAILER_LOG_FILEPATH',
-        '/var/log/django/crossbox_error_mailer.log')
+        'DJANGO_LOG_ERROR_MAILER_LOG_FILEPATH')
     logging.basicConfig(
         filename=log_error_mailer_log_filepath,
         level=logging.INFO,
@@ -78,3 +74,5 @@ if __name__ == '__main__':
     except Exception:
         for thread in threads:
             thread.join()
+        mail('error with errorlogs_mailer')
+        raise
