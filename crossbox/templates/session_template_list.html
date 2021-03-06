@@ -55,7 +55,7 @@
         </tbody>
       </table>
     </div>
-    <form action="{% url 'generate-sessions' %}" method="post">
+    <form action="{% url 'generate-sessions' %}" method="post" onsubmit="return confirm('Vas a generar las sesiones. ¿Estás seguro?');">
       <input type="hidden" id="week_template" name="week_template" value="{{ current_week_template }}">
       <div class="apply_sessions_to_week_title"><span>Generar sesiones:</span></div>
       <div class="apply_sessions_to_week_container">
