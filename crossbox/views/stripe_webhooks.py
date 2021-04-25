@@ -36,18 +36,12 @@ def stripe_event(endpoint_secret):
     return decorator_stripe_event
 
 
-def stripe_log_mail_event(func):
+def stripe_log_event(func):
     @functools.wraps(func)
-    def wrapper_stripe_log_mail_event(request, event):
+    def wrapper_stripe_log_event(request, event):
         logger.info(event)
-        receivers = [
-            settings.SMTP_ADMIN_NOTIFICATIONS,
-            settings.SMTP_BOSS_NOTIFICATIONS,
-        ]
-        mail_msg = other_event_mail_message(event, receivers)
-        send_mail(mail_msg, receivers)
         return func(request, event)
-    return wrapper_stripe_log_mail_event
+    return wrapper_stripe_log_event
 
 
 def other_event_mail_message(event, receivers):
@@ -151,19 +145,28 @@ def payment_failed_message(receivers, username):
 
 
 def send_mail(message, receivers):
-    context = ssl.create_default_context()
-    with smtplib.SMTP(
-        settings.SMTP_SERVER_NOTIFICATIONS,
-        settings.SMTP_PORT_NOTIFICATIONS,
-    ) as server:
-        server.ehlo()  # Can be omitted
-        server.starttls(context=context)
-        server.ehlo()  # Can be omitted
-        server.login(
-            settings.SMTP_USER_NOTIFICATIONS,
-            settings.SMTP_PASSWORD_NOTIFICATIONS,
-        )
-        server.sendmail(settings.SMTP_USER_NOTIFICATIONS, receivers, message)
+    retry_count = 0
+    while retry_count < 3:
+        retry_count += 1
+        try:
+            context = ssl.create_default_context()
+            with smtplib.SMTP(
+                settings.SMTP_SERVER_NOTIFICATIONS,
+                settings.SMTP_PORT_NOTIFICATIONS,
+            ) as server:
+                server.ehlo()  # Can be omitted
+                server.starttls(context=context)
+                server.ehlo()  # Can be omitted
+                server.login(
+                    settings.SMTP_USER_NOTIFICATIONS,
+                    settings.SMTP_PASSWORD_NOTIFICATIONS,
+                )
+                server.sendmail(
+                    settings.SMTP_USER_NOTIFICATIONS, receivers, message)
+                return
+        except Exception:
+            pass
+    logger.error(f'SMTP ERROR: Couldn\'t send to {receivers} email {message}')
 
 
 @csrf_exempt
@@ -240,7 +243,7 @@ def stripe_webhook_payment_fail(request, event):
 @csrf_exempt
 @require_POST
 @stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_CHARGES'))
-@stripe_log_mail_event
+@stripe_log_event
 def stripe_webhook_charges(request, event):
     return HttpResponse(status=200)
 
@@ -248,23 +251,23 @@ def stripe_webhook_charges(request, event):
 @csrf_exempt
 @require_POST
 @stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_INVOICES'))
+@stripe_log_event
 def stripe_webhook_invoices(request, event):
-    # MAILS DEACTIVATED
     return HttpResponse(status=200)
 
 
 @csrf_exempt
 @require_POST
 @stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_PLANS'))
+@stripe_log_event
 def stripe_webhook_plans(request, event):
-    # MAILS DEACTIVATED
     return HttpResponse(status=200)
 
 
 @csrf_exempt
 @require_POST
 @stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_PRICES'))
-@stripe_log_mail_event
+@stripe_log_event
 def stripe_webhook_prices(request, event):
     return HttpResponse(status=200)
 
@@ -272,15 +275,15 @@ def stripe_webhook_prices(request, event):
 @csrf_exempt
 @require_POST
 @stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_CUSTOMERS'))
+@stripe_log_event
 def stripe_webhook_customers(request, event):
-    # MAILS DEACTIVATED
     return HttpResponse(status=200)
 
 
 @csrf_exempt
 @require_POST
 @stripe_event(os.getenv('DJANGO_STRIPE_WEBHOOK_SECRET_CUSTOMER_SOURCES'))
-@stripe_log_mail_event
+@stripe_log_event
 def stripe_webhook_customer_sources(request, event):
     return HttpResponse(status=200)
 
