@@ -5,8 +5,6 @@ from distutils.util import strtobool
 
 from dotenv import find_dotenv, load_dotenv
 
-from crossbox.constants import WEBHOOKS
-
 ENVIRONMENT_FILE = os.getenv('DJANGO_ENV_FILE', find_dotenv())
 load_dotenv(ENVIRONMENT_FILE)
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', '')
@@ -44,7 +42,6 @@ NOT_LOGIN_REQUIRED_ROUTES = [
     'password_reset_done',
     'password_reset_confirm',
     'password_reset_complete',
-    *[webhook['route_name'] for webhook in WEBHOOKS],
 ]
 
 ROOT_URLCONF = 'crossbox.urls'

@@ -17,15 +17,9 @@ class Subscriber(models.Model):
         Fee, on_delete=models.PROTECT, null=True, blank=True,
         related_name='subscribers')
     stripe_customer_id = models.CharField('ID Cliente Stripe', max_length=30)
-    stripe_subscription_id = models.CharField(
-        'ID Subscripción Stripe', blank=True, null=True, max_length=30)
-    stripe_subscription_price_item_id = models.CharField(
-        'ID Precio de Subscripción Stripe',
-        blank=True, null=True, max_length=30
-    )
     stripe_next_payment_timestamp = models.IntegerField(
         'Timestamp próximo pago', blank=True, null=True)
-    stipe_last_payment_timestamp = models.IntegerField(
+    stripe_last_payment_timestamp = models.IntegerField(
         'Timestamp último pago', blank=True, null=True)
 
     def __str__(self):
@@ -52,8 +46,8 @@ class Subscriber(models.Model):
 
     def last_payment_datetime_property(self):
         return datetime.datetime.fromtimestamp(
-            self.stipe_last_payment_timestamp
-        ) if self.stipe_last_payment_timestamp else None
+            self.stripe_last_payment_timestamp
+        ) if self.stripe_last_payment_timestamp else None
 
     last_payment_datetime_property.short_description = ("Fecha último pago")
     last_payment_datetime = property(last_payment_datetime_property)

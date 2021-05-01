@@ -13,6 +13,7 @@ from crossbox.scheduler.helpers import (
     payment_succeeded_message,
     payment_failed_message,
     send_mail,
+    get_stripe_next_payment_timestamp,
 )
 
 
@@ -59,7 +60,15 @@ def _pay_subscriptions():
             sub.wods = 0
             sub.save()
             if sub.fee:
-                description = (
+                sub.stripe_next_payment_timestamp = (
+                    get_stripe_next_payment_timestamp())
+                if not sub.fee.active:
+                    sub.fee = None
+                    sub.save()
+                    logger.info(
+                        f'END PROCESSING {sub} - Fee {sub.fee} not active')
+                    continue
+                charge_description = (
                     f'sub {sub}, price {sub.fee.price_cents} '
                     f'{datetime.datetime.now()}')
                 try:
@@ -67,7 +76,7 @@ def _pay_subscriptions():
                         amount=sub.fee.price_cents,
                         currency="eur",
                         customer=sub.stripe_customer_id,
-                        description=description,
+                        description=charge_description,
                     )
                 except Exception:
                     logger.exception(
@@ -78,6 +87,8 @@ def _pay_subscriptions():
                         receivers, sub.user.username)
                     send_mail(mail_msg, receivers)
                     continue
+                sub.stripe_last_payment_timestamp = (
+                    datetime.datetime.now.timestamp())
                 sub.wods = sub.fee.num_sessions
                 sub.save()
                 mail_msg = payment_succeeded_message(

@@ -108,7 +108,7 @@ class Migration(migrations.Migration):
                 ('stripe_subscription_id', models.CharField(blank=True, max_length=30, null=True, verbose_name='ID Subscripción Stripe')),
                 ('stripe_subscription_price_item_id', models.CharField(blank=True, max_length=30, null=True, verbose_name='ID Precio de Subscripción Stripe')),
                 ('stripe_next_payment_timestamp', models.IntegerField(blank=True, null=True, verbose_name='Timestamp próximo pago')),
-                ('stipe_last_payment_timestamp', models.IntegerField(blank=True, null=True, verbose_name='Timestamp último pago')),
+                ('stripe_last_payment_timestamp', models.IntegerField(blank=True, null=True, verbose_name='Timestamp último pago')),
                 ('fee', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='subscribers', to='crossbox.Fee')),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='subscriber', to=settings.AUTH_USER_MODEL)),
             ],

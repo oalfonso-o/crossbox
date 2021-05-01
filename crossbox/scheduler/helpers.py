@@ -3,6 +3,7 @@ import calendar
 import logging
 import ssl
 import smtplib
+from dateutil.relativedelta import relativedelta
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
@@ -13,6 +14,15 @@ def today_is_last_day_of_month():
     today = datetime.date.today()
     last_day_current_month = calendar.monthrange(today.year, today.month)[1]
     return today.day == last_day_current_month
+
+
+def get_stripe_next_payment_timestamp():
+    # this must be called on last day of month, before changing month
+    tomorrow = datetime.datetime.today() + relativedelta(days=1)
+    first_day = tomorrow.replace(day=1) + relativedelta(months=1)
+    first_day_wo_time = first_day.replace(
+        hour=0, minute=0, second=0, microsecond=0)
+    return int(first_day_wo_time.timestamp())
 
 
 def payment_succeeded_message(fee, receivers, username):

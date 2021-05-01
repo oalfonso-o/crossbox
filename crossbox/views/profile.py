@@ -1,6 +1,4 @@
 import stripe
-import datetime
-from dateutil.relativedelta import relativedelta
 
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_POST
@@ -9,19 +7,11 @@ from crossbox.models.card import Card
 from crossbox.models.fee import Fee
 
 
-def get_next_billing_cycle_anchor():
-    today = datetime.datetime.today()
-    first_day = today.replace(day=1) + relativedelta(months=1)
-    first_day_wo_time = first_day.replace(
-        hour=0, minute=0, second=0, microsecond=0)
-    return int(first_day_wo_time.timestamp())
-
-
 @require_GET
 def profile(request):
     subscriber = request.user.subscriber
     user_cards = Card.objects.filter(subscriber=subscriber)
-    if not subscriber.stripe_subscription_id:
+    if not subscriber.fee:
         empty_fee_option = {'': {'selected': False, 'label': 'Sin cuota'}}
         fees = [empty_fee_option]
     else:
@@ -63,46 +53,6 @@ def change_fee(request):
     if previous_fee == new_fee:
         return redirect('profile')
     subscriber.fee = new_fee
-    if not previous_fee and new_fee:  # TODO: refactor + tests
-        stripe_subscription = stripe.Subscription.create(
-            customer=subscriber.stripe_customer_id,
-            items=[{"price": subscriber.fee.stripe_price_id}],
-            proration_behavior='none',
-            billing_cycle_anchor=get_next_billing_cycle_anchor(),
-        )
-        subscriber.stripe_subscription_id = stripe_subscription['id']
-        subscriber.stripe_next_payment_timestamp = stripe_subscription[
-            'current_period_end']
-        subscriber.stripe_subscription_price_item_id = (
-            stripe_subscription['items']['data'][0].id
-        )
-    elif previous_fee and new_fee:
-        stripe_subscriptions = stripe.Subscription.list(
-            customer=subscriber.stripe_customer_id
-        )
-        if stripe_subscriptions['data']:
-            stripe_subscription = stripe.Subscription.modify(
-                subscriber.stripe_subscription_id,
-                items=[{
-                    'id': subscriber.stripe_subscription_price_item_id,
-                    'price': subscriber.fee.stripe_price_id,
-                }],
-                proration_behavior='none',
-            )
-        else:  # noqa. previous sub was canceled because of external error, for example card stolen
-            stripe_subscription = stripe.Subscription.create(
-                customer=subscriber.stripe_customer_id,
-                items=[{"price": subscriber.fee.stripe_price_id}],
-                proration_behavior='none',
-                billing_cycle_anchor=get_next_billing_cycle_anchor(),
-            )
-        subscriber.stripe_next_payment_timestamp = stripe_subscription[
-            'current_period_end']
-        subscriber.stripe_subscription_price_item_id = (
-            stripe_subscription['items']['data'][0].id
-        )
-    else:
-        raise Exception('Something went wrong')
     subscriber.save()
     return redirect('profile')
 

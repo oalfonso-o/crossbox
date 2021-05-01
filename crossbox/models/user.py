@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 from crossbox.models.subscriber import Subscriber
-from crossbox.views.stripe_webhooks import send_mail
+from crossbox.scheduler.helpers import send_mail
 
 logger = logging.getLogger(__name__)
 
@@ -52,12 +52,10 @@ class UserModelHelper:
             description=f'{instance.first_name} {instance.last_name}',
         )
         stripe_customer_id = stripe_customer['id']
-        stripe_subscription_id = None
         Subscriber.objects.create(
             user=instance,
             wods=1,
             stripe_customer_id=stripe_customer_id,
-            stripe_subscription_id=stripe_subscription_id,
         )
 
     @classmethod

@@ -9,7 +9,7 @@ from django.views.decorators.http import require_http_methods
 from django.conf import settings
 
 from crossbox.forms import UserForm
-from crossbox.views.stripe_webhooks import send_mail
+from crossbox.scheduler.helpers import send_mail
 
 
 def get_mail_msg(user):
