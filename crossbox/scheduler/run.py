@@ -88,13 +88,15 @@ def _pay_subscriptions():
                     send_mail(mail_msg, receivers)
                     continue
                 sub.stripe_last_payment_timestamp = (
-                    datetime.datetime.now.timestamp())
+                    datetime.datetime.now().timestamp())
                 sub.wods = sub.fee.num_sessions
                 sub.save()
                 mail_msg = payment_succeeded_message(
                     sub.fee, receivers, sub.user.username)
                 logger.info(
-                    f'END PROCESSING {sub} - Payment correct for sub {sub}')
+                    f'END PROCESSING {sub} - Payment correct for sub {sub} '
+                    f'{sub.wods} wods for {sub.fee.price_cents/100}€'
+                )
                 send_mail(mail_msg, receivers)
             else:
                 logger.info(f'END PROCESSING {sub} - No payment for sub {sub}')
