@@ -186,18 +186,9 @@ def stripe_webhook_payment_ok(request, event):
         fee = Fee.objects.get(stripe_price_id=price_id)
         wods = fee.num_sessions
 
+        logging.info(f'Deleting sub {subscription_id}')
         stripe.Subscription.delete(subscription_id)
-        stripe_subscription = stripe.Subscription.create(
-            customer=customer_id,
-            items=[{"price": price_id}],
-            proration_behavior='none',
-            billing_cycle_anchor=next_payment_timestamp,
-        )
 
-        subscriber.stripe_subscription_id = stripe_subscription['id']
-        subscriber.stripe_subscription_price_item_id = (
-            stripe_subscription['items']['data'][0].id
-        )
         subscriber.stipe_last_payment_timestamp = paid_timestamp
         subscriber.stripe_next_payment_timestamp = next_payment_timestamp
         subscriber.wods = wods
