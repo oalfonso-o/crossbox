@@ -98,6 +98,7 @@ def _pay_subscriptions():
                     f'{sub.wods} wods for {sub.fee.price_cents/100}€'
                 )
                 send_mail(mail_msg, receivers)
+                time.sleep(1)  # avoid gmail block by spam
             else:
                 logger.info(f'END PROCESSING {sub} - No payment for sub {sub}')
     else:

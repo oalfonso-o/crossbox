@@ -97,6 +97,7 @@ def payment_failed_message(receivers, username):
 
 def send_mail(message, receivers):
     retry_count = 0
+    exception = None
     while retry_count < 3:
         retry_count += 1
         try:
@@ -115,6 +116,9 @@ def send_mail(message, receivers):
                 server.sendmail(
                     settings.SMTP_USER_NOTIFICATIONS, receivers, message)
                 return
-        except Exception:
-            pass
-    logging.error(f'SMTP ERROR: Couldn\'t send to {receivers} email {message}')
+        except Exception as e:
+            exception = str(e)
+    logging.error(
+        f'SMTP ERROR: Couldn\'t send to {receivers}. '
+        f'Reason: {exception or ""}'
+    )
