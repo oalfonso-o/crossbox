@@ -20,6 +20,8 @@ from crossbox.scheduler.helpers import (
 ENVIRONMENT_FILE = os.getenv('DJANGO_ENV_FILE', find_dotenv())
 load_dotenv(ENVIRONMENT_FILE)
 
+SECONDS_BETWEEN_MAILS = 90
+
 django.setup()
 from django.conf import settings  # noqa e402
 from crossbox.models.subscriber import Subscriber  # noqa e402
@@ -99,7 +101,8 @@ def _pay_subscriptions():
                         f'{sub.wods} wods for {sub.fee.price_cents/100}€'
                     )
                     send_mail(mail_msg, receivers)
-                    time.sleep(1)  # avoid gmail block by spam
+                    # avoid gmail block by spam
+                    time.sleep(SECONDS_BETWEEN_MAILS)
                 else:
                     logger.info(f'END PROCESSING {sub} - No payment for sub {sub}')  # noqa
     else:
