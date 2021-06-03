@@ -51,56 +51,57 @@ def _pay_subscriptions():
         logger.info(
             'It\'s last day of month at 22:00 CEST. Reseting wods and paying.')
         for sub in Subscriber.objects.all():
-            logger.info(f'START PROCESSING {sub}')
-            receivers = [
-                sub.user.email,
-                settings.SMTP_ADMIN_NOTIFICATIONS,
-                settings.SMTP_BOSS_NOTIFICATIONS,
-            ]
-            sub.wods = 0
-            sub.save()
-            if sub.fee:
-                sub.stripe_next_payment_timestamp = (
-                    get_stripe_next_payment_timestamp())
-                if not sub.fee.active:
-                    sub.fee = None
-                    sub.save()
-                    logger.info(
-                        f'END PROCESSING {sub} - Fee {sub.fee} not active')
-                    continue
-                charge_description = (
-                    f'sub {sub}, price {sub.fee.price_cents} '
-                    f'{datetime.datetime.now()}')
-                try:
-                    stripe.Charge.create(
-                        amount=sub.fee.price_cents,
-                        currency="eur",
-                        customer=sub.stripe_customer_id,
-                        description=charge_description,
-                    )
-                except Exception:
-                    logger.exception(
-                        f'END PROCESSING {sub} - Error: Payment declined',
-                        exc_info=1,
-                    )
-                    mail_msg = payment_failed_message(
-                        receivers, sub.user.username)
-                    send_mail(mail_msg, receivers)
-                    continue
-                sub.stripe_last_payment_timestamp = (
-                    datetime.datetime.now().timestamp())
-                sub.wods = sub.fee.num_sessions
+            if sub.user.is_active:
+                logger.info(f'START PROCESSING {sub}')
+                receivers = [
+                    sub.user.email,
+                    settings.SMTP_ADMIN_NOTIFICATIONS,
+                    settings.SMTP_BOSS_NOTIFICATIONS,
+                ]
+                sub.wods = 0
                 sub.save()
-                mail_msg = payment_succeeded_message(
-                    sub.fee, receivers, sub.user.username)
-                logger.info(
-                    f'END PROCESSING {sub} - Payment correct for sub {sub} '
-                    f'{sub.wods} wods for {sub.fee.price_cents/100}€'
-                )
-                send_mail(mail_msg, receivers)
-                time.sleep(1)  # avoid gmail block by spam
-            else:
-                logger.info(f'END PROCESSING {sub} - No payment for sub {sub}')
+                if sub.fee:
+                    sub.stripe_next_payment_timestamp = (
+                        get_stripe_next_payment_timestamp())
+                    if not sub.fee.active:
+                        sub.fee = None
+                        sub.save()
+                        logger.info(
+                            f'END PROCESSING {sub} - Fee {sub.fee} not active')
+                        continue
+                    charge_description = (
+                        f'sub {sub}, price {sub.fee.price_cents} '
+                        f'{datetime.datetime.now()}')
+                    try:
+                        stripe.Charge.create(
+                            amount=sub.fee.price_cents,
+                            currency="eur",
+                            customer=sub.stripe_customer_id,
+                            description=charge_description,
+                        )
+                    except Exception:
+                        logger.exception(
+                            f'END PROCESSING {sub} - Error: Payment declined',
+                            exc_info=1,
+                        )
+                        mail_msg = payment_failed_message(
+                            receivers, sub.user.username)
+                        send_mail(mail_msg, receivers)
+                        continue
+                    sub.stripe_last_payment_timestamp = (
+                        datetime.datetime.now().timestamp())
+                    sub.wods = sub.fee.num_sessions
+                    sub.save()
+                    mail_msg = payment_succeeded_message(
+                        sub.fee, receivers, sub.user.username)
+                    logger.info(
+                        f'END PROCESSING {sub} - Payment correct for sub {sub} '  # noqa
+                        f'{sub.wods} wods for {sub.fee.price_cents/100}€'
+                    )
+                    send_mail(mail_msg, receivers)
+                    time.sleep(1)  # avoid gmail block by spam
+                else:
+                    logger.info(f'END PROCESSING {sub} - No payment for sub {sub}')  # noqa
     else:
         logger.info('It\'s not the last day of month, skip.')
 
