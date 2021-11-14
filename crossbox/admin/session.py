@@ -36,9 +36,22 @@ class SessionAdminFilter(admin.SimpleListFilter):
             return queryset.order_by('date', 'hour__hour')
 
 
+def refund_and_delete(modeladmin, request, queryset):
+    for session in queryset:
+        for reservation in session.reservations.all():
+            reservation.user.subscriber.wods += 1
+            reservation.user.subscriber.save()
+        session.delete()
+
+
+refund_and_delete.short_description = (
+    'Eliminar sesiones seleccionadas y devolver wods')
+
+
 class SessionAdmin(admin.ModelAdmin):
     inlines = (ReservationAdminInline,)
     list_filter = (SessionAdminFilter,)
     list_display = ('date', 'hour', 'capacity_limit')
     search_fields = ['date', 'hour__hour']
     list_per_page = 20
+    actions = [refund_and_delete]
