@@ -8,3 +8,6 @@ class SessionType(models.Model):
 
     name = models.CharField('Tipo de sesión', max_length=50, unique=True)
     default = models.BooleanField('Predeterminado', default=False)
+
+    def __str__(self):
+        return self.name
