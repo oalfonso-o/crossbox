@@ -25,6 +25,10 @@ class SessionTemplateView(ListView):
             week_template = WeekTemplate.objects.get(pk=week_template_id)
         else:
             week_template = WeekTemplate.objects.filter(default=True).first()
+            if not week_template:
+                week_template = WeekTemplate.objects.first()
+            if not week_template:
+                raise Exception('Week template not found')
         hours = Hour.objects.order_by('hour').all()
         days = Day.objects.all()
         context['hours'] = hours
