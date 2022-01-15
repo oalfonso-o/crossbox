@@ -1,5 +1,5 @@
-Django==3.0.14
-django-filter==2.3.0
+Django==3.1.14
+django-filter==2.4.0
 r-django-jet==2.0.8
 djangorestframework==3.11.2
 django-extensions==3.0.3
