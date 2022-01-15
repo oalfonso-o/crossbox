@@ -17,7 +17,7 @@ class PaymentAdminInline(admin.TabularInline):
 
 
 class SubscriberAdmin(admin.ModelAdmin):
-    inlines = (PaymentAdminInline,)
+    inlines = [PaymentAdminInline]
     list_display = (
         'username', 'first_name', 'last_name', 'wods',
         'last_payment_datetime', 'next_billing_cycle_datetime'
