@@ -20,4 +20,8 @@ class SessionTemplate(models.Model):
         CapacityLimit, on_delete=models.PROTECT, null=False)
 
     def __str__(self):
-        return '{} - {}'.format(self.day, self.hour.hour_simple())
+        return '{}: {} - {}'.format(
+            self.week_template.name,
+            self.day,
+            self.hour.hour_simple(),
+        )

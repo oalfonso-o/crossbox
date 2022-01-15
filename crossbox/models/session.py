@@ -6,6 +6,7 @@ from django.db import models
 from crossbox.models.hour import Hour
 from crossbox.models.track import Track
 from crossbox.models.session_type import SessionType
+from crossbox.models.session_template import SessionTemplate
 from crossbox.models.capacity_limit import CapacityLimit
 
 
@@ -24,6 +25,11 @@ class Session(models.Model):
         on_delete=models.CASCADE,
         null=False,
         default=DEFAULT_SESSION_TYPE_ID,
+    )
+    session_template = models.ForeignKey(
+        SessionTemplate,
+        on_delete=models.PROTECT,
+        null=True,  # TODO: null=False
     )
     capacity_limit = models.ForeignKey(
         CapacityLimit, on_delete=models.PROTECT, null=False)
