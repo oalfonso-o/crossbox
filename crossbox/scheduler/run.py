@@ -43,10 +43,6 @@ sys.excepthook = my_handler
 
 @job_name('pay_subscriptions')
 def pay_subscriptions():
-    _pay_subscriptions()
-
-
-def _pay_subscriptions():
     logger.info(
         'Pay subscriptions and give wods when last day of month at 22:00')
     if today_is_last_day_of_month():

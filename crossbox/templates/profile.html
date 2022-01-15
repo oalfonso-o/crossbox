@@ -9,7 +9,7 @@
         <td class="brd_btm">Usuario</td><td class="brd_btm user_info_detail_value">{{ user.username }}</td>
       </tr>
       <tr>
-        <td class="brd_btm">Wods</td><td class="brd_btm user_info_detail_value">{% if user.subscriber.wods < 50 %}{{ user.subscriber.wods }}{% else %}∞{% endif %}</td>
+        <td class="brd_btm">Wods</td><td class="brd_btm user_info_detail_value">{% if user.subscriber.wods < 25 %}{{ user.subscriber.wods }}{% else %}∞{% endif %}</td>
       </tr>
       <tr>
         <td class="brd_btm">Nombre</td><td class="brd_btm user_info_detail_value">{{ user.first_name }}</td>
