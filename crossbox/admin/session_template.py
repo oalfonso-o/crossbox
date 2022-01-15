@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from crossbox.models.session import Session
+
 
 class SessionTemplateAdmin(admin.ModelAdmin):
     list_display = ('day', 'hour', 'week_template', 'capacity_limit')
