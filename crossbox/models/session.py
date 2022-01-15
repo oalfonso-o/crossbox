@@ -38,6 +38,9 @@ class Session(models.Model):
     def datetime(self):
         return datetime.combine(self.date, self.hour.hour)
 
+    def weekday(self):
+        return self.date.strftime('%A')
+
     def is_closed(self):
         return bool(self.datetime() < datetime.now())
 

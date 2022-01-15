@@ -51,7 +51,14 @@ refund_and_delete.short_description = (
 class SessionAdmin(admin.ModelAdmin):
     inlines = (ReservationAdminInline,)
     list_filter = (SessionAdminFilter,)
-    list_display = ('date', 'hour', 'capacity_limit', 'morning')
+    list_display = (
+        'date',
+        'weekday',
+        'hour',
+        'session_type',
+        'capacity_limit',
+        'morning',
+    )
     search_fields = ['date', 'hour__hour']
     list_per_page = 20
     actions = [refund_and_delete]
