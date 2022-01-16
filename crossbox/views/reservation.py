@@ -11,6 +11,7 @@ from crossbox.exceptions import LimitExceed
 from crossbox.models.reservation import Reservation
 from crossbox.models.session import Session
 from crossbox.models.hour import Hour
+from crossbox.models.payment import Payment
 from crossbox.constants import MIDWEEK_DAYS, SATURDAY_WEEK_DAY
 from crossbox.views.tools import (
     active_page_number,
@@ -93,7 +94,8 @@ class ReservationView(ListView):
 
 
 def reservation_create(request):
-    wods = getattr(request.user.subscriber, 'wods')
+    sub = request.user.subscriber
+    wods = getattr(sub, 'wods')
     if wods is None or wods < 1:
         return error_response(request, 'no_wods', HTTPStatus.FORBIDDEN)
     data = json.loads(request.body)
@@ -105,13 +107,24 @@ def reservation_create(request):
     if datetime.now() > session.datetime():
         return error_response(
             request, 'session_started', HTTPStatus.FORBIDDEN)
+    last_payment = Payment.objects.filter(
+        subscriber=sub,
+    ).order_by('-datetime').first()
+    if (
+        last_payment
+        and last_payment.payed_amount
+        and last_payment.fee.morning
+        and not session.morning
+    ):
+        return error_response(
+            request, 'session_not_morning', HTTPStatus.FORBIDDEN)
     reservation = Reservation()
     reservation.user = request.user
     reservation.session = session
     try:
         reservation.save()
-        request.user.subscriber.wods -= 1
-        request.user.subscriber.save()
+        sub.wods -= 1
+        sub.save()
     except IntegrityError:
         return error_response(
             request, 'already_reserved', HTTPStatus.FORBIDDEN)
@@ -121,7 +134,7 @@ def reservation_create(request):
     return JsonResponse(
         {
             'result': 'created', 'username': request.user.username,
-            'wods': request.user.subscriber.wods,
+            'wods': sub.wods,
         }
     )
 
