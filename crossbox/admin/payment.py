@@ -7,6 +7,7 @@ class PaymentAdmin(admin.ModelAdmin):
         'fee',
         'datetime',
         'payed_amount',
+        'wods',
         'stripe_error',
     )
     search_fields = [

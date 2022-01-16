@@ -15,6 +15,7 @@ from crossbox.scheduler.helpers import (
     send_mail,
     get_stripe_next_payment_timestamp,
 )
+from crossbox.models.payment import Payment
 
 
 ENVIRONMENT_FILE = os.getenv('DJANGO_ENV_FILE', find_dotenv())
@@ -59,17 +60,25 @@ def pay_subscriptions():
                 sub.wods = 0
                 sub.save()
                 if sub.fee:
+                    now = datetime.datetime.now()
+                    payment = Payment(
+                        subscriber=sub,
+                        fee=sub.fee,
+                        datetime=now,
+                        payed_amount=0,
+                        wods=0,
+                    )
                     sub.stripe_next_payment_timestamp = (
                         get_stripe_next_payment_timestamp())
                     if not sub.fee.active:
                         sub.fee = None
                         sub.save()
+                        payment.save()
                         logger.info(
                             f'END PROCESSING {sub} - Fee {sub.fee} not active')
                         continue
                     charge_description = (
-                        f'sub {sub}, price {sub.fee.price_cents} '
-                        f'{datetime.datetime.now()}')
+                        f'sub {sub}, price {sub.fee.price_cents} {now}')
                     try:
                         stripe.Charge.create(
                             amount=sub.fee.price_cents,
@@ -78,6 +87,8 @@ def pay_subscriptions():
                             description=charge_description,
                         )
                     except Exception:
+                        payment.stripe_error = True
+                        payment.save()
                         logger.exception(
                             f'END PROCESSING {sub} - Error: Payment declined',
                             exc_info=1,
@@ -86,10 +97,12 @@ def pay_subscriptions():
                             receivers, sub.user.username)
                         send_mail(mail_msg, receivers)
                         continue
-                    sub.stripe_last_payment_timestamp = (
-                        datetime.datetime.now().timestamp())
+                    sub.stripe_last_payment_timestamp = now.timestamp()
                     sub.wods = sub.fee.num_sessions
+                    payment.wods = sub.wods
+                    payment.payed_amount = sub.fee.price_cents
                     sub.save()
+                    payment.save()
                     mail_msg = payment_succeeded_message(
                         sub.fee, receivers, sub.user.username)
                     logger.info(
@@ -97,7 +110,7 @@ def pay_subscriptions():
                         f'{sub.wods} wods for {sub.fee.price_cents/100}€'
                     )
                     send_mail(mail_msg, receivers)
-                    # avoid gmail block by spam
+                    # avoid gmail block due to spam
                     time.sleep(SECONDS_BETWEEN_MAILS)
                 else:
                     logger.info(f'END PROCESSING {sub} - No payment for sub {sub}')  # noqa

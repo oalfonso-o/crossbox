@@ -13,7 +13,7 @@ class Payment(models.Model):
     subscriber = models.ForeignKey(Subscriber, on_delete=models.PROTECT)
     fee = models.ForeignKey(Fee, on_delete=models.PROTECT)
     datetime = models.DateTimeField('Día y hora')
-    payed_amount = models.IntegerField('Precio pagado')
+    payed_amount = models.IntegerField('Precio pagado en céntimos')
     wods = models.IntegerField('Wods')
     stripe_error = models.BooleanField(
         'Error al pagar en Stripe',
