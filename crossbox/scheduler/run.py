@@ -41,11 +41,17 @@ def my_handler(type, value, tb):
 sys.excepthook = my_handler
 
 
+def today_is_first_day_of_month():
+    today = datetime.date.today()
+    return today.day == 1
+
+
 @job_name('pay_subscriptions')
 def pay_subscriptions():
     logger.info(
         'Pay subscriptions and give wods when last day of month at 22:00')
-    if today_is_last_day_of_month():
+    # if today_is_last_day_of_month():
+    if today_is_first_day_of_month():  # TODO: change
         logger.info(
             'It\'s last day of month at 22:00 CEST. Reseting wods and paying.')
         for sub in Subscriber.objects.all():
@@ -117,7 +123,8 @@ def pay_subscriptions():
         logger.info('It\'s not the last day of month, skip.')
 
 
-schedule.every().day.at("22:00").do(pay_subscriptions)
+# schedule.every().day.at("22:00").do(pay_subscriptions)
+schedule.every().day.at("00:21").do(pay_subscriptions)  # TODO: remove
 
 
 def run():
