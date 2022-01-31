@@ -15,8 +15,6 @@ from crossbox.scheduler.helpers import (
     send_mail,
     get_stripe_next_payment_timestamp,
 )
-from crossbox.models.payment import Payment
-
 
 ENVIRONMENT_FILE = os.getenv('DJANGO_ENV_FILE', find_dotenv())
 load_dotenv(ENVIRONMENT_FILE)
@@ -26,6 +24,7 @@ SECONDS_BETWEEN_MAILS = 90
 django.setup()
 from django.conf import settings  # noqa e402
 from crossbox.models.subscriber import Subscriber  # noqa e402
+from crossbox.models.payment import Payment  # noqa e402
 
 
 def job_name(name):
