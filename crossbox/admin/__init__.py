@@ -11,6 +11,7 @@ from crossbox.models.session_template import SessionTemplate
 from crossbox.models.session_type import SessionType
 from crossbox.models.subscriber import Subscriber
 from crossbox.models.week_template import WeekTemplate
+from crossbox.models.payment import Payment
 
 from crossbox.admin.capacity_limit import CapacityLimitAdmin
 from crossbox.admin.card import CardAdmin
@@ -23,6 +24,7 @@ from crossbox.admin.session_template import SessionTemplateAdmin
 from crossbox.admin.session_type import SessionTypeAdmin
 from crossbox.admin.subscriber import SubscriberAdmin
 from crossbox.admin.week_template import WeekTemplateAdmin
+from crossbox.admin.payment import PaymentAdmin
 
 admin.site.register(CapacityLimit, CapacityLimitAdmin)
 admin.site.register(Card, CardAdmin)
@@ -35,3 +37,4 @@ admin.site.register(SessionTemplate, SessionTemplateAdmin)
 admin.site.register(SessionType, SessionTypeAdmin)
 admin.site.register(Subscriber, SubscriberAdmin)
 admin.site.register(WeekTemplate, WeekTemplateAdmin)
+admin.site.register(Payment, PaymentAdmin)

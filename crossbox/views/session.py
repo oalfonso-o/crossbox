@@ -33,6 +33,7 @@ def generate_sessions(request):
             hour=st.hour,
             track=track_obj,
             capacity_limit=st.capacity_limit,
+            morning=st.morning,
         )
         for st in SessionTemplate.objects.filter(week_template=week_tmpl))
     Session.objects.bulk_create(future_sessions)

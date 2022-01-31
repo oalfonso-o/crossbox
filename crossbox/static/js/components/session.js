@@ -198,6 +198,10 @@ Vue.component('session', {
             this.is_too_late = true
             this.notification_text = 'Ya no se puede anular'
             this.notification_active = true
+          } else if (error.response.data.result == 'session_not_morning') {
+            this.reservated = false
+            this.notification_text = 'Esta sesión no se ajusta a tu cuota'
+            this.notification_active = true
           }
         })
       }

@@ -28,6 +28,7 @@ class Session(models.Model):
     capacity_limit = models.ForeignKey(
         CapacityLimit, on_delete=models.PROTECT, null=False)
     track = models.ForeignKey(Track, on_delete=models.PROTECT, null=False)
+    morning = models.BooleanField('Sesión de mañana', default=False)
 
     def __str__(self):
         return '{} - {} - {}'.format(
@@ -36,6 +37,9 @@ class Session(models.Model):
 
     def datetime(self):
         return datetime.combine(self.date, self.hour.hour)
+
+    def weekday(self):
+        return self.date.strftime('%A')
 
     def is_closed(self):
         return bool(self.datetime() < datetime.now())

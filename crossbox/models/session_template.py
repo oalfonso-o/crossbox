@@ -18,6 +18,11 @@ class SessionTemplate(models.Model):
         WeekTemplate, on_delete=models.CASCADE, null=False)
     capacity_limit = models.ForeignKey(
         CapacityLimit, on_delete=models.PROTECT, null=False)
+    morning = models.BooleanField('Sesión de mañana', default=False)
 
     def __str__(self):
-        return '{} - {}'.format(self.day, self.hour.hour_simple())
+        return '{}: {} - {}'.format(
+            self.week_template.name,
+            self.day,
+            self.hour.hour_simple(),
+        )
