@@ -46,10 +46,18 @@ def pay_subscriptions():
     logger.info(
         'Pay subscriptions and give wods when last day of month at 22:00')
     if today_is_last_day_of_month():
+        total_subs = 0
+        subs_active = 0
+        subs_active_with_fee = 0
+        subs_active_with_fee_inactive = 0
+        stripe_errors = 0
+        stripe_payments = 0
         logger.info(
             'It\'s last day of month at 22:00 CEST. Reseting wods and paying.')
         for sub in Subscriber.objects.all():
+            total_subs += 1
             if sub.user.is_active:
+                subs_active += 1
                 logger.info(f'START PROCESSING {sub}')
                 receivers = [
                     sub.user.email,
@@ -59,6 +67,7 @@ def pay_subscriptions():
                 sub.wods = 0
                 sub.save()
                 if sub.fee:
+                    subs_active_with_fee += 1
                     now = datetime.datetime.now()
                     payment = Payment(
                         subscriber=sub,
@@ -70,6 +79,7 @@ def pay_subscriptions():
                     sub.stripe_next_payment_timestamp = (
                         get_stripe_next_payment_timestamp())
                     if not sub.fee.active:
+                        subs_active_with_fee_inactive += 1
                         sub.fee = None
                         sub.save()
                         payment.save()
@@ -86,6 +96,7 @@ def pay_subscriptions():
                             description=charge_description,
                         )
                     except Exception:
+                        stripe_errors += 1
                         payment.stripe_error = True
                         payment.save()
                         logger.exception(
@@ -111,8 +122,16 @@ def pay_subscriptions():
                     send_mail(mail_msg, receivers)
                     # avoid gmail block due to spam
                     time.sleep(SECONDS_BETWEEN_MAILS)
+                    stripe_payments += 1
                 else:
                     logger.info(f'END PROCESSING {sub} - No payment for sub {sub}')  # noqa
+        logger.info('All payments processed! Stats:')
+        logger.info(f'\t\ttotal_subs: {total_subs}')
+        logger.info(f'\t\tsubs_active: {subs_active}')
+        logger.info(f'\t\tsubs_active_with_fee: {subs_active_with_fee}')
+        logger.info(f'\t\tsubs_active_with_fee_inactive: {subs_active_with_fee_inactive}')  # noqa
+        logger.info(f'\t\tstripe_errors: {stripe_errors}')
+        logger.info(f'\t\tstripe_payments: {stripe_payments}')
     else:
         logger.info('It\'s not the last day of month, skip.')
 
