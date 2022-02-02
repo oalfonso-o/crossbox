@@ -10,7 +10,7 @@ class Payment(models.Model):
         verbose_name = 'Pago'
         verbose_name_plural = 'Pagos'
 
-    subscriber = models.ForeignKey(Subscriber, on_delete=models.PROTECT)
+    subscriber = models.ForeignKey(Subscriber, on_delete=models.CASCADE)
     fee = models.ForeignKey(Fee, on_delete=models.PROTECT)
     datetime = models.DateTimeField('Día y hora')
     payed_amount = models.IntegerField('Precio pagado en céntimos')
