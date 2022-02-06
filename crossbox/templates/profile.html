@@ -81,9 +81,25 @@
   <hr class="profile_hr">
   <div class="fee_container profile_element_container">
     <div class="profile_title">Mi Cuota</div>
-    <form action="{% url 'change_fee' %}" method="post" onsubmit="return confirm('Vas a cambiar tu cuota. ¿Estás seguro?');">
-      <select name="fee" class="fee_selector{% if not subscriber_fee_active %} inactive_fee{% endif %}">
+    <form action="{% url 'change_fee' %}" method="post" onsubmit="return confirm('Vas a cambiar tu cuota. ¿Estás seguro?');" id="fee_form">
+      <select
+        name="fee"
+        id="fee_selector"
+        class="fee_selector{% if not subscriber_fee_active %} inactive_fee{% endif %}{% if user_has_morning_fee %} hidden_select{% endif %}"
+      >
         {% for fee in fees %}
+          {% for fee_pk, fee_option in fee.items %}
+            {{fee}}
+            <option value="{{fee_pk}}" {% if fee_option.selected %}selected="true"{%endif%}>{{fee_option.label}}</option>
+          {% endfor %}
+        {% endfor %}
+      </select>
+      <select
+        name="fee_morning"
+        id="fee_selector_morning"
+        class="fee_selector{% if not subscriber_fee_active %} inactive_fee{% endif %}{% if not user_has_morning_fee %} hidden_select{% endif %}"
+      >
+        {% for fee in fees_morning %}
           {% for fee_pk, fee_option in fee.items %}
             {{fee}}
             <option value="{{fee_pk}}" {% if fee_option.selected %}selected="true"{%endif%}>{{fee_option.label}}</option>
@@ -95,6 +111,8 @@
         <span style="color:red">La cuota que tienes seleccionada ha sido deshabilitada.<br>Se te mantendrá hasta que se realice el próximo pago pero después tendrás que seleccionar otra cuota.<br>Si lo prefieres puedes cambiar ya a otra cuota.</span>
         <br>
       {% endif %}
+      <br>
+      <input type="checkbox" name="fee_morning_checkbox" onchange="change_morning_fees(this)"{% if user_has_morning_fee %} checked{% endif %}><span>Solo cuotas de mañana</span>
       <br>
       <button {% if not user_cards %}style="opacity:0.5;cursor: not-allowed;"{%endif%} class="card_add_submit" onclick="this.form.submit()" {% if not user_cards %}disabled{%endif%}>Activar cuota seleccionada</button>
       {% if not user_cards %}
