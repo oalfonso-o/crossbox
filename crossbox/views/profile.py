@@ -1,34 +1,26 @@
 import stripe
+from distutils.util import strtobool
 
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_POST
 
 from crossbox.models.card import Card
 from crossbox.models.fee import Fee
-from crossbox.models.payment import Payment
 
 
 @require_GET
 def profile(request):
     subscriber = request.user.subscriber
     user_cards = Card.objects.filter(subscriber=subscriber)
-    last_payment = Payment.objects.filter(
-        subscriber=subscriber,
-    ).order_by('-datetime').first()
-    if (
-        last_payment
-        and last_payment.payed_amount
-        and last_payment.fee.morning
-    ):
-        user_has_morning_fee = True
-    else:
-        user_has_morning_fee = False
+    user_has_morning_fee = False
     fees = []
     fees_morning = []
     if not subscriber.fee:
         empty_fee_option = {'': {'selected': False, 'label': 'Sin cuota'}}
         fees = [empty_fee_option]
         fees_morning = [empty_fee_option]
+    else:
+        user_has_morning_fee = subscriber.fee.morning
     fee_objs = list(Fee.objects.filter(active=True).order_by('num_sessions'))
     if subscriber.fee and not subscriber.fee.active:
         fee_objs.append(subscriber.fee)
@@ -62,7 +54,9 @@ def profile(request):
 def change_fee(request):
     subscriber = request.user.subscriber
     previous_fee = subscriber.fee
-    morning_selected = request.POST['fee_morning_checkbox']
+    morning_selected = strtobool(
+        request.POST.get('fee_morning_checkbox', 'off')
+    )
     if morning_selected:
         new_fee_pk = request.POST['fee_morning']
     else:
