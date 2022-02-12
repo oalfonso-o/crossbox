@@ -4,6 +4,7 @@ from crossbox.models.day import Day
 from crossbox.models.hour import Hour
 from crossbox.models.week_template import WeekTemplate
 from crossbox.models.capacity_limit import CapacityLimit
+from crossbox.models.session_type import SessionType
 
 
 class SessionTemplate(models.Model):
@@ -19,6 +20,8 @@ class SessionTemplate(models.Model):
     capacity_limit = models.ForeignKey(
         CapacityLimit, on_delete=models.PROTECT, null=False)
     morning = models.BooleanField('Sesión de mañana', default=False)
+    session_type = models.ForeignKey(
+        SessionType, on_delete=models.PROTECT, null=False)
 
     def __str__(self):
         return '{}: {} - {}'.format(

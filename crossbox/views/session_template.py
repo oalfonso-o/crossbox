@@ -11,6 +11,7 @@ from crossbox.models.week_template import WeekTemplate
 from crossbox.models.track import Track
 from crossbox.models.capacity_limit import CapacityLimit
 from crossbox.models.session_template import SessionTemplate
+from crossbox.models.session_type import SessionType
 from crossbox.constants import NUM_WEEKS_IN_A_YEAR, WEEK_DAYS
 from crossbox.views.tools import get_monday_from_page
 
@@ -40,6 +41,7 @@ class SessionTemplateView(ListView):
         context['week_templates'] = list(
             WeekTemplate.objects.order_by('-default'))
         context['current_week_template'] = week_template.pk
+        context['session_types'] = SessionType.objects.all()
         context['tracks'] = Track.objects.all()
         current_track = 1
         for track in context['tracks']:
@@ -56,6 +58,7 @@ class SessionTemplateView(ListView):
             default=True).first()
         if not default_capacity_limit:
             default_capacity_limit = CapacityLimit.objects.all().first()
+        default_session_type = SessionType.objects.all().first()  # WOD
         for h in hours:
             session = SessionTemplate.objects.filter(
                 day=d, hour=h, week_template=week_template).first()
@@ -69,6 +72,11 @@ class SessionTemplateView(ListView):
                     session.capacity_limit.pk
                     if session
                     else default_capacity_limit.pk
+                ),
+                'session_type': (
+                    session.session_type.pk
+                    if session
+                    else default_session_type.pk
                 ),
             })
         return data
@@ -100,7 +108,11 @@ def session_template_create(request):
         request.POST.get('morning', 'off')
     )
     session.capacity_limit = CapacityLimit.objects.get(
-        pk=request.POST.get('capacity_limit'))
+        pk=request.POST.get('capacity_limit'),
+    )
+    session.session_type = SessionType.objects.get(
+        pk=request.POST.get('session_type'),
+    )
     session.save()
     return HttpResponseRedirect(
         f'{reverse("session-template")}?week_template={week_template}'

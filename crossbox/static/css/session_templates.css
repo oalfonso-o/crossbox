@@ -42,4 +42,7 @@
 }
 .apply_sessions_to_week_filter {padding:15px;width:25%}
 .apply_sessions_to_week_submit {text-align: center; padding-bottom: 40px;}
-.template_session_capacity_limit {margin-bottom: 5px}
+.template_session_input_select {
+    margin-bottom: 5px;
+    max-width: 70px;
+}
