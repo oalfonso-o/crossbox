@@ -49,9 +49,13 @@ def _this_week_last_session_datetime(this_week_monday, next_week_monday):
 
 
 def is_too_late(session_id):
+    '''Returns true if there are less than 2 hours for the start of the session
+    '''
+    two_hours = timedelta(hours=2)
     try:
         session = Session.objects.get(pk=session_id)
-        return date.today() >= session.date
+        time_until_session = session.datetime() - datetime.now()
+        return time_until_session < two_hours
     except Session.DoesNotExist:
         return True  # TODO: it's a lie
 
