@@ -33,8 +33,10 @@ def generic_session_fields():
 
 def create_session(
     date=datetime.date(year=2020, month=1, day=2),
-    hour=Hour.objects.get(pk=1),
+    hour=None,
 ):
+    if not hour:
+        hour = Hour.objects.get(pk=1)
     session = Session(
         date=date,
         hour=hour,

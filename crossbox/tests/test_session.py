@@ -204,6 +204,7 @@ class SessionsCase(BaseTestCase):
             hour=session.hour,
             week_template=week_template,
             capacity_limit=session.capacity_limit,
+            session_type=session.session_type,
         )
         path = reverse('generate-sessions')
         kwargs = {
