@@ -1,4 +1,4 @@
-# Crossbox - App to handle reservations of Crossbox Palau
+# Crossbox - App to handle reservations of [crossboxpalau.com](https://www.crossboxpalau.com)
 
 ## Installation
 ### 1. Environment variables file
