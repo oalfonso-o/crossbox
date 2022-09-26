@@ -1,13 +1,19 @@
 # Crossbox - App to handle reservations of [crossboxpalau.com](https://www.crossboxpalau.com)
 
-Crossbox Palau is a Crossfit box located in Palau-solità i Plegamans managed by Roger López.
+Crossbox Palau is a Crossfit box located in Palau-solità i Plegamans, you can check all the links here https://linktr.ee/crossboxpalau.
 
-It started managing the booking of sessions with a [Doodle](https://doodle.com/en/) but soon the business started to demand something a bit more sophisticated and this tool was written totally tailored for this box.
+It started managing the booking of sessions with a Doodle but soon the business started to demand something a bit more sophisticated and this tool was written totally tailored for this box.
 
 The first versions only had the basics to have users and sessions. The latest ones include payment subscriptions based on Stripe payment system. And it keeps evolving to fit the new needs of the box.
 
+The production environment of this app is at https://reservations.crossboxpalau.com/.
+
+You can register a new user but the owner of Crossbox Palau has to activate it because now the bottleneck of the business is the physical installations and there's queue to access the service.
+
+The code is under the MIT license, so feel free to use it. There are no translations, as it is only for Spanish customers everything is in Spanish because is not planned to scale it to other countries so far. If you want to use it in other countries you have to implement the translations.
+
 ## Installation
-### 1. Environment variables file
+### Environment variables file
 ```bash
 cp .env.example .env
 cp crossbox/static/js/custom/.env.js.example crossbox/static/js/custom/.env.js
@@ -52,21 +58,12 @@ docker-compose exec django python manage.py createsuperuser
 python manage.py createsuperuser
 ```
 
-### Packaging
-- Bump version in file setup.py (version='X.Y')
-- Create the wheel:
-```bash
-pip wheel . --no-deps
-```
-- Bring the wheel wherever you need it as a pypi repo for example
-
-
 ### Tests and linting
-- Docker:
-```bash
-docker-compose exec django nox
+
+For testing we are using the Django testing module and for linting Flake8.
+
+You can run both using `nox`.
+
 ```
-- Local
-```bash
 nox
 ```
