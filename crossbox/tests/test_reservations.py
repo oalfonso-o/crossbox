@@ -259,23 +259,6 @@ class ReservationsCase(BaseTestCase):
         )
 
     @with_login()
-    @freeze_time('2020-01-01 00:00:00')
-    @patch('django.db.models.QuerySet.count')
-    def test_reservation_delete_is_too_late(self, QuerySetCountMock):
-        """It's not allowed to cancel a reservation on the same day"""
-        hour = Hour(hour=datetime.time(23, 59))
-        hour.save()
-        day = datetime.date(year=2020, month=1, day=1)
-        session = create_session(date=day, hour=hour)
-        QuerySetCountMock.return_value = 5
-        self._reservation_view_test(
-            mode='delete',
-            session_id=session.pk,
-            status_code_expected=HTTPStatus.FORBIDDEN,
-            result_expected='is_too_late',
-        )
-
-    @with_login()
     @freeze_time('2020-01-02 10:00:00')
     @patch('django.db.models.QuerySet.count')
     def test_reservation_delete_ok_is_too_late_but_few_people(

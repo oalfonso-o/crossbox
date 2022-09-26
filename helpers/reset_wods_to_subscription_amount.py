@@ -1,7 +1,7 @@
 from crossbox.models.subscriber import Subscriber
 
 
-def reset_wods_to_subscrition_amount():
+def reset_wods_to_subscription_amount():
     for sub in Subscriber.objects.all():
         fee = sub.fee
         if fee:
@@ -11,4 +11,4 @@ def reset_wods_to_subscrition_amount():
 
 
 if __name__ == '__main__':
-    reset_wods_to_subscrition_amount()
+    reset_wods_to_subscription_amount()
