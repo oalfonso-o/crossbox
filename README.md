@@ -1,5 +1,11 @@
 # Crossbox - App to handle reservations of [crossboxpalau.com](https://www.crossboxpalau.com)
 
+Crossbox Palau is a Crossfit box located in Palau-solità i Plegamans managed by Roger López.
+
+It started managing the booking of sessions with a [Doodle](https://doodle.com/en/) but soon the business started to demand something a bit more sophisticated and this tool was written totally tailored for this box.
+
+The first versions only had the basics to have users and sessions. The latest ones include payment subscriptions based on Stripe payment system. And it keeps evolving to fit the new needs of the box.
+
 ## Installation
 ### 1. Environment variables file
 ```bash
