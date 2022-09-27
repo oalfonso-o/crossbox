@@ -12,34 +12,52 @@ You can register a new user but the owner of Crossbox Palau has to activate it b
 
 The code is under the MIT license, so feel free to use it. There are no translations, as it is only for Spanish customers everything is in Spanish because is not planned to scale it to other countries so far. If you want to use it in other countries you have to implement the translations.
 
-## Installation
-### Environment variables file
+## Installation for development
+
+There are 3 requisites:
+
+- env variables
+- install the dependencies (in a local venv or in docker)
+- setup the database
+
+### Env variables
+
+Copy the env files to the ones included in the .gitignore:
+
 ```bash
 cp .env.example .env
 cp crossbox/static/js/custom/.env.js.example crossbox/static/js/custom/.env.js
 ```
-And edit wherever you need
+TODO: comment every variable
 
-### 2 Run the app
-- With DOCKER (it works with postgres)
-```bash
-docker-compose up
+### Install dependencies
+
+#### Local
+
+You can install it in your own [venv](https://docs.python.org/3/library/venv.html) with pip (python3):
+
 ```
-- Or locally, for what you need:
-  - a local db
-  - a virtualenv with python>=3
-  - install the project module in your environment as editable and also it's requirements
-```bash
-pip install -e .
-pip install -r requirements-dev.txt
-```
-And run it
-```bash
-python manage.py runserver
+$ pip install .
 ```
 
-## SetUp Database (with containers runnings)
+!!! info ""
+    To make it editable use the flag `-e`
+
+#### Docker
+
+```bash
+docker-compose build
+```
+
+### Setup database (postgres)
+
+We need to:
+
+- run the migrations
+- init the DB with the basic data
+
 ### Migrations
+
 - Docker
 ```bash
 docker-compose exec django python manage.py migrate
@@ -48,6 +66,13 @@ docker-compose exec django python manage.py migrate
 ```bash
 python manage.py migrate
 ```
+
+### Init db
+
+```
+make init
+```
+
 ### Superuser
 - Docker
 ```bash
@@ -58,12 +83,31 @@ docker-compose exec django python manage.py createsuperuser
 python manage.py createsuperuser
 ```
 
-### Tests and linting
+### Run dev server
+
+#### Local
+
+```bash
+python manage.py runserver
+```
+
+#### Docker
+
+```bash
+docker-compose up
+```
+
+## Tests and linting
 
 For testing we are using the Django testing module and for linting Flake8.
 
 You can run both using `nox`.
 
 ```
+pip install -r requirements-dev.txt
 nox
 ```
+
+## Make recipes
+
+TODO
