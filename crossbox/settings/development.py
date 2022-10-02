@@ -7,5 +7,9 @@ DEBUG = strtobool(os.getenv('DJANGO_DEBUG', 'True'))
 LOCAL = strtobool(os.getenv('DJANGO_LOCAL', 'False'))
 ALLOWED_HOSTS = ['*']
 
-LOGGING['loggers']['']['handlers'] = ['stdout']
-LOGGING['loggers']['crossbox']['level'] = 'DEBUG'
+LOGGING['loggers'] = {
+    'django': {
+        'handlers': ['stdout'],
+        'level': 'INFO',
+    },
+}

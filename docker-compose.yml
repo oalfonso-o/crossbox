@@ -6,6 +6,8 @@ services:
       - .:/django/
     ports:
       - 8000:8000
+    environment:
+      - DJANGO_SETTINGS_MODULE=crossbox.settings.development
     depends_on:
       - db
   db:
@@ -14,3 +16,4 @@ services:
       - 54321:5432
     environment:
       - POSTGRES_DB=docker
+      - POSTGRES_HOST_AUTH_METHOD=trust
