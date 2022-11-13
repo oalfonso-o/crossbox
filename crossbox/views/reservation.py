@@ -113,11 +113,11 @@ def reservation_create(request):
     if (
         last_payment
         and last_payment.payed_amount
-        and last_payment.fee.morning
-        and not session.morning
+        and last_payment.fee.discount
+        and not session.discount
     ):
         return error_response(
-            request, 'session_not_morning', HTTPStatus.FORBIDDEN)
+            request, 'session_not_discount', HTTPStatus.FORBIDDEN)
     reservation = Reservation()
     reservation.user = request.user
     reservation.session = session

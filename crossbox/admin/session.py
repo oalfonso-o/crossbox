@@ -57,7 +57,7 @@ class SessionAdmin(admin.ModelAdmin):
         'hour',
         'session_type',
         'capacity_limit',
-        'morning',
+        'discount',
     )
     search_fields = ['date', 'hour__hour']
     list_per_page = 20

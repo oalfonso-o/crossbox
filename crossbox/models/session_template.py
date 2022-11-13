@@ -19,7 +19,7 @@ class SessionTemplate(models.Model):
         WeekTemplate, on_delete=models.CASCADE, null=False)
     capacity_limit = models.ForeignKey(
         CapacityLimit, on_delete=models.PROTECT, null=False)
-    morning = models.BooleanField('Sesión de mañana', default=False)
+    discount = models.BooleanField('Horario descuento', default=False)
     session_type = models.ForeignKey(
         SessionType, on_delete=models.PROTECT, null=False)
 

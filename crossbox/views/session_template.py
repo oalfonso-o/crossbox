@@ -67,7 +67,7 @@ class SessionTemplateView(ListView):
                 'day': d.id,
                 'hour': h.id,
                 'hour_title': h.hour_simple(),
-                'morning': session.morning if session else False,
+                'discount': session.discount if session else False,
                 'capacity_limit': (
                     session.capacity_limit.pk
                     if session
@@ -104,8 +104,8 @@ def session_template_create(request):
     session.day = Day.objects.get(pk=request.POST.get('day'))
     session.hour = Hour.objects.get(pk=request.POST.get('hour'))
     session.week_template = WeekTemplate.objects.get(pk=week_template)
-    session.morning = distutils.util.strtobool(
-        request.POST.get('morning', 'off')
+    session.discount = distutils.util.strtobool(
+        request.POST.get('discount', 'off')
     )
     session.capacity_limit = CapacityLimit.objects.get(
         pk=request.POST.get('capacity_limit'),

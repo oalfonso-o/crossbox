@@ -33,7 +33,7 @@ def generate_sessions(request):
             hour=st.hour,
             track=track_obj,
             capacity_limit=st.capacity_limit,
-            morning=st.morning,
+            discount=st.discount,
             session_type=st.session_type,
         )
         for st in SessionTemplate.objects.filter(week_template=week_tmpl))

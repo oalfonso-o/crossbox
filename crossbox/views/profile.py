@@ -12,15 +12,15 @@ from crossbox.models.fee import Fee
 def profile(request):
     subscriber = request.user.subscriber
     user_cards = Card.objects.filter(subscriber=subscriber)
-    user_has_morning_fee = False
+    user_has_discount_fee = False
     fees = []
-    fees_morning = []
+    fees_discount = []
     if not subscriber.fee:
         empty_fee_option = {'': {'selected': False, 'label': 'Sin cuota'}}
         fees = [empty_fee_option]
-        fees_morning = [empty_fee_option]
+        fees_discount = [empty_fee_option]
     else:
-        user_has_morning_fee = subscriber.fee.morning
+        user_has_discount_fee = subscriber.fee.discount
     fee_objs = list(Fee.objects.filter(active=True).order_by('num_sessions'))
     if subscriber.fee and not subscriber.fee.active:
         fee_objs.append(subscriber.fee)
@@ -31,8 +31,8 @@ def profile(request):
             else False
         )
         select_option = {'selected': selected, 'label': fee.label}
-        if fee.morning:
-            fees_morning.append({fee.pk: select_option})
+        if fee.discount:
+            fees_discount.append({fee.pk: select_option})
         else:
             fees.append({fee.pk: select_option})
     return render(
@@ -42,8 +42,8 @@ def profile(request):
             'user': request.user,
             'user_cards': user_cards,
             'fees': fees,
-            'fees_morning': fees_morning,
-            'user_has_morning_fee': user_has_morning_fee,
+            'fees_discount': fees_discount,
+            'user_has_discount_fee': user_has_discount_fee,
             'subscriber_fee_active': (
                 subscriber.fee.active if subscriber.fee else False),
         },
@@ -54,11 +54,11 @@ def profile(request):
 def change_fee(request):
     subscriber = request.user.subscriber
     previous_fee = subscriber.fee
-    morning_selected = strtobool(
-        request.POST.get('fee_morning_checkbox', 'off')
+    discount_selected = strtobool(
+        request.POST.get('fee_discount_checkbox', 'off')
     )
-    if morning_selected:
-        new_fee_pk = request.POST['fee_morning']
+    if discount_selected:
+        new_fee_pk = request.POST['fee_discount']
     else:
         new_fee_pk = request.POST['fee']
     new_fee = (

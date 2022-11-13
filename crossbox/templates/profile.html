@@ -85,7 +85,7 @@
       <select
         name="fee"
         id="fee_selector"
-        class="fee_selector{% if not subscriber_fee_active %} inactive_fee{% endif %}{% if user_has_morning_fee %} hidden_select{% endif %}"
+        class="fee_selector{% if not subscriber_fee_active %} inactive_fee{% endif %}{% if user_has_discount_fee %} hidden_select{% endif %}"
       >
         {% for fee in fees %}
           {% for fee_pk, fee_option in fee.items %}
@@ -95,11 +95,11 @@
         {% endfor %}
       </select>
       <select
-        name="fee_morning"
-        id="fee_selector_morning"
-        class="fee_selector{% if not subscriber_fee_active %} inactive_fee{% endif %}{% if not user_has_morning_fee %} hidden_select{% endif %}"
+        name="fee_discount"
+        id="fee_selector_discount"
+        class="fee_selector{% if not subscriber_fee_active %} inactive_fee{% endif %}{% if not user_has_discount_fee %} hidden_select{% endif %}"
       >
-        {% for fee in fees_morning %}
+        {% for fee in fees_discount %}
           {% for fee_pk, fee_option in fee.items %}
             {{fee}}
             <option value="{{fee_pk}}" {% if fee_option.selected %}selected="true"{%endif%}>{{fee_option.label}}</option>
@@ -112,7 +112,7 @@
         <br>
       {% endif %}
       <br>
-      <input type="checkbox" name="fee_morning_checkbox" onchange="change_morning_fees(this)"{% if user_has_morning_fee %} checked{% endif %}><span>Solo cuotas de mañana</span>
+      <input type="checkbox" name="fee_discount_checkbox" onchange="change_discount_fees(this)"{% if user_has_discount_fee %} checked{% endif %}><span>Horario descuento</span>
       <br>
       <button {% if not user_cards %}style="opacity:0.5;cursor: not-allowed;"{%endif%} class="card_add_submit" onclick="this.form.submit()" {% if not user_cards %}disabled{%endif%}>Activar cuota seleccionada</button>
       {% if not user_cards %}

@@ -28,7 +28,7 @@ class Session(models.Model):
     capacity_limit = models.ForeignKey(
         CapacityLimit, on_delete=models.PROTECT, null=False)
     track = models.ForeignKey(Track, on_delete=models.PROTECT, null=False)
-    morning = models.BooleanField('Sesión de mañana', default=False)
+    discount = models.BooleanField('Horario descuento', default=False)
 
     def __str__(self):
         return '{} - {} - {}'.format(

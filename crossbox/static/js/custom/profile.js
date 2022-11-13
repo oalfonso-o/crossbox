@@ -82,17 +82,17 @@ for (i = 0; i < show_form_elements.length; i++) {
   });
 }
 
-document.getElementById('fee_form').reset();  // to reset morning checkbox
+document.getElementById('fee_form').reset();  // to reset discount checkbox
 
-function change_morning_fees(event) {
+function change_discount_fees(event) {
   var checked = event.checked
   var fee_selector = document.getElementById("fee_selector");
-  var fee_selector_morning = document.getElementById("fee_selector_morning");
+  var fee_selector_discount = document.getElementById("fee_selector_discount");
   if (checked) {
     fee_selector.classList.add("hidden_select");
-    fee_selector_morning.classList.remove("hidden_select");
+    fee_selector_discount.classList.remove("hidden_select");
   } else {
     fee_selector.classList.remove("hidden_select");
-    fee_selector_morning.classList.add("hidden_select");
+    fee_selector_discount.classList.add("hidden_select");
   }
 }
