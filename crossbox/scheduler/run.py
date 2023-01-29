@@ -53,7 +53,7 @@ def pay_subscriptions():
         stripe_errors = 0
         stripe_payments = 0
         logger.info(
-            'It\'s last day of month at 22:00 CEST. Reseting wods and paying.')
+            'It\'s last day of month at 22:00 CET. Reseting wods and paying.')
         for sub in Subscriber.objects.all():
             total_subs += 1
             if sub.user.is_active:
