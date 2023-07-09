@@ -1,18 +1,18 @@
-# Crossbox - App to handle reservations of [crossboxpalau.com](https://www.crossboxpalau.com)
+# Crossbox - App to handle reservations of [https://crossboxpalau.wodbuster.com/](https://crossboxpalau.wodbuster.com/)
 
-Crossbox Palau is a Crossfit box located in Palau-solità i Plegamans, you can check all the links here https://linktr.ee/crossboxpalau.
+> :warning: **This app is no longer in production**
 
-It started managing the booking of sessions with a Doodle but soon the business started to demand something a bit more sophisticated and this tool was written totally tailored for this box.
+Crossbox Palau is a Crossfit box located in Palau-solità i Plegamans, you can check some links here https://linktr.ee/crossboxpalau (web link is outdated, the new one is https://crossboxpalau.wodbuster.com/).
 
-The first versions only had the basics to have users and sessions. The latest ones include payment subscriptions based on [Stripe](https://stripe.com/) payment system. And it keeps evolving to fit the new needs of the box.
+It started managing the booking of sessions with a Doodle but soon the business started to demand something a bit more sophisticated and this tool was written tailored for this box.
 
-The production environment of this app is at https://reservations.crossboxpalau.com/.
+The first versions only had the basics to have users and sessions. The latest ones include payment subscriptions based on [Stripe](https://stripe.com/) payment system. And it kept evolving to fit the new needs of the box.
 
-You can register a new user but the owner of Crossbox Palau has to activate it because now the bottleneck for scaling up the business is the physical installations that doesn't allow more concurrent users.
+The production environment of this app was at https://reservations.crossboxpalau.com/.
 
 You can find more detailed information about this project [in this page](https://oalfonso.com/projects/crossbox/).
 
-The code is under the MIT license, so feel free to use it. There are no translations, as it is only for Spanish customers everything is in Spanish because is not planned to scale it to other countries so far. If you want to use it in other languages you have to implement the translations.
+There are no translations, as it was only for Spanish customers. If you want to use it in other languages you have to implement the translations.
 
 ## Installation
 
