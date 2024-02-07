@@ -1,4 +1,4 @@
-Django==3.1.14
+Django==3.2.24
 django-filter==2.4.0
 r-django-jet==2.0.8
 djangorestframework==3.11.2
